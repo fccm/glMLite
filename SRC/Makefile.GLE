@@ -1,0 +1,58 @@
+GLE_PATH := /usr/X11R6/lib
+
+.PHONY: all gle_byte gle_opt
+all: gle_byte gle_opt
+gle_byte: GLE.cma
+gle_opt: GLE.cmxa
+
+include ../Makefile.depend
+include ./Makefile.mlpp
+
+GLE.ml: GLE.ml.pp  $(MLPP)
+	$(MLPP) -C $<  > $@
+
+GLE.mli: GLE.ml.pp  $(MLPP)
+	$(MLPP) -D MLI -C $<  > $@
+	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+
+
+GLE.cmi: GLE.mli
+	$(OCAMLC) -c $<
+
+GLE.cmo: GLE.ml GLE.cmi
+	$(OCAMLC) -c $<
+
+GLE.cmx GLE.o: GLE.ml GLE.cmi
+	$(OCAMLOPT) -c $<
+
+gle.wrap.o: gle.wrap.c
+	$(OCAMLC)  -c  $<
+
+dllGLE.so libGLE.a: gle.wrap.o
+	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+
+GLE.cmxa GLE.a:  GLE.cmx  dllGLE.so
+	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+
+GLE.cma:  GLE.cmo  dllGLE.so
+	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+
+DIST_FILES_GLE=\
+    GLE.cma   \
+    GLE.cmi   \
+    GLE.cmxa  \
+    GLE.cmx   \
+    GLE.a     \
+    GLE.o     \
+    libGLE.a  \
+#EOL
+SO_DIST_FILES_GLE=\
+    dllGLE.so \
+#EOL
+
+install_gle: $(DIST_FILES_GLE)  $(SO_DIST_FILES_GLE)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_GLE); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_GLE);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+

@@ -1,0 +1,48 @@
+
+include ../Makefile.depend
+
+.PHONY: all ftgl ftgl_opt
+all: ftgl_byte ftgl_opt
+ftgl_byte: ftgl.cma
+ftgl_opt: ftgl.cmxa
+
+FTGL_LIBS := -lfreetype -lz -lftgl
+FTGL_INCS := -I/usr/include/freetype2
+
+ftgl.cmx: ftgl.ml
+	$(OCAMLOPT) -c $<
+
+ftgl.cmo: ftgl.ml
+	$(OCAMLC) -c $<
+
+ftgl.wrap.o: ftgl.wrap.c
+	$(OCAMLC) -c  -ccopt $(FTGL_INCS)  $<
+
+dllftgl.so  libftgl.a: ftgl.wrap.o
+	$(OCAMLMKLIB)  -o  ftgl  $<  $(FTGL_LIBS)
+
+ftgl.cmxa ftgl.a:  ftgl.cmx  dllftgl.so
+	$(OCAMLMKLIB)  -o  ftgl  $<  $(FTGL_LIBS)
+
+ftgl.cma:  ftgl.cmo  dllftgl.so
+	$(OCAMLMKLIB)  -o  ftgl  $<  $(FTGL_LIBS)
+
+DIST_FILES_FTGL=\
+    ftgl.cma   \
+    ftgl.cmi   \
+    ftgl.cmxa  \
+    ftgl.cmx   \
+    ftgl.a     \
+    ftgl.o     \
+    libftgl.a  \
+#EOL
+SO_DIST_FILES_FTGL=\
+    dllftgl.so \
+#EOL
+
+install: $(DIST_FILES_FTGL)  $(SO_DIST_FILES_FTGL)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_FTGL); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_FTGL);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+

@@ -1,0 +1,23 @@
+--- Interoperability ---
+
+The module FunGL have its own c stub (file fungl.wrap.c) so if you wish
+to use (or include) it with another OpenGL binding you can do it with
+very little effort. What you need to do is to remove the reference to 
+the module GL in the types.
+For example for a function defined like this:
+
+  val func: param:GL.gl_type -> unit
+
+you need to change it to:
+
+  #include "enums/gl_type.inc.ml"
+  val func: param:gl_type -> unit
+
+(except for draw_with_material and draw_with_lightModel which would
+ need some manual edit)
+Then recompile, and that's it!
+
+You can also, after having preprocessed the #include type, use the sed script:
+ ../LablGL/glMLite_to_LablGL.sed.sh
+to change the type names from glMLite to LablGL.
+

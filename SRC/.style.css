@@ -1,0 +1,39 @@
+body { background-color: #888888; padding-bottom: 2em; }
+tr { background-color: #929292 }
+td.typefieldcomment { background-color: #7E7E7E;}
+pre { margin-bottom: 4px }
+div.sig_block {margin-left: 2em}
+
+a:visited {color: #47F; text-decoration: none; }
+a:link {color: #25F; text-decoration: none;}
+a:hover {color: #D00; text-decoration: none; background-color: #5F8}
+a:active {color: Red; text-decoration: underline; }
+.keyword { font-weight: bold ; color: Red }
+.keywordsign { color: #C04600 }
+.superscript { font-size: 4 }
+.subscript { font-size: 4 }
+.comment { color: Green }
+.constructor { color: Blue }
+.type { color: #536 }
+.string { color: Maroon }
+.warning { color: Red ; font-weight: bold }
+.info { margin-left: 3em; margin-right: 3em }
+.code { color: #157; }
+h1{font-size:20pt;text-align: center; }
+
+h2, h3, h4, h5, h6,
+div.h7, div.h8, div.h9
+{font-size:20pt; border:1px solid #000; margin-top:5px; margin-bottom:2px; text-align:center; padding:2px;}
+
+h2{background:#90BDFF;}
+h3{background:#90DDFF;}
+h4{background:#90EDFF;}
+h5{background:#90FDFF;}
+h6{background:#90BDFF;}
+div.h7{background:#9DF;}
+div.h8{background:#EFF;}
+div.h9{background:#FFF;}
+
+.typetable { border-style: hidden }
+.indextable { border-style: hidden }
+.paramstable { border-style: hidden ; padding: 5pt 5pt}

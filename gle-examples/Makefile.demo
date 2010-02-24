@@ -1,0 +1,34 @@
+GL_PATH := ../SRC/
+
+MODULE := $(shell ocaml .capitalize.ml $(DEMO))
+MAIN := mainsimple.ml
+#MAIN := mainjoin.ml
+
+OUTPUT := $(DEMO)
+
+all: $(OUTPUT).opt
+
+mainvar.cmx: mainvar.ml
+	ocamlopt -c mainvar.ml
+
+$(DEMO).cmx: $(DEMO).ml mainvar.cmi
+	ocamlopt -I $(GL_PATH) \
+	    GL.cmxa Glut.cmxa bigarray.cmxa GLE.cmxa \
+	    -c $<
+
+__$(OUTPUT).ml: $(MAIN)
+	sed -e "s/Inc_demo/$(MODULE)/g" $< > $@
+
+__$(OUTPUT).cmx: __$(OUTPUT).ml mainvar.cmi $(DEMO).cmi
+	ocamlopt -I $(GL_PATH) \
+	    GL.cmxa Glut.cmxa -c $<
+
+$(OUTPUT).opt: mainvar.cmx $(DEMO).cmx __$(OUTPUT).cmx
+	ocamlopt -ccopt "-L $(GL_PATH)" -I $(GL_PATH) \
+	    GL.cmxa Glut.cmxa bigarray.cmxa GLE.cmxa \
+	    $^ -o $@
+
+clean:
+	rm -f *.opt *.o *.cm[iox] __* *~
+
+#EOF

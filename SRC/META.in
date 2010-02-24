@@ -1,0 +1,82 @@
+name = "glMLite"
+version = "VERSION"
+directory = "+glMLite"
+description = "OpenGL bindings"
+archive(byte) = "GL.cma Glu.cma"
+archive(native) = "GL.cmxa Glu.cmxa"
+#linkopts = "-cclib GL_LIBS  -cclib GLU_LIBS"
+
+package "glut" (
+  requires = "glMLite"
+  archive(byte) = "Glut.cma"
+  archive(native) = "Glut.cmxa"
+# linkopts = "-cclib GLUT_LIBS"
+)
+
+package "vertex_arrays" (
+  requires = "glMLite bigarray"
+  archive(byte) = "vertArray.cma"
+  archive(native) = "vertArray.cmxa"
+)
+
+package "fungl" (
+  requires = "glMLite"
+  archive(byte) = "FunGL.cma"
+  archive(native) = "FunGL.cmxa"
+# linkopts = "-cclib GL_LIBS  -cclib GLU_LIBS"
+)
+
+package "funglut" (
+  requires = "glMLite glMLite.glut"
+  archive(byte) = "FunGlut.cma"
+  archive(native) = "FunGlut.cmxa"
+# linkopts = "-cclib GL_LIBS  -cclib GLU_LIBS -cclib GLUT_LIBS"
+)
+
+package "vbo" (
+  requires = "glMLite glMLite.vertex_arrays"
+  archive(byte) = "VBO.cma"
+  archive(native) = "VBO.cmxa"
+)
+
+package "gle" (
+  requires = "glMLite"
+  archive(byte) = "GLE.cma"
+  archive(native) = "GLE.cmxa"
+# linkopts = "-cclib GL_LIBS -ccopt -L/usr/X11R6/lib -cclib -lgle -cclib -lbigarray"
+)
+
+package "ftgl" (
+  requires = "glMLite"
+  archive(byte) = "ftgl.cma"
+  archive(native) = "ftgl.cmxa"
+)
+
+package "jpeg_loader" (
+  requires = "glMLite"
+  archive(byte) = "jpeg_loader.cma"
+  archive(native) = "jpeg_loader.cmxa"
+# linkopts = "-cclib -ljpeg"
+)
+
+package "png_loader" (
+  requires = "glMLite"
+  archive(byte) = "png_loader.cma"
+  archive(native) = "png_loader.cmxa"
+# linkopts = "-cclib \"`libpng-config --libs`\""
+)
+
+package "svg_loader" (
+  requires = "glMLite"
+  archive(byte) = "svg_loader.cma"
+  archive(native) = "svg_loader.cmxa"
+# linkopts = "-cclib \"`pkg-config librsvg-2.0 --libs`\""
+)
+
+package "genimg_loader" (
+  requires = "glMLite"
+  archive(byte) = "genimg_loader.cma"
+  archive(native) = "genimg_loader.cmxa"
+# linkopts = "-cclib \"`Magick-config --ldflags --libs`\""
+)
+

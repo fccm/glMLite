@@ -1,0 +1,51 @@
+.PHONY: rsvg rsvg_byte rsvg_opt
+rsvg all: rsvg_byte rsvg_opt
+rsvg_byte: svg_loader.cma
+rsvg_opt: svg_loader.cmxa
+
+include ../Makefile.depend
+
+RSVG_LIBS := $(shell pkg-config librsvg-2.0 --libs)
+RSVG_CFLAGS := $(shell pkg-config librsvg-2.0 --cflags)
+CAML_DIR := $(shell ocamlc -where)
+
+GL.cmi:
+	$(MAKE) $@ -f Makefile
+
+svg_loader.cmi svg_loader.cmo: svg_loader.ml  GL.cmi
+	$(OCAMLC) -c $<
+
+svg_loader.cmx svg_loader.o: svg_loader.ml
+	$(OCAMLOPT) -c $<
+
+loader-librsvg.o: loader-librsvg.c  loader-texure.h
+	$(OCAMLC) -c -ccopt "$(RSVG_CFLAGS)" $<
+
+dllsvg_loader.so libsvg_loader.a: loader-librsvg.o
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(CAML_DIR)" -lbigarray $(RSVG_LIBS)
+
+svg_loader.cmxa svg_loader.a:  svg_loader.cmx  dllsvg_loader.so
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(CAML_DIR)" -lbigarray $(RSVG_LIBS)
+
+svg_loader.cma:  svg_loader.cmo  dllsvg_loader.so
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(CAML_DIR)" -lbigarray $(RSVG_LIBS)
+
+DIST_FILES_RSVG=\
+    svg_loader.cma   \
+    svg_loader.cmi   \
+    svg_loader.cmxa  \
+    svg_loader.cmx   \
+    svg_loader.a     \
+    svg_loader.o     \
+    libsvg_loader.a  \
+#EOL
+SO_DIST_FILES_RSVG=\
+    dllsvg_loader.so \
+#EOL
+
+install: $(DIST_FILES_RSVG)  $(SO_DIST_FILES_RSVG)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_RSVG); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_RSVG);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+

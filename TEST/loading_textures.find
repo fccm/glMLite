@@ -1,0 +1,3 @@
+# with findlib:
+PACKAGES="glMLite,glMLite.glut,glMLite.jpeg_loader,glMLite.png_loader,glMLite.svg_loader,glMLite.genimg_loader"
+ocamlfind opt -linkpkg -package $PACKAGES loading_textures.ml -o loading_textures.opt
