@@ -51,7 +51,7 @@ varray.wrap.o: varray.wrap.c  $(ENUMS_DIR)/interleaved_format.inc.c
 	$(OCAMLC)  -c  $<
 
 
-ifeq ($(USE_MY_GL3_CORE_PROFILE),OK)
+ifeq ($(USE_GL3_CORE_PROFILE),OK)
 gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 

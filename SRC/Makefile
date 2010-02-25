@@ -169,7 +169,7 @@ gl.wrap.o: gl.wrap.c  $(C_GL_INCS)
 	$(OCAMLC)  -c  $<
 
 
-ifeq ($(USE_MY_GL3_CORE_PROFILE),OK)
+ifeq ($(USE_GL3_CORE_PROFILE),OK)
 gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 

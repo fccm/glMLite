@@ -30,7 +30,7 @@
  Currently you can compile the OpenGL bindings so that the use
  of deprecated functions and gl-enums will raise an exception,
  compile this with:
- make target USE_MY_GL3_CORE_PROFILE=OK
+ make target USE_GL3_CORE_PROFILE=OK
  This works even if you are not in an 3.X OpenGL version (for
  example 2.1).
  Then for example if the function glLight is called, you
