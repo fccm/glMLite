@@ -72,24 +72,27 @@ t_val ml_glgenbuffer(value unit)
 
 t_val ml_glgenbuffers(value _n)
 {
+    CAMLparam1(_n);
     CAMLlocal1(mlids);
     int i, n;
     n = Int_val(_n);
     GLuint *vboIds;
     vboIds = malloc(n * sizeof(GLuint));
-    // TODO: bfill zero
+    for (i=0; i<n; i++) vboIds[i] = 0;
     glGenBuffersARB(n, vboIds);
     // TODO: is it possible that only one fail?
     //       if so what to do with the other id's ?
-//  for (i=0; i<n; i++)
-//    if (vboIds[i] == 0)
-//    { free(vboIds);
-//      caml_failwith("glGenBuffers"); }
+    for (i=0; i<n; i++)
+      if (vboIds[i] == 0)
+      { if (i >= 1) glDeleteBuffersARB(i, vboIds);
+        free(vboIds);
+        caml_failwith("glGenBuffers");
+      }
     mlids = caml_alloc(n, 0);
     for (i=0; i<n; i++)
       Store_field(mlids, i, Val_VBOID(vboIds[i]));
     free(vboIds);
-    return mlids;
+    CAMLreturn(mlids);
 }
 
 t_val ml_gldeletebuffer(value id)
