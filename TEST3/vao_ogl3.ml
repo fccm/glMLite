@@ -154,8 +154,8 @@ let create_vao cubeBuffers
   glBindBuffer GL_ARRAY_BUFFER cubeBuffers.(0);
 
   (* link the data *)
-  glVertexAttribPointerOfs32 vertexColorAttrib 3 Color.GL_FLOAT false (4 * 6) 0;
-  glVertexAttribPointerOfs32 vertexPositionAttrib 3 Color.GL_FLOAT false (4 * 6) 3;
+  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false (4 * 6) 0;
+  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false (4 * 6) 3;
 
   (* activate the buffer of the indices *)
   glBindBuffer GL_ELEMENT_ARRAY_BUFFER cubeBuffers.(1);
