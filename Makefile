@@ -162,6 +162,7 @@ install_doc:
 clean:
 	(cd $(SRC); $(MAKE) clean)
 	(cd $(TEST); $(MAKE) clean)
+	(cd $(TEST3); $(MAKE) clean)
 	(cd $(LABLGL); $(MAKE) clean)
 	(cd RedBook-Samples; $(MAKE) clean)
 	(cd gle-examples; $(MAKE) clean)
@@ -325,6 +326,22 @@ TEST_FILES=\
 #	$(TEST)/glsl1.ml            \
 #	$(TEST)/glsl2.ml            \
 
+
+TEST3_FILES=\
+	$(TEST3)/README.txt         \
+	$(TEST3)/Makefile           \
+	$(TEST3)/run.sh             \
+	$(TEST3)/comp.sh            \
+	$(TEST3)/find.sh            \
+	$(TEST3)/ogl_matrix.ml      \
+	$(TEST3)/ogl_matrix.mli     \
+	$(TEST3)/vbo_draw.ml        \
+	$(TEST3)/vbo_draw.mli       \
+	$(TEST3)/vbo_ogl3.ml        \
+	$(TEST3)/vao_ogl3.ml        \
+	#EOL
+
+
 ROOT_FILES=\
 	LICENSE_GPL.txt             \
 	README.txt                  \
@@ -471,6 +488,12 @@ $(PACK)/$(TEST):  $(TEST_FILES)
 	cp $^ $@/
 
 
+$(PACK)/$(TEST3):  $(TEST3_FILES)
+	if [ ! -d $(PACK) ]; then mkdir $(PACK) ; fi
+	if [ ! -d $@ ]; then mkdir $@ ; fi
+	cp $^ $@/
+
+
 $(PACK)/$(INTRF):  $(INTRF_FILES)
 	if [ ! -d $(PACK) ]; then mkdir $(PACK) ; fi
 	if [ ! -d $@ ]; then mkdir $@ ; fi
@@ -519,6 +542,7 @@ $(PACK)/$(SRC):  $(SRC_FILES)
 pack-dir:    $(PACK)               \
              $(PACK)/$(SRC)        \
              $(PACK)/$(TEST)       \
+             $(PACK)/$(TEST3)      \
              $(PACK)/$(INTRF)      \
              $(PACK)/$(INTRF_SMPL) \
              $(PACK)/$(SMPL)       \
@@ -528,6 +552,7 @@ pack-dir:    $(PACK)               \
 $(PACK).tar: $(PACK)               \
              $(PACK)/$(SRC)        \
              $(PACK)/$(TEST)       \
+             $(PACK)/$(TEST3)      \
              $(PACK)/$(INTRF)      \
              $(PACK)/$(INTRF_SMPL) \
              $(PACK)/$(SMPL)       \
