@@ -76,6 +76,11 @@ GLUT_LINK = glut
 #GLU_LIBS = -framework OpenGL
 #GLUT_LIBS = -framework GLUT
 
+# Linking for MS-Windows (maybe)
+#GL_LIBS = -lopengl32
+#GLU_LIBS = -lglu32
+#GLUT_LIBS = -lglut32
+
 # Portable Linking
 GL_LIBS := $(shell if [ `uname` == "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGL"; fi)
 GLU_LIBS := $(shell if [ `uname` == "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGLU"; fi)
