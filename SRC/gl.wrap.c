@@ -2514,187 +2514,392 @@ t_val ml_gluniform4i( value location, value v0, value v1, value v2, value v3) {
 
 #ifdef GL_VERSION_2_1
 
-t_val ml_gluniformmatrix2fv(
+/* with a single matrix */
+
+t_val ml_gluniformmatrix2f(
         value location,
-        value count,
         value transpose,
         value mat )
 {
     GLfloat val[4];
     int len = Wosize_val(mat) / Double_wosize;
-    if (len != 4) caml_failwith("glUniformMatrix2fv: array should contain 4 floats");
+    if (len != 4) caml_failwith("glUniformMatrix2f: array should contain 4 floats");
     val[0] = Double_field(mat, 0);
     val[1] = Double_field(mat, 1);
     val[2] = Double_field(mat, 2);
     val[3] = Double_field(mat, 3);
     glUniformMatrix2fv(
         Int_val(location),
-        Int_val(count),
+        1,
         Bool_val(transpose),
         val ); ret
 }
 
-t_val ml_gluniformmatrix3fv(
+t_val ml_gluniformmatrix3f(
         value location,
-        value count,
         value transpose,
         value mat )
 {
     GLfloat val[9];
     int i, len;
     len = Wosize_val(mat) / Double_wosize;
-    if (len != 9) caml_failwith("glUniformMatrix3fv: array should contain 9 floats");
+    if (len != 9) caml_failwith("glUniformMatrix3f: array should contain 9 floats");
     for (i=0; i<9; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix3fv(
         Int_val(location),
-        Int_val(count),
+        1,
         Bool_val(transpose),
         val ); ret
 }
 
-t_val ml_gluniformmatrix4fv(
+t_val ml_gluniformmatrix4f(
         value location,
-        value count,
         value transpose,
         value mat )
 {
     GLfloat val[16];
     int i, len;
     len = Wosize_val(mat) / Double_wosize;
-    if (len != 16) caml_failwith("glUniformMatrix4fv: array should contain 16 floats");
+    if (len != 16) caml_failwith("glUniformMatrix4f: array should contain 16 floats");
     for (i=0; i<16; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix4fv(
         Int_val(location),
-        Int_val(count),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix2x3f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[6];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 6) caml_failwith("glUniformMatrix2x3f: array should contain 6 floats");
+    for (i=0; i<6; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix2x3fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix3x2f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[6];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 6) caml_failwith("glUniformMatrix3x2f: array should contain 6 floats");
+    for (i=0; i<6; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix3x2fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix2x4f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[8];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 8) caml_failwith("glUniformMatrix2x4f: array should contain 8 floats");
+    for (i=0; i<8; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix2x4fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix4x2f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[8];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 8) caml_failwith("glUniformMatrix4x2f: array should contain 8 floats");
+    for (i=0; i<8; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix4x2fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix3x4f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[12];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 12) caml_failwith("glUniformMatrix3x4f: array should contain 12 floats");
+    for (i=0; i<12; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix3x4fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix4x3f(
+        value location,
+        value transpose,
+        value mat )
+{
+    GLfloat val[12];
+    int i, len;
+    len = Wosize_val(mat) / Double_wosize;
+    if (len != 12) caml_failwith("glUniformMatrix4x3f: array should contain 12 floats");
+    for (i=0; i<12; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix4x3fv(
+        Int_val(location),
+        1,
+        Bool_val(transpose),
+        val ); ret
+}
+
+/* with multiple matrices */
+
+t_val ml_gluniformmatrix2fv(
+        value location,
+        value ml_count,
+        value transpose,
+        value mat )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (4 * count)) caml_failwith("glUniformMatrix2fv: array should contain 4 floats");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix2fv(
+        Int_val(location),
+        count,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix3fv(
+        value location,
+        value ml_count,
+        value transpose,
+        value mat )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (9 * count)) caml_failwith("glUniformMatrix3fv: array should contain 9 floats");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix3fv(
+        Int_val(location),
+        count,
+        Bool_val(transpose),
+        val ); ret
+}
+
+t_val ml_gluniformmatrix4fv(
+        value location,
+        value ml_count,
+        value transpose,
+        value mat )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (16 * count)) caml_failwith("glUniformMatrix4fv: array should contain 16 floats");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(mat, i);
+    }
+    glUniformMatrix4fv(
+        Int_val(location),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix2x3fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[6];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 6) caml_failwith("glUniformMatrix2x3fv: array should contain 6 floats");
-    for (i=0; i<6; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (6 * count)) caml_failwith("glUniformMatrix2x3fv: array should contain 6 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix2x3fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix3x2fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[6];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 6) caml_failwith("glUniformMatrix3x2fv: array should contain 6 floats");
-    for (i=0; i<6; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    count = Int_val(ml_count);
+    if (len != (6 * count)) caml_failwith("glUniformMatrix3x2fv: array should contain 6 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix3x2fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix2x4fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[8];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 8) caml_failwith("glUniformMatrix2x4fv: array should contain 8 floats");
-    for (i=0; i<8; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (8 * count)) caml_failwith("glUniformMatrix2x4fv: array should contain 8 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix2x4fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix4x2fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[8];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 8) caml_failwith("glUniformMatrix4x2fv: array should contain 8 floats");
-    for (i=0; i<8; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (8 * count)) caml_failwith("glUniformMatrix4x2fv: array should contain 8 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix4x2fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix3x4fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[12];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 12) caml_failwith("glUniformMatrix3x4fv: array should contain 12 floats");
-    for (i=0; i<12; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (12 * count)) caml_failwith("glUniformMatrix3x4fv: array should contain 12 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix3x4fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 t_val ml_gluniformmatrix4x3fv(
         value location,
-        value count,
+        value ml_count,
         value transpose,
         value mat )
 {
-    GLfloat val[12];
-    int i, len;
-    len = Wosize_val(mat) / Double_wosize;
-    if (len != 12) caml_failwith("glUniformMatrix4x3fv: array should contain 12 floats");
-    for (i=0; i<12; i++) {
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(mat) / Double_wosize;
+    GLfloat val[len];
+    if (len != (12 * count)) caml_failwith("glUniformMatrix4x3fv: array should contain 12 floats");
+    for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
     glUniformMatrix4x3fv(
         Int_val(location),
-        Int_val(count),
+        count,
         Bool_val(transpose),
         val ); ret
 }
 
 #else
+
+t_val ml_gluniformmatrix2f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix2f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix3f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix3f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix4f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix4f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix2x3f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix2x3f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix3x2f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix3x2f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix2x4f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix2x4f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix4x2f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix4x2f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix3x4f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix3x4f function is available only if the GL version is 2.1 or greater"); ret
+}
+t_val ml_gluniformmatrix4x3f( value location, value transpose, value mat ) {
+    caml_failwith("glUniformMatrix4x3f function is available only if the GL version is 2.1 or greater"); ret
+}
+
 t_val ml_gluniformmatrix2fv( value location, value count, value transpose, value mat ) {
     caml_failwith("glUniformMatrix2fv function is available only if the GL version is 2.1 or greater"); ret
 }
