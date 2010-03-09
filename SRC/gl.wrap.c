@@ -2510,6 +2510,152 @@ t_val ml_gluniform4i( value location, value v0, value v1, value v2, value v3) {
 #endif
 
 
+
+#ifdef GL_VERSION_2_0
+
+CAMLprim value ml_gluniform1fv( value location, value vars )
+{
+    int i, len = Wosize_val(vars) / Double_wosize;
+    GLfloat val[len];
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(vars, i);
+    }
+    CHECK_FUNC(glUniform1fv, PFNGLUNIFORM1FVPROC)
+    glUniform1fv( Int_val(location), len, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform2fv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars) / Double_wosize;
+    GLfloat val[len];
+    if (len != (2 * count)) caml_failwith("glUniform2fv: the array size should be a multiple of 2");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(vars, i);
+    }
+    CHECK_FUNC(glUniform2fv, PFNGLUNIFORM2FVPROC)
+    glUniform2fv( Int_val(location), count, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform3fv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars) / Double_wosize;
+    GLfloat val[len];
+    if (len != (3 * count)) caml_failwith("glUniform3fv: the array size should be a multiple of 3");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(vars, i);
+    }
+    CHECK_FUNC(glUniform3fv, PFNGLUNIFORM3FVPROC)
+    glUniform3fv( Int_val(location), count, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform4fv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars) / Double_wosize;
+    GLfloat val[len];
+    if (len != (4 * count)) caml_failwith("glUniform4fv: the array size should be a multiple of 4");
+    for (i=0; i<len; i++) {
+        val[i] = Double_field(vars, i);
+    }
+    CHECK_FUNC(glUniform4fv, PFNGLUNIFORM4FVPROC)
+    glUniform4fv( Int_val(location), count, val );
+    return Val_unit;
+}
+
+
+
+CAMLprim value ml_gluniform1iv( value location, value vars )
+{
+    int i, len = Wosize_val(vars);
+    GLint val[len];
+    for (i=0; i<len; i++) {
+        val[i] = Long_val(Field(vars, i));
+    }
+    CHECK_FUNC(glUniform1iv, PFNGLUNIFORM1IVPROC)
+    glUniform1iv( Int_val(location), len, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform2iv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars);
+    GLint val[len];
+    if (len != (2 * count)) caml_failwith("glUniform2iv: the array size should be a multiple of 2");
+    for (i=0; i<len; i++) {
+        val[i] = Long_val(Field(vars, i));
+    }
+    CHECK_FUNC(glUniform2iv, PFNGLUNIFORM2IVPROC)
+    glUniform2iv( Int_val(location), count, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform3iv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars);
+    GLint val[len];
+    if (len != (3 * count)) caml_failwith("glUniform3iv: the array size should be a multiple of 3");
+    for (i=0; i<len; i++) {
+        val[i] = Long_val(Field(vars, i));
+    }
+    CHECK_FUNC(glUniform3iv, PFNGLUNIFORM3IVPROC)
+    glUniform3iv( Int_val(location), count, val );
+    return Val_unit;
+}
+CAMLprim value ml_gluniform4iv( value location, value ml_count, value vars )
+{
+    int count = Int_val(ml_count);
+    int i, len = Wosize_val(vars);
+    GLint val[len];
+    if (len != (4 * count)) caml_failwith("glUniform4iv: the array size should be a multiple of 4");
+    for (i=0; i<len; i++) {
+        val[i] = Long_val(Field(vars, i));
+    }
+    CHECK_FUNC(glUniform4iv, PFNGLUNIFORM4IVPROC)
+    glUniform4iv( Int_val(location), count, val );
+    return Val_unit;
+}
+
+#else
+
+CAMLprim value ml_gluniform1fv( value location, value vars ) {
+    caml_failwith("glUniform1fv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform2fv( value location, value ml_count, value vars )
+    caml_failwith("glUniform2fv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform3fv( value location, value ml_count, value vars )
+    caml_failwith("glUniform3fv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform4fv( value location, value ml_count, value vars )
+    caml_failwith("glUniform4fv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+
+CAMLprim value ml_gluniform1iv( value location, value vars ) {
+    caml_failwith("glUniform1iv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform2iv( value location, value ml_count, value vars )
+    caml_failwith("glUniform2iv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform3iv( value location, value ml_count, value vars )
+    caml_failwith("glUniform3iv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+CAMLprim value ml_gluniform4iv( value location, value ml_count, value vars )
+    caml_failwith("glUniform4iv function is available only if the OpenGL version is 2.0 or greater");
+    return Val_unit;
+}
+#endif
+
+
+
 // {{{ glUniformMatrix* 
 
 #ifdef GL_VERSION_2_1

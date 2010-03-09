@@ -1628,6 +1628,17 @@ external glUniform4i: location:int -> v0:int -> v1:int -> v2:int -> v3:int -> un
 (** {{:http://www.opengl.org/sdk/docs/man/xhtml/glUniform.xml}
     manual page on opengl.org} *)
 
+external glUniform1fv: location:int -> value:float array -> unit = "ml_gluniform1fv"
+external glUniform2fv: location:int -> count:int -> value:float array -> unit = "ml_gluniform2fv"
+external glUniform3fv: location:int -> count:int -> value:float array -> unit = "ml_gluniform3fv"
+external glUniform4fv: location:int -> count:int -> value:float array -> unit = "ml_gluniform4fv"
+external glUniform1iv: location:int -> value:int array -> unit = "ml_gluniform1iv"
+external glUniform2iv: location:int -> count:int -> value:int array -> unit = "ml_gluniform2iv"
+external glUniform3iv: location:int -> count:int -> value:int array -> unit = "ml_gluniform3iv"
+external glUniform4iv: location:int -> count:int -> value:int array -> unit = "ml_gluniform4iv"
+(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glUniform.xml}
+    manual page on opengl.org} *)
+
 
 external glUniformMatrix2f: location:int -> transpose:bool -> value:float array -> unit = "ml_gluniformmatrix2f"
 external glUniformMatrix3f: location:int -> transpose:bool -> value:float array -> unit = "ml_gluniformmatrix3f"
