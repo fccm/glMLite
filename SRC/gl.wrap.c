@@ -2844,7 +2844,7 @@ t_val ml_gluniformmatrix2fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (4 * count)) caml_failwith("glUniformMatrix2fv: array should contain 4 floats");
+    if (len != (4 * count)) caml_failwith("glUniformMatrix2fv: the array size should be a multiple of 4");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2864,7 +2864,7 @@ t_val ml_gluniformmatrix3fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (9 * count)) caml_failwith("glUniformMatrix3fv: array should contain 9 floats");
+    if (len != (9 * count)) caml_failwith("glUniformMatrix3fv: the array size should be a multiple of 9");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2884,7 +2884,7 @@ t_val ml_gluniformmatrix4fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (16 * count)) caml_failwith("glUniformMatrix4fv: array should contain 16 floats");
+    if (len != (16 * count)) caml_failwith("glUniformMatrix4fv: the array size should be a multiple of 16");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2904,7 +2904,7 @@ t_val ml_gluniformmatrix2x3fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (6 * count)) caml_failwith("glUniformMatrix2x3fv: array should contain 6 floats");
+    if (len != (6 * count)) caml_failwith("glUniformMatrix2x3fv: the array size should be a multiple of 6");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2925,7 +2925,7 @@ t_val ml_gluniformmatrix3x2fv(
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
     count = Int_val(ml_count);
-    if (len != (6 * count)) caml_failwith("glUniformMatrix3x2fv: array should contain 6 floats");
+    if (len != (6 * count)) caml_failwith("glUniformMatrix3x2fv: the array size should be a multiple of 6");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2945,7 +2945,7 @@ t_val ml_gluniformmatrix2x4fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (8 * count)) caml_failwith("glUniformMatrix2x4fv: array should contain 8 floats");
+    if (len != (8 * count)) caml_failwith("glUniformMatrix2x4fv: the array size should be a multiple of 8");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2965,7 +2965,7 @@ t_val ml_gluniformmatrix4x2fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (8 * count)) caml_failwith("glUniformMatrix4x2fv: array should contain 8 floats");
+    if (len != (8 * count)) caml_failwith("glUniformMatrix4x2fv: the array size should be a multiple of 8");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -2985,7 +2985,7 @@ t_val ml_gluniformmatrix3x4fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (12 * count)) caml_failwith("glUniformMatrix3x4fv: array should contain 12 floats");
+    if (len != (12 * count)) caml_failwith("glUniformMatrix3x4fv: the array size should be a multiple of 12");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
@@ -3005,7 +3005,7 @@ t_val ml_gluniformmatrix4x3fv(
     int count = Int_val(ml_count);
     int i, len = Wosize_val(mat) / Double_wosize;
     GLfloat val[len];
-    if (len != (12 * count)) caml_failwith("glUniformMatrix4x3fv: array should contain 12 floats");
+    if (len != (12 * count)) caml_failwith("glUniformMatrix4x3fv: the array size should be a multiple of 12");
     for (i=0; i<len; i++) {
         val[i] = Double_field(mat, i);
     }
