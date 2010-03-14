@@ -224,10 +224,22 @@ external glSecondaryColorPointer:
 glFogCoordPointer  !!! deprecated in core OpenGL 3.2
 *)
 
+module VAttr = struct
+type vertattr_data_type =
+  | GL_BYTE
+  | GL_UNSIGNED_BYTE
+  | GL_SHORT
+  | GL_UNSIGNED_SHORT
+  | GL_INT
+  | GL_UNSIGNED_INT
+  | GL_FLOAT
+  | GL_DOUBLE
+end
+
 external glVertexAttribPointer:
     index:int ->
     size:int ->
-    data_type:Color.color_data_type ->
+    data_type:VAttr.vertattr_data_type ->
     normalized:bool ->
     stride:int ->
     data:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t -> unit
@@ -251,7 +263,7 @@ external glSecondaryColorPointer0: size:int -> data_type:Color.color_data_type -
 external glIndexPointer0: data_type:Index.index_data_type -> stride:int -> unit = "ml_glindexpointer0"
 external glNormalPointer0: data_type:Norm.norm_data_type -> stride:int -> unit = "ml_glnormalpointer0"
 external glEdgeFlagPointer0: stride:int -> unit = "ml_gledgeflagpointer0"
-external glVertexAttribPointer0: index:int -> size:int -> data_type:Color.color_data_type -> normalized:bool ->
+external glVertexAttribPointer0: index:int -> size:int -> data_type:VAttr.vertattr_data_type -> normalized:bool ->
   stride:int -> unit = "ml_glvertexattribpointer0"
 
 external glDrawElements0: mode:GL.primitive -> count:int -> data_type:Elem.elem_data_type -> unit = "ml_gldrawelements0"
@@ -293,9 +305,9 @@ external glEdgeFlagPointerOfs8 : stride:int -> ofs:int -> unit = "ml_gledgeflagp
 external glEdgeFlagPointerOfs16: stride:int -> ofs:int -> unit = "ml_gledgeflagpointer_ofs16"
 external glEdgeFlagPointerOfs32: stride:int -> ofs:int -> unit = "ml_gledgeflagpointer_ofs32"
 
-external glVertexAttribPointerOfs8 : index:int -> size:int -> data_type:Color.color_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs8_bytecode" "ml_glvertexattribpointer_ofs8_native"
-external glVertexAttribPointerOfs16: index:int -> size:int -> data_type:Color.color_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs16_bytecode" "ml_glvertexattribpointer_ofs16_native"
-external glVertexAttribPointerOfs32: index:int -> size:int -> data_type:Color.color_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs32_bytecode" "ml_glvertexattribpointer_ofs32_native"
+external glVertexAttribPointerOfs8 : index:int -> size:int -> data_type:VAttr.vertattr_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs8_bytecode" "ml_glvertexattribpointer_ofs8_native"
+external glVertexAttribPointerOfs16: index:int -> size:int -> data_type:VAttr.vertattr_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs16_bytecode" "ml_glvertexattribpointer_ofs16_native"
+external glVertexAttribPointerOfs32: index:int -> size:int -> data_type:VAttr.vertattr_data_type -> normalized:bool -> stride:int -> ofs:int -> unit = "ml_glvertexattribpointer_ofs32_bytecode" "ml_glvertexattribpointer_ofs32_native"
 
 (** All the gl*PointerOfs functions are the equivalent of the gl*Pointer0
     functions but with pointer arithmetic (NULL + ofs), (for use with VBOs)
