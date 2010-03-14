@@ -1,5 +1,5 @@
 
-let get_matrix4_identity() =
+let get_identity_matrix() =
   [| 1.0; 0.0; 0.0; 0.0;
      0.0; 1.0; 0.0; 0.0;
      0.0; 0.0; 1.0; 0.0;
@@ -28,8 +28,8 @@ let projection_matrix ~fov ~aspect ~near_plane ~far_plane =
 ;;
 
 (* construct a transformation matrix from a translation *)
-let transformation_matrix (x,y,z) =
-  let data = get_matrix4_identity() in
+let translation_matrix (x,y,z) =
+  let data = get_identity_matrix() in
   data.(12) <- data.(12) +. x;
   data.(13) <- data.(13) +. y;
   data.(14) <- data.(14) +. z;
@@ -82,5 +82,12 @@ let mult_matrix4 ~mat1 ~mat2 =
     mat1_2 * mat2_12 + mat1_6 * mat2_13 + mat1_10 * mat2_14 + mat1_14 * mat2_15;
     mat1_3 * mat2_12 + mat1_7 * mat2_13 + mat1_11 * mat2_14 + mat1_15 * mat2_15;
   |]
+;;
+
+let matrix_translate ~matrix (x, y, z) =
+  matrix.(12) <- matrix.(0) *. x +. matrix.(4) *. y +. matrix.(8)  *. z +. matrix.(12);
+  matrix.(13) <- matrix.(1) *. x +. matrix.(5) *. y +. matrix.(9)  *. z +. matrix.(13);
+  matrix.(14) <- matrix.(2) *. x +. matrix.(6) *. y +. matrix.(10) *. z +. matrix.(14);
+  matrix.(15) <- matrix.(3) *. x +. matrix.(7) *. y +. matrix.(11) *. z +. matrix.(15);
 ;;
 

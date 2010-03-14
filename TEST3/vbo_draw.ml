@@ -9,8 +9,9 @@ type defined_vertices =
   | RGB_Vertices3 of (rgb * vertex3) array
 
 type mesh =
-  VBO.vbo_id array * (GL.shader_program * int * int * int *
-                      GL.shader_object * GL.shader_object)
+  VBO.vbo_id array * int *
+    (GL.shader_program * int * int * int *
+     GL.shader_object * GL.shader_object)
 
 
 let load_shaders vertexShader fragmentShader =
@@ -67,10 +68,21 @@ void main() {
   Color = vec4 (InterpolatedColor, 1.0);
 }"
 
+let vertices_nb = function
+  | RGB_Vertices3 data -> (Array.length data)
+;;
 
 let make_mesh ba1_set ~indices ~vertices =
-  let ndx_len = 3 * (Array.length indices) in
-  let indices_ba = Bigarray.Array1.create Bigarray.int Bigarray.c_layout ndx_len in
+  begin  (* check bounds *)
+    let max_index = ref 0 in
+    Array.iter (fun (a,b,c) ->
+      let this = max a (max b c) in
+      max_index := max this !max_index) indices;
+    if !max_index >= (vertices_nb vertices)
+    then invalid_arg "index out of bounds"
+  end;
+  let ndx_len = Array.length indices in
+  let indices_ba = Bigarray.Array1.create Bigarray.int Bigarray.c_layout (3 * ndx_len) in
   let ndx_set = Bigarray.Array1.unsafe_set indices_ba in
   Array.iteri (fun i (a,b,c) ->
     let j = i * 3 in
@@ -104,7 +116,7 @@ let make_mesh ba1_set ~indices ~vertices =
   glBufferData GL_ARRAY_BUFFER (ba_sizeof vertices_ba) vertices_ba GL_STATIC_DRAW;
   glBindBuffer GL_ELEMENT_ARRAY_BUFFER mesh_buffers.(1);
   glBufferData GL_ELEMENT_ARRAY_BUFFER (ba_sizeof indices_ba) indices_ba GL_STATIC_DRAW;
-  (mesh_buffers, shading)
+  (mesh_buffers, ndx_len, shading)
 ;;
 
 let make_mesh_unsafe = make_mesh Bigarray.Array1.unsafe_set ;;
@@ -112,7 +124,7 @@ let make_mesh = make_mesh Bigarray.Array1.set ;;
 
 
 let draw_mesh world_proj_matrix
-      (mesh_buffers,
+      (mesh_buffers, ndx_len,
        (shader_prog,
         uniformID,
         vertexPositionAttrib,
@@ -134,7 +146,7 @@ let draw_mesh world_proj_matrix
   (* active the indices buffer *)
   glBindBuffer GL_ELEMENT_ARRAY_BUFFER mesh_buffers.(1);
   (* and render the mesh *)
-  glDrawElements0 GL_TRIANGLES 36 Elem.GL_UNSIGNED_INT;
+  glDrawElements0 GL_TRIANGLES (ndx_len * 3) Elem.GL_UNSIGNED_INT;
 
   (* desactivate the generique arrays *)
   glDisableVertexAttribArray vertexPositionAttrib;
@@ -144,7 +156,7 @@ let draw_mesh world_proj_matrix
 ;;
 
 let delete_mesh
-      (mesh_buffers,
+      (mesh_buffers, _,
        (shaderProgram,
         _, _, _,
         vertexShaderID,

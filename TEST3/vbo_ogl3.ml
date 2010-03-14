@@ -10,6 +10,8 @@ open Glut
 open Vbo_draw
 open Ogl_matrix
 
+let msecs = 5000  (* display fps every 5 seconds *)
+
 (* product of the modelview (world) matrix and the projection matrix *)
 let worldViewProjectionMatrix = ref [| |]
 
@@ -27,13 +29,14 @@ let cubeArray =
   |]
 
 let indiceArray =
-  (* quad faces *)
-  [| (0,1,3,2);
-     (4,5,7,6);
-     (3,1,7,5);
-     (0,2,4,6);
-     (6,7,1,0);
-     (2,3,5,4); |]
+  tris_of_quads [|
+    (0,1,3,2);
+    (4,5,7,6);
+    (3,1,7,5);
+    (0,2,4,6);
+    (6,7,1,0);
+    (2,3,5,4);
+  |]
 
 
 let reshape ~width ~height =
@@ -43,16 +46,11 @@ let reshape ~width ~height =
 
   (* creation of the matrices *)
   let projectionMatrix = projection_matrix 60.0 ratio 1.0 500.0 in
-  let worldMatrix = transformation_matrix (0.0, 0.0, -6.0) in
+  let worldMatrix = get_identity_matrix() in
+  matrix_translate worldMatrix (0.0, 0.0, -6.0);
   worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
 ;;
 
-
-let init_OpenGL ~width ~height =
-  reshape ~width ~height;
-
-  glEnable GL_DEPTH_TEST;
-;;
 
 let frame_count = ref 0
 
@@ -73,7 +71,33 @@ let display mesh_with_shaders = function () ->
   glutSwapBuffers();
 ;;
 
+
+let keyboard mesh_with_shaders ~key ~x ~y =
+  if key = '\027' then (delete_mesh mesh_with_shaders; exit 0);
+;;
+
+
 let last_time = ref(Unix.gettimeofday())
+
+let rec timer ~value:msecs =
+  glutTimerFunc ~msecs ~timer ~value:msecs;
+  let now = Unix.gettimeofday() in
+  let diff = (now -. !last_time) in
+  Printf.printf " %d frames in %f seconds \t fps: %g\n%!"
+                !frame_count diff (float !frame_count /. diff);
+  frame_count := 0;
+  last_time := now;
+;;
+
+
+let init_OpenGL ~width ~height =
+  reshape ~width ~height;
+
+  glEnable GL_DEPTH_TEST;
+  glPolygonMode GL_FRONT GL_FILL;
+  glPolygonMode GL_BACK GL_LINE;
+;;
+
 
 (* main *)
 let () =
@@ -87,23 +111,11 @@ let () =
   init_OpenGL ~width ~height;
 
   (* make a mesh ready to be drawn *)
-  let mesh_with_shaders = make_mesh (tris_of_quads indiceArray) cubeArray in
+  let mesh_with_shaders = make_mesh indiceArray cubeArray in
 
   glutDisplayFunc ~display:(display mesh_with_shaders);
-
-  glutKeyboardFunc ~keyboard:(fun ~key ~x ~y ->
-      if key = '\027' then (delete_mesh mesh_with_shaders; exit 0));
+  glutKeyboardFunc ~keyboard:(keyboard mesh_with_shaders);
   glutIdleFunc ~idle:glutPostRedisplay;
-  let msecs = 5000 in  (* every 5 seconds *)
-  let rec timer ~value:msecs =
-    glutTimerFunc ~msecs ~timer ~value:msecs;
-    let now = Unix.gettimeofday() in
-    let diff = (now -. !last_time) in
-    Printf.printf " %d frames in %f seconds \t fps: %g\n%!"
-                  !frame_count diff (float !frame_count /. diff);
-    frame_count := 0;
-    last_time := now;
-  in
   glutTimerFunc ~msecs ~timer ~value:msecs;
 
   glutMainLoop();
