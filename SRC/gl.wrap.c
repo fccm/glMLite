@@ -57,6 +57,23 @@
 #include "gl.wrap.h"
 
 
+#ifdef _WIN32
+#include "windows.h"
+
+#define CHECK_FUNC(func, f_type) \
+    static f_type func = NULL; \
+    static unsigned int func##_is_loaded = 0; \
+    if (!func##_is_loaded) { \
+        func = (f_type) wglGetProcAddress(#func); \
+        if (func == NULL) caml_failwith("Unable to load " #func); \
+        else func##_is_loaded = 1; \
+    }
+
+#else
+#define CHECK_FUNC(func, f_type)
+#endif
+
+
 t_val ml_glclearcolor( value r, value g, value b, value a ) { glClearColor( Double_val(r), Double_val(g), Double_val(b), Double_val(a) ); ret }
 t_val ml_glclearindex( value c ) { glClearIndex( Double_val(c) ); ret }
 t_val ml_glclearstencil( value s ) { glClearStencil( Int_val(s) ); ret }
@@ -1990,6 +2007,7 @@ t_val ml_glteximage3d_native(
 #include "enums/pixel_data_format.inc.c"
 #include "enums/pixel_data_type.inc.c"
 #include "enums/internal_format.inc.c"
+    CHECK_FUNC(glTexImage3D, PFNGLTEXIMAGE3DPROC)
     glTexImage3D(
             (Int_val(target) ? GL_PROXY_TEXTURE_3D : GL_TEXTURE_3D),
             Int_val(level),
