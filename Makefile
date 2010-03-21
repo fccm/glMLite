@@ -342,6 +342,14 @@ TEST3_FILES=\
 	#EOL
 
 
+QUATERN=toolbox/quaternions/
+QUATERN_FILES=\
+	$(QUATERN)/Makefile         \
+	$(QUATERN)/quaternions.ml   \
+	$(QUATERN)/quaternions.mli  \
+	#EOL
+
+
 ROOT_FILES=\
 	LICENSE_GPL.txt             \
 	README.txt                  \
@@ -494,6 +502,12 @@ $(PACK)/$(TEST3):  $(TEST3_FILES)
 	cp $^ $@/
 
 
+$(PACK)/$(QUATERN): $(QUATERN_FILES)
+	if [ ! -d $(PACK) ]; then mkdir $(PACK) ; fi
+	if [ ! -d $@ ]; then mkdir -p $@ ; fi
+	cp $^ $@/
+
+
 $(PACK)/$(INTRF):  $(INTRF_FILES)
 	if [ ! -d $(PACK) ]; then mkdir $(PACK) ; fi
 	if [ ! -d $@ ]; then mkdir $@ ; fi
@@ -543,6 +557,7 @@ pack-dir:    $(PACK)               \
              $(PACK)/$(SRC)        \
              $(PACK)/$(TEST)       \
              $(PACK)/$(TEST3)      \
+             $(PACK)/$(QUATERN)    \
              $(PACK)/$(INTRF)      \
              $(PACK)/$(INTRF_SMPL) \
              $(PACK)/$(SMPL)       \
@@ -553,6 +568,7 @@ $(PACK).tar: $(PACK)               \
              $(PACK)/$(SRC)        \
              $(PACK)/$(TEST)       \
              $(PACK)/$(TEST3)      \
+             $(PACK)/$(QUATERN)    \
              $(PACK)/$(INTRF)      \
              $(PACK)/$(INTRF_SMPL) \
              $(PACK)/$(SMPL)       \
