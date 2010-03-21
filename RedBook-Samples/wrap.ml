@@ -91,7 +91,7 @@ let init() =
 
   glTexImage2D TexTarget.GL_TEXTURE_2D  0  InternalFormat.GL_RGBA
                checkImageWidth  checkImageHeight
-               0 GL_RGBA GL_UNSIGNED_BYTE checkImage;
+               GL_RGBA GL_UNSIGNED_BYTE checkImage;
   (texName)
 ;;
 

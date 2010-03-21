@@ -94,7 +94,7 @@ let init() =
   glTexParameter TexParam.GL_TEXTURE_1D (TexParam.GL_TEXTURE_MAG_FILTER  Mag.GL_LINEAR);
   glTexParameter TexParam.GL_TEXTURE_1D (TexParam.GL_TEXTURE_MIN_FILTER  Min.GL_LINEAR);
 
-  glTexImage1D TexTarget.GL_TEXTURE_1D  0  InternalFormat.GL_RGBA stripeImageWidth 0
+  glTexImage1D TexTarget.GL_TEXTURE_1D  0  InternalFormat.GL_RGBA stripeImageWidth
                GL_RGBA  GL_UNSIGNED_BYTE  stripeImage;
 
   glTexEnv TexEnv.GL_TEXTURE_ENV  TexEnv.GL_TEXTURE_ENV_MODE  TexEnv.GL_MODULATE;
