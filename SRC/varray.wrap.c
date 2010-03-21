@@ -3,7 +3,7 @@
   +-----------------------------------------------------------------------+
   |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
   +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
+  |  Copyright (C) 2006 - 2010  Florent Monnier                           |
   |  Contact:  <fmonnier@linux-nantes.org>                                |
   +-----------------------------------------------------------------------+
   |  This program is free software: you can redistribute it and/or        |
@@ -87,7 +87,7 @@ ml_gldisableclientstate( value _cap )
         case 2: cap = GL_FOG_COORD_ARRAY;       break;
 #else
         case 2:
-            caml_failwith("glEnableClientState: GL_FOG_COORD_ARRAY only since OpenGL 1.5");
+            caml_failwith("glDisableClientState: GL_FOG_COORD_ARRAY only since OpenGL 1.5");
             break;
 #endif
         case 3: cap = GL_INDEX_ARRAY;           break;
@@ -1329,7 +1329,7 @@ ml_glvertexattribpointer_ofs16_native(
                            Int_val(size),
                            data_type,
                            Bool_val(normalized),
-                           Int_val(stride),
+                           sizeof(int16_t) * Int_val(stride),
                            ((int16_t *)NULL) + Long_val(ofs) );
     return Val_unit;
 }
@@ -1356,7 +1356,7 @@ ml_glvertexattribpointer_ofs32_native(
                            Int_val(size),
                            data_type,
                            Bool_val(normalized),
-                           Int_val(stride),
+                           sizeof(int32_t) * Int_val(stride),
                            ((int32_t *)NULL) + Long_val(ofs) );
     return Val_unit;
 }
@@ -1390,6 +1390,24 @@ CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
 
 CAMLprim value ml_glisvertexarray( value ml_vao ) {
     return Val_long( glIsVertexArray( Long_val(ml_vao) ));
+}
+
+#else
+CAMLprim value ml_glgenvertexarray( value unit ) {
+    caml_failwith("glGenVertexArrays: the *vertex_array_object extension is not available");
+    return Val_unit;
+}
+CAMLprim value ml_glbindvertexarray( GLuint id ) {
+    caml_failwith("glBindVertexArray: the *vertex_array_object extension is not available");
+    return Val_unit;
+}
+CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
+    caml_failwith("glDeleteVertexArrays: the *vertex_array_object extension is not available");
+    return Val_unit;
+}
+CAMLprim value ml_glisvertexarray( value ml_vao ) {
+    caml_failwith("glIsVertexArray: the *vertex_array_object extension is not available");
+    return Val_unit
 }
 #endif
 
