@@ -140,8 +140,8 @@ let draw_mesh world_proj_matrix
   (* bind the vertices buffer *)
   glBindBuffer GL_ARRAY_BUFFER mesh_buffers.(0);
   (* and link the buffer data with the shader program *)
-  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false (4 * 6) 0;
-  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false (4 * 6) 3;
+  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false 6 0;
+  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false 6 3;
 
   (* active the indices buffer *)
   glBindBuffer GL_ELEMENT_ARRAY_BUFFER mesh_buffers.(1);
