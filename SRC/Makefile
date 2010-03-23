@@ -173,18 +173,18 @@ ifeq ($(USE_GL3_CORE_PROFILE),OK)
 gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
-dllGL.so libGL.a: gl.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  GL  $^  $(GL_LIBS)
+dllgl_stubs.so libgl_stubs.a: gl.wrap.o gl3_deprecations.o
+	$(OCAMLMKLIB)  -oc  gl_stubs  $^  $(GL_LIBS)
 else
-dllGL.so libGL.a: gl.wrap.o
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS)
+dllgl_stubs.so libgl_stubs.a: gl.wrap.o
+	$(OCAMLMKLIB)  -oc  gl_stubs  $<  $(GL_LIBS)
 endif
 
-GL.cmxa GL.a:  GL.cmx  dllGL.so
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS)
+GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
+	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS) -lgl_stubs
 
-GL.cma:  GL.cmo  dllGL.so
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS)
+GL.cma:  GL.cmo  dllgl_stubs.so
+	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS) -lgl_stubs
 
 GL.cmxs: GL.cmxa
 	$(OCAMLOPT) -shared -linkall -o $@ $<
@@ -426,13 +426,13 @@ loader-libjpeg.o: loader-libjpeg.c  loader-libjpeg-mem.c  loader-texure.h
 	$(OCAMLC)  -c  $<
 
 dlljpeg_loader.so libjpeg_loader.a: loader-libjpeg.o
-	$(OCAMLMKLIB) -o jpeg_loader $< -L"`ocamlc -where`" -lbigarray -ljpeg $(GL_LIBS)
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
 
 jpeg_loader.cmxa jpeg_loader.a:  jpeg_loader.cmx  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< -L"`ocamlc -where`" -lbigarray -ljpeg $(GL_LIBS)
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
 
 jpeg_loader.cma:  jpeg_loader.cmo  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< -L"`ocamlc -where`" -lbigarray -ljpeg $(GL_LIBS)
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
 
 # }}}
 
@@ -480,7 +480,7 @@ DIST_FILES_CORE=\
     GL.a   GL.cmi   GL.cmxa   GL.cmx    \
     Glu.a  Glu.cmi  Glu.cmxa  Glu.cmx   \
     Glut.a Glut.cmi Glut.cmxa Glut.cmx  \
-    libGL.a           \
+    libgl_stubs.a     \
     libGlu.a          \
     libGlut.a         \
     GL.o    Glu.o    Glut.o     \
@@ -521,7 +521,7 @@ DIST_FILES_FUN=\
 #EOL
 
 SO_DIST_FILES_CORE=\
-    dllGL.so          \
+    dllgl_stubs.so    \
     dllGlu.so         \
     dllGlut.so        \
     dllvertArray.so   \
