@@ -42,7 +42,8 @@ let reshape ~width ~height =
   let height = max height 1 in
   let ratio = float width /. float height in
   let projectionMatrix = projection_matrix 60.0 ratio 1.0 500.0 in
-  let worldMatrix = transformation_matrix (0.0, 0.0, -6.0) in
+  let worldMatrix = get_identity_matrix() in
+  matrix_translate worldMatrix (0.0, 0.0, -6.0);
   worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
 ;;
 
@@ -154,8 +155,8 @@ let create_vao cubeBuffers
   glBindBuffer GL_ARRAY_BUFFER cubeBuffers.(0);
 
   (* link the data *)
-  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false (4 * 6) 0;
-  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false (4 * 6) 3;
+  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false 6 0;
+  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false 6 3;
 
   (* activate the buffer of the indices *)
   glBindBuffer GL_ELEMENT_ARRAY_BUFFER cubeBuffers.(1);
