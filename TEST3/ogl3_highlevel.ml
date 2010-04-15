@@ -1,13 +1,8 @@
-(* Using VBO's with OpenGL 3.X *)
-(* The code of this file was converted and adapted from C to ocaml
-   from a tutorial by Michael Gallego, which is there :
-   http://bakura.developpez.com/tutoriels/jeux/utilisation-vbo-avec-opengl-3-x/
-   You can reuse this code (with Vbo_draw and Ogl_matrix) without restrictions.
-*)
+(* Using some basic middleware to simplify the use of OpenGL 3.X *)
 
 open GL
 open Glut
-open Vbo_draw
+open Ogl_draw
 open Ogl_matrix
 
 let msecs = 5000  (* display fps every 5 seconds *)
@@ -95,7 +90,9 @@ let init_OpenGL ~width ~height =
 
   glEnable GL_DEPTH_TEST;
   glPolygonMode GL_FRONT GL_FILL;
-  glPolygonMode GL_BACK GL_LINE;
+  glFrontFace GL_CCW;    (* assume a clean model *)
+  glEnable GL_CULL_FACE; (* activate elimination of polygons *)
+  glCullFace GL_BACK;    (* remove back side of polygons *)
 ;;
 
 

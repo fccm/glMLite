@@ -1,16 +1,16 @@
 GL_PATH := "../SRC/"
 #GL_PATH := "+glMLite"
 
-#vbo_draw.mli: vbo_draw.ml
+#ogl_draw.mli: ogl_draw.ml
 #	ocamlc -i -I $(GL_PATH) GL.cma vertArray.cma VBO.cma $< > $@
 
-vbo_draw.cmi: vbo_draw.mli
+ogl_draw.cmi: ogl_draw.mli
 	ocamlc -c -I $(GL_PATH) GL.cma vertArray.cma VBO.cma $<
 
-vbo_draw.cmo: vbo_draw.ml vbo_draw.cmi
+ogl_draw.cmo: ogl_draw.ml ogl_draw.cmi
 	ocamlc -c -I $(GL_PATH) GL.cma vertArray.cma VBO.cma $<
 
-vbo_draw.cmx: vbo_draw.ml vbo_draw.cmi
+ogl_draw.cmx: ogl_draw.ml ogl_draw.cmi
 	ocamlopt -c -I $(GL_PATH) GL.cmxa vertArray.cmxa VBO.cmxa $<
 
 ####################
