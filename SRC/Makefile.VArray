@@ -56,18 +56,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
 dllvertArray.so libvertArray.a: varray.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  vertArray  $^ -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
 else
 dllvertArray.so libvertArray.a: varray.wrap.o
-	$(OCAMLMKLIB)  -o  vertArray  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
 endif
 
 
 vertArray.cmxa vertArray.a:  vertArray.cmx  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
 
 vertArray.cma:  vertArray.cmo  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
 
 
 # vim: fdm=marker

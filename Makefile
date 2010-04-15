@@ -335,10 +335,10 @@ TEST3_FILES=\
 	$(TEST3)/find.sh            \
 	$(TEST3)/ogl_matrix.ml      \
 	$(TEST3)/ogl_matrix.mli     \
-	$(TEST3)/vbo_draw.ml        \
-	$(TEST3)/vbo_draw.mli       \
-	$(TEST3)/vbo_ogl3.ml        \
-	$(TEST3)/vao_ogl3.ml        \
+	$(TEST3)/ogl_draw.ml        \
+	$(TEST3)/ogl_draw.mli       \
+	$(TEST3)/ogl3_vbo.ml        \
+	$(TEST3)/ogl3_vao.ml        \
 	#EOL
 
 
