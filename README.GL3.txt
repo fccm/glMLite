@@ -10,7 +10,7 @@
  glNormal, etc, will be deprecated too, the OpenGL programmer will be
  encouraged to use vertex-arrays, VAO's or VBO's.
  There are examples of use of the two modules vertArray and VBO in
- the directory TEST/ and there are also two tutorials online:
+ the directories TEST/ and TEST3 and there are also two tutorials online:
  http://www.linux-nantes.org/~fmonnier/ocaml/GL/vertex_array.php
  http://www.linux-nantes.org/~fmonnier/ocaml/GL/gl_vbo.php
  

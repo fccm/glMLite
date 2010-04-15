@@ -1,7 +1,7 @@
 
   glMLite can be compiled with different versions of OpenGL.
   It should be possible to compile with versions 1.2, 1.3, 1.4,
-  2.0 and 2.1 of OpenGL.
+  2.0 and 2.1 of OpenGL, and probably 3.X too.
   Currently this version of glMLite has been tested successfully
   under linux with OpenGL 2.1 and under Mac OS X with OpenGL 1.4.
 
