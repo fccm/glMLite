@@ -46,6 +46,37 @@
 #include <stdint.h>
 
 
+#ifdef _WIN32
+#include <windows.h>
+#include <wtypes.h>
+
+#define CHECK_FUNC(func, f_type) \
+    static f_type func = NULL; \
+    static unsigned int func##_is_loaded = 0; \
+    if (!func##_is_loaded) { \
+        func = (f_type) wglGetProcAddress(#func); \
+        if (func == NULL) caml_failwith("Unable to load " #func); \
+        else func##_is_loaded = 1; \
+    }
+
+#define LINUX_FUNC(func, f_type)
+
+#else
+#include <GL/glx.h>
+#define CHECK_FUNC(func, f_type)
+#define LINUX_FUNC(func, f_type) \
+    static f_type func = NULL; \
+    static unsigned int func##_is_loaded = 0; \
+    if (!func##_is_loaded) { \
+        func = (f_type) glXGetProcAddress((GLubyte *)#func); \
+        if (func == NULL) caml_failwith("Unable to load " #func); \
+        else func##_is_loaded = 1; \
+    }
+
+#endif
+
+
+
 /* Vertex Arrays Bindings */
 
 
@@ -292,8 +323,7 @@ ml_gldrawrangeelements_native(
         */
     }
 
-    // glDrawRangeElements = (PFNGLDRAWRANGEELEMENTSPROC) wglGetProcAddress("glDrawRangeElements");
-
+    CHECK_FUNC(glDrawRangeElements, PFNGLDRAWRANGEELEMENTSPROC)
     glDrawRangeElements(
             Int_val(mode),
             Int_val(start),
@@ -837,6 +867,7 @@ ml_glvertexattribpointer_native(
         case 7: data_type = GL_DOUBLE;         break;
     }
 
+    CHECK_FUNC(glVertexAttribPointer, PFNGLVERTEXATTRIBPOINTERPROC)
     glVertexAttribPointer( Long_val(index),
                            Int_val(size),
                            data_type,
@@ -930,6 +961,7 @@ ml_glvertexattribpointer0(
         case 7: data_type = GL_DOUBLE;         break;
     }
 
+    CHECK_FUNC(glVertexAttribPointer, PFNGLVERTEXATTRIBPOINTERPROC)
     glVertexAttribPointer( Long_val(index),
                            Int_val(size),
                            data_type,
@@ -1298,6 +1330,7 @@ ml_glvertexattribpointer_ofs8_native(
         case 6: data_type = GL_FLOAT;          break;
         case 7: data_type = GL_DOUBLE;         break;
     }
+    CHECK_FUNC(glVertexAttribPointer, PFNGLVERTEXATTRIBPOINTERPROC)
     glVertexAttribPointer( Long_val(index),
                            Int_val(size),
                            data_type,
@@ -1325,6 +1358,7 @@ ml_glvertexattribpointer_ofs16_native(
         case 6: data_type = GL_FLOAT;          break;
         case 7: data_type = GL_DOUBLE;         break;
     }
+    CHECK_FUNC(glVertexAttribPointer, PFNGLVERTEXATTRIBPOINTERPROC)
     glVertexAttribPointer( Long_val(index),
                            Int_val(size),
                            data_type,
@@ -1352,6 +1386,7 @@ ml_glvertexattribpointer_ofs32_native(
         case 6: data_type = GL_FLOAT;          break;
         case 7: data_type = GL_DOUBLE;         break;
     }
+    CHECK_FUNC(glVertexAttribPointer, PFNGLVERTEXATTRIBPOINTERPROC)
     glVertexAttribPointer( Long_val(index),
                            Int_val(size),
                            data_type,
@@ -1374,21 +1409,32 @@ ml_glvertexattribpointer_ofs32_bytecode( value * argv, int argn )
 
 CAMLprim value ml_glgenvertexarray( value unit ) {
     GLuint vao_id;
+    CHECK_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
+    LINUX_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
     glGenVertexArrays(1, &vao_id);
     return Val_long(vao_id);
 }
 
-CAMLprim value ml_glbindvertexarray( GLuint id ) { glBindVertexArray( Long_val(id) ); return Val_unit; }
+CAMLprim value ml_glbindvertexarray( GLuint id ) {
+    CHECK_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
+    LINUX_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
+    glBindVertexArray( Long_val(id) );
+    return Val_unit;
+}
 
 //void glDeleteVertexArrays (GLsizei, const GLuint *);
 
 CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
     GLuint vao_id = Long_val(ml_vao);
+    CHECK_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
+    LINUX_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
     glDeleteVertexArrays( 1, &vao_id );
     return Val_unit;
 }
 
 CAMLprim value ml_glisvertexarray( value ml_vao ) {
+    CHECK_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
+    LINUX_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
     return Val_long( glIsVertexArray( Long_val(ml_vao) ));
 }
 
