@@ -5,6 +5,10 @@ val projection_matrix:
   fov:float -> aspect:float -> near:float -> far:float -> float array
 (** replaces gluPerspective *)
 
+val ortho_projection_matrix: left:float -> right:float ->
+  bottom:float -> top:float -> near:float -> far:float -> float array
+(** replaces glOrtho *)
+
 val translation_matrix: float * float * float -> float array
 
 val mult_matrix4: mat1:float array -> mat2:float array -> float array

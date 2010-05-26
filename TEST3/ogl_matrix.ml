@@ -27,6 +27,21 @@ let projection_matrix ~fov ~aspect ~near ~far =
   (data)
 ;;
 
+let ortho_projection_matrix ~left ~right ~bottom ~top ~near ~far =
+  let x_diff = right -. left
+  and y_diff = top -. bottom
+  and z_diff = far -. near in
+  let mat = [|
+    2.0 /. x_diff;  0.0; 0.0; 0.0;
+    0.0; 2.0 /. y_diff;  0.0; 0.0;
+    0.0; 0.0; -2.0 /. z_diff; 0.0;
+    (-. right -. left) /. x_diff;
+    (-. top -. bottom) /. y_diff;
+    (-. far -. near)   /. z_diff;
+    1.0;
+  |] in
+  (mat)
+
 (* construct a transformation matrix from a translation *)
 let translation_matrix (x,y,z) =
   let data = get_identity_matrix() in
