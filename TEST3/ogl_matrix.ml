@@ -7,22 +7,22 @@ let get_identity_matrix() =
 ;;
 
 (* construct a projection matrix *)
-let projection_matrix ~fov ~aspect ~near_plane ~far_plane =
+let projection_matrix ~fov ~aspect ~near ~far =
 
-  let maxY = near_plane *. tan (fov *. 3.14159256 /. 360.0) in
+  let maxY = near *. tan (fov *. 3.14159256 /. 360.0) in
   let minY = -. maxY in
   let minX = minY *. aspect
   and maxX = maxY *. aspect in
 
   let data = Array.make 16 0.0 in
 
-  data.(0) <- 2.0 *. near_plane /. (maxX -. minX);
-  data.(5) <- 2.0 *. near_plane /. (maxY -. minY);
+  data.(0) <- 2.0 *. near /. (maxX -. minX);
+  data.(5) <- 2.0 *. near /. (maxY -. minY);
   data.(8) <- (maxX +. minX) /. (maxX -. minX);
   data.(9) <- (maxY +. minY) /. (maxY -. minY);
-  data.(10) <- -. (far_plane +. near_plane) /. (far_plane -. near_plane);
+  data.(10) <- -. (far +. near) /. (far -. near);
   data.(11) <- -. 1.0;
-  data.(14) <- -. (2.0 *. far_plane *. near_plane) /. (far_plane -. near_plane);
+  data.(14) <- -. (2.0 *. far *. near) /. (far -. near);
 
   (data)
 ;;

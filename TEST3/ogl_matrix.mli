@@ -2,8 +2,8 @@
 val get_identity_matrix: unit -> float array
 
 val projection_matrix:
-  fov:float ->
-  aspect:float -> near_plane:float -> far_plane:float -> float array
+  fov:float -> aspect:float -> near:float -> far:float -> float array
+(** replaces gluPerspective *)
 
 val translation_matrix: float * float * float -> float array
 
