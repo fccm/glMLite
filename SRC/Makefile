@@ -166,7 +166,11 @@ C_GL_INCS=\
 #   $(ENUMS_DIR)/tex_param_pname.inc.c     $(ENUMS_DIR)/tex_parameter.inc.c        \
 
 gl.wrap.o: gl.wrap.c  $(C_GL_INCS)
+ifeq ($(USE_GL3_CORE_PROFILE),OK)
+	$(OCAMLC)  -c -ccopt -DUSE_MY_GL3_CORE_PROFILE $<
+else
 	$(OCAMLC)  -c  $<
+endif
 
 
 ifeq ($(USE_GL3_CORE_PROFILE),OK)

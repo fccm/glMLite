@@ -16,6 +16,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>
 *)
 
+let deprecated = ref []
+
 let xml_input i =
   if Xmlm.eoi i
   then raise End_of_file
@@ -61,7 +63,9 @@ let rec print_rec = function
 let enum_val_ml req_version = function
   | E(((_,"enum"), attrs), [(D glenum)])
     when (enum_version attrs) <= req_version ->
-      Printf.printf "  | %s\n" glenum;
+      if List.mem glenum !deprecated
+      then Printf.printf "  | %s  (** deprecated in core OpenGL 3. *)\n" glenum
+      else Printf.printf "  | %s\n" glenum;
 
   | E(((_,"enum"), _), _) -> ()
   | x -> print_rec x
@@ -88,19 +92,19 @@ let dump_ml_to_c glenum_req req_version = function
   | E(((_,"glenums"), attrs), childs) ->
 
       Printf.printf
-        "#if defined(USE_MY_GL3_CORE_PROFILE)\n\
-        \  if (_%s == 0x000A)\n\
-        \    caml_failwith(\"using gl-enum deprecated in core OpenGL 3\");\n\
-        #endif\n"
-        glenum_req;
-
-      Printf.printf
         "  static const GLenum conv_%s_table[] = {\n" glenum_req;
       List.iter (enum_val_c req_version) childs;
       Printf.printf
         "  };\n\
         \  %s = conv_%s_table[Int_val(_%s)];\n"
         glenum_req glenum_req glenum_req;
+
+      Printf.printf
+        "#if defined(USE_MY_GL3_CORE_PROFILE)\n\
+        \  if (%s == 0x000A)\n\
+        \    caml_failwith(\"using gl-enum deprecated in core OpenGL 3\");\n\
+        #endif\n"
+        glenum_req;
 
   | x -> print_rec x
 
@@ -183,15 +187,14 @@ let () =
   let ic = open_in input_file in
   let i = Xmlm.make_input ~strip:true (`Channel ic) in
 
+
   let grep req_version = function
     | E(((_,"enum"), attrs), [(D glenum)])
-      (*
-      when (enum_version attrs) <= req_version
-      *)
+      (* TODO
+      when (enum_version attrs) <= req_version *)
       -> Some glenum
-
     | E(((_,"enum"), _), _) -> None
-    | x -> print_rec x; None
+    | x -> (* print_rec x; *) None
   in
   let depr req_version = function
     | E(((_,"deprecations"), attrs), childs) ->
@@ -204,19 +207,36 @@ let () =
                | None -> acc
             ) [] childs
         in
-        List.iter prerr_endline (acc)
+        deprecated := acc
 
-    | x -> print_rec x
+    | x -> () (* XXX *)
+  in
+
+  let rec get_depr i d =
+    match Xmlm.input i with
+    | `El_start ((_, "enum"), _) ->
+        get_depr i (succ d)
+    | `Data s ->
+        deprecated := s :: !deprecated;
+        get_depr i d
+    | `El_end ->
+        if d > 0 then
+          get_depr i (pred d)
+    | _ -> assert false
   in
 
   let rec main parents i =
     match Xmlm.peek i with
     | `Dtd _ -> ignore(Xmlm.input i); main parents i
     | `Data _ -> ignore(Xmlm.input i); main parents i
-    (*
-    | `El_start (("", "deprecations"), attrs) ->
+    (* *)
+    | `El_start (("", "__deprecations"), attrs) ->
         depr gl_version (in_tree i)
-    *)
+    (* *)
+    | `El_start (("", "deprecations"), attrs) ->
+        ignore(Xmlm.input i);
+        get_depr i 0;
+        main (parents) i
     | `El_start (("", "glenums"), attrs)
       when (glenum_name attrs) = glenum_req ->
         dump output_kind glenum_req gl_version (in_tree i)
