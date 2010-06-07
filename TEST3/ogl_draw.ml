@@ -383,5 +383,20 @@ let tris_of_quads indices =
     if (i mod 2) = 0
     then (a,b,c)
     else (c,d,a))
-;;
+
+
+type face = Tri of (int * int * int) | Quad of (int * int * int * int)
+
+let tris_of_mixed indices =
+  let n = ref 0 in
+  Array.iter (function Tri _ -> incr n | Quad _ -> n := !n + 2) indices;
+  let r = Array.make !n (0,0,0) in
+  n := 0;
+  Array.iter (function
+  | Tri face -> r.(!n) <- face; incr n
+  | Quad (a,b,c,d) ->
+      r.(!n) <- (a,b,c); incr n;
+      r.(!n) <- (c,d,a); incr n;
+  ) indices;
+  (r)
 

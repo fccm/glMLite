@@ -27,3 +27,8 @@ val tris_of_quads:
   (int * int * int * int) array ->
   (int * int * int) array
 
+type face = Tri of (int * int * int) | Quad of (int * int * int * int)
+
+val tris_of_mixed:
+  face array -> (int * int * int) array
+
