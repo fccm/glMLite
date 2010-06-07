@@ -52,10 +52,6 @@ let init_OpenGL ~width ~height =
   reshape ~width ~height;
 
   glEnable GL_DEPTH_TEST;
-  glPolygonMode GL_FRONT GL_FILL;
-  glFrontFace GL_CCW;    (* assume a clean model *)
-  glEnable GL_CULL_FACE; (* activate elimination of polygons *)
-  glCullFace GL_BACK;    (* remove back side of polygons *)
 ;;
 
 
