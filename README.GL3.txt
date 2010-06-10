@@ -32,7 +32,11 @@
  compile this with:
  make target USE_GL3_CORE_PROFILE=OK
  This works even if you are not in an 3.X OpenGL version (for
- example 2.1).
+ example 2.1), then you can install <GL3/gl3.h> as follow:
+  $ su -
+  # wget http://www.opengl.org/registry/api/gl3.h
+  # install -d /usr/include/GL3
+  # install -m 0644 ./gl3.h /usr/include/GL3/
  Then for example if the function glLight is called, you
  will get:
  exception Failure("glLight: deprecated in OpenGL 3.2")
@@ -41,5 +45,5 @@
  and released.)
 
  If you have better ideas, comments, suggestions or anything,
- just email me: <fmonnier@linux-nantes.org>
+ just email me: <fmonnier(at)linux-nantes.org>
 
