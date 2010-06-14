@@ -4,11 +4,13 @@ open VBO
 
 type vertex3 = float * float * float
 type rgb = float * float * float
+type uv = float * float
 
 type characterised_vertices =
   | PlainColor3_Vertices3 of rgb * vertex3 array
   | Vertices3 of vertex3 array
   | RGB_Vertices3 of (rgb * vertex3) array
+  | UV_Vertices3 of (uv * vertex3) array
 
 
 type shading =
@@ -19,6 +21,9 @@ type shading =
       (GL.shader_program * GL.shader_object * GL.shader_object *
        int * int * int)
   | ColorAttrib of
+      (GL.shader_program * GL.shader_object * GL.shader_object *
+       int * int * int)
+  | UVAttrib of
       (GL.shader_program * GL.shader_object * GL.shader_object *
        int * int * int)
   | ColorNormalAttrib of
@@ -99,6 +104,22 @@ let load_shaders_color_attrib shaders =
     vertexColorAttrib )
 ;;
 
+let load_shaders_uv_attrib shaders =
+  let shaderProgram, vertexShaderID, fragmentShaderID = compile_shaders shaders in
+
+  let uniformMatrix = glGetUniformLocation shaderProgram "ModelViewProjectionMatrix"
+  and vertexPositionAttrib = glGetAttribLocation shaderProgram "VertexPosition"
+  and vertexUVAttrib = glGetAttribLocation shaderProgram "VertexUV" in
+
+  UVAttrib
+  ( shaderProgram,
+    vertexShaderID,
+    fragmentShaderID,
+    uniformMatrix,
+    vertexPositionAttrib,
+    vertexUVAttrib )
+;;
+
 let load_shaders_normal shaders =
   let shaderProgram, vertexShaderID, fragmentShaderID = compile_shaders shaders in
 
@@ -122,6 +143,7 @@ let load_shaders_normal shaders =
 
 let vertices_nb = function
   | Vertices3 data -> (Array.length data)
+  | UV_Vertices3 data -> (Array.length data)
   | RGB_Vertices3 data -> (Array.length data)
   | PlainColor3_Vertices3(_,data) -> (Array.length data)
 ;;
@@ -171,6 +193,21 @@ let make_vertices_ba ba1_set = function
       let shading =
         load_shaders_color_attrib Shaders.interpolate_rgb
       in
+      (vert_ba, shading)
+
+  | UV_Vertices3 data ->
+      let len = 5 * (Array.length data) in
+      let vert_ba = Bigarray.Array1.create Bigarray.float32 Bigarray.c_layout len in
+      let vert_set = ba1_set vert_ba in
+      Array.iteri (fun i ((u,v), (x,y,z)) ->
+        let j = i * 5 in
+        vert_set (j  ) u;
+        vert_set (j+1) v;
+        vert_set (j+2) x;
+        vert_set (j+3) y;
+        vert_set (j+4) z;
+      ) data;
+      let shading = load_shaders_uv_attrib Shaders.interpolate_uv in
       (vert_ba, shading)
 ;;
 
@@ -248,6 +285,33 @@ let draw_mesh world_proj_matrix ?color = function
 
   (* desactivate the generique arrays *)
   glDisableVertexAttribArray vertexColorAttrib;
+  glDisableVertexAttribArray vertexPositionAttrib;
+
+  glUnuseProgram();
+
+    | (mesh_buffers, ndx_len,
+       UVAttrib
+       (shader_prog, _, _,
+        uniformMatrix,
+        vertexPositionAttrib,
+        vertexUVAttrib)) ->
+
+  if color <> None then invalid_arg "draw_mesh: color";
+
+  glUseProgram shader_prog;
+  glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
+
+  glEnableVertexAttribArray vertexUVAttrib;
+  glEnableVertexAttribArray vertexPositionAttrib;
+
+  glBindBuffer GL_ARRAY_BUFFER mesh_buffers.(0);
+  glVertexAttribPointerOfs32 vertexUVAttrib 2 VAttr.GL_FLOAT false 5 0;
+  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false 5 2;
+
+  glBindBuffer GL_ELEMENT_ARRAY_BUFFER mesh_buffers.(1);
+  glDrawElements0 GL_TRIANGLES ndx_len Elem.GL_UNSIGNED_INT;
+
+  glDisableVertexAttribArray vertexUVAttrib;
   glDisableVertexAttribArray vertexPositionAttrib;
 
   glUnuseProgram();
@@ -355,6 +419,13 @@ let delete_mesh = function
 
     | (mesh_buffers, _,
        ColorAttrib
+       (shaderProgram,
+        vertexShaderID,
+        fragmentShaderID,
+        _, _, _))
+
+    | (mesh_buffers, _,
+       UVAttrib
        (shaderProgram,
         vertexShaderID,
         fragmentShaderID,

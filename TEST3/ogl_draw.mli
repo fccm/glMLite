@@ -1,11 +1,13 @@
 
 type vertex3 = float * float * float
 type rgb = float * float * float
+type uv = float * float
 
 type characterised_vertices =
   | PlainColor3_Vertices3 of rgb * (vertex3 array)
   | Vertices3 of vertex3 array
   | RGB_Vertices3 of (rgb * vertex3) array
+  | UV_Vertices3 of (uv * vertex3) array
 
 type mesh
 

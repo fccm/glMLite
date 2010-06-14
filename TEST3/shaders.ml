@@ -23,6 +23,29 @@ void main() {
     Color = vec4 (InterpolatedColor, 1.0);
 }"
 
+(* interpolate UV texture coordinates, no color, do replace *)
+let interpolate_uv = "
+// vertex shader
+#version 130
+in vec2 VertexUV;
+in vec3 VertexPosition;
+uniform mat4 ModelViewProjectionMatrix;
+invariant gl_Position;
+smooth out vec2 InterpolatedUV;
+void main () {
+    InterpolatedUV = VertexUV;
+    gl_Position = ModelViewProjectionMatrix * vec4 (VertexPosition, 1.0);
+}",
+"// fragment shader
+#version 130
+precision highp float;
+uniform sampler2D texture0;
+smooth in vec2 InterpolatedUV;
+out vec4 Color;
+void main() {
+    Color = texture(texture0, InterpolatedUV);
+}"
+
 let plain_color_vertex_shader = "
 // vertex shader
 #version 130
