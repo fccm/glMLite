@@ -8,6 +8,7 @@ type characterised_vertices =
   | Vertices3 of vertex3 array
   | RGB_Vertices3 of (rgb * vertex3) array
   | UV_Vertices3 of (uv * vertex3) array
+  | UV_RGB_Vertices3 of (uv * rgb * vertex3) array
 
 type mesh
 
@@ -21,7 +22,24 @@ val make_mesh:
   vertices:characterised_vertices ->
   mesh
 
-val draw_mesh: float array -> ?color:rgb -> mesh -> unit
+type texenv =
+  | MODULATE
+  (** multiply texture color and vertex color, the result is a nice mix *)
+  | DECAL
+  (** in the transparent part of the texture, use the vertex color *)
+  | ADD
+  | ADD_SIGNED
+  | SUBTRACT
+
+val draw_mesh: float array -> ?color:rgb -> ?texenv:texenv -> mesh -> unit
+(** The first parameter is the product of the modelview matrix and the
+    projection matrix. You can create these matrices with the module
+    {!Ogl_matrix}.
+    @param color provide this parameter only with [Vertices3] data.
+    @param texenv provide this parameter only with [UV_RGB_Vertices3] data
+    where it is used to select how to mix the vertex color with the texture
+    texel.
+*)
 
 val delete_mesh: mesh -> unit
 

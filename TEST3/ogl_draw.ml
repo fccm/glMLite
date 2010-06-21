@@ -11,6 +11,7 @@ type characterised_vertices =
   | Vertices3 of vertex3 array
   | RGB_Vertices3 of (rgb * vertex3) array
   | UV_Vertices3 of (uv * vertex3) array
+  | UV_RGB_Vertices3 of (uv * rgb * vertex3) array
 
 
 type shading =
@@ -26,12 +27,23 @@ type shading =
   | UVAttrib of
       (GL.shader_program * GL.shader_object * GL.shader_object *
        int * int * int)
+  | UVColorAttrib of
+      (GL.shader_program * GL.shader_object * GL.shader_object *
+      int * int * int * int * int)
   | ColorNormalAttrib of
       (GL.shader_program * GL.shader_object * GL.shader_object *
        int * int * int * int)
 
 type mesh =
   VBO.vbo_id array * int * shading
+
+
+type texenv =
+  | MODULATE
+  | DECAL
+  | ADD
+  | ADD_SIGNED
+  | SUBTRACT
 
 
 (* ==== load shaders ==== *)
@@ -120,6 +132,26 @@ let load_shaders_uv_attrib shaders =
     vertexUVAttrib )
 ;;
 
+let load_shaders_uv_color_attrib shaders =
+  let shaderProgram, vertexShaderID, fragmentShaderID = compile_shaders shaders in
+
+  let uniformMatrix = glGetUniformLocation shaderProgram "ModelViewProjectionMatrix"
+  and uniformTexEnv = glGetUniformLocation shaderProgram "TexEnv"
+  and vertexPositionAttrib = glGetAttribLocation shaderProgram "VertexPosition"
+  and vertexUVAttrib = glGetAttribLocation shaderProgram "VertexUV"
+  and vertexColorAttrib = glGetAttribLocation shaderProgram "VertexColor" in
+
+  UVColorAttrib
+  ( shaderProgram,
+    vertexShaderID,
+    fragmentShaderID,
+    uniformMatrix,
+    uniformTexEnv,
+    vertexPositionAttrib,
+    vertexUVAttrib,
+    vertexColorAttrib )
+;;
+
 let load_shaders_normal shaders =
   let shaderProgram, vertexShaderID, fragmentShaderID = compile_shaders shaders in
 
@@ -145,6 +177,7 @@ let vertices_nb = function
   | Vertices3 data -> (Array.length data)
   | UV_Vertices3 data -> (Array.length data)
   | RGB_Vertices3 data -> (Array.length data)
+  | UV_RGB_Vertices3 data -> (Array.length data)
   | PlainColor3_Vertices3(_,data) -> (Array.length data)
 ;;
 
@@ -209,6 +242,21 @@ let make_vertices_ba ba1_set = function
       ) data;
       let shading = load_shaders_uv_attrib Shaders.interpolate_uv in
       (vert_ba, shading)
+
+  | UV_RGB_Vertices3 data ->
+      let len = 8 * (Array.length data) in
+      let vert_ba = Bigarray.Array1.create Bigarray.float32 Bigarray.c_layout len in
+      let vert_set = ba1_set vert_ba in
+      Array.iteri (fun i ((u,v), (r,g,b), (x,y,z)) ->
+        let j = i * 8 in
+        vert_set (j  ) u;
+        vert_set (j+1) v;
+        vert_set (j+2) r;    vert_set (j+5) x;
+        vert_set (j+3) g;    vert_set (j+6) y;
+        vert_set (j+4) b;    vert_set (j+7) z;
+      ) data;
+      let shading = load_shaders_uv_color_attrib Shaders.interpolate_uv_rgb in
+      (vert_ba, shading)
 ;;
 
 
@@ -255,7 +303,7 @@ let make_mesh ~indices ~vertices =
 
 
 (* ==== draw ==== *)
-let draw_mesh world_proj_matrix ?color = function
+let draw_mesh world_proj_matrix ?color ?texenv = function
       (mesh_buffers, ndx_len,
        ColorAttrib
        (shader_prog, _, _,
@@ -264,6 +312,7 @@ let draw_mesh world_proj_matrix ?color = function
         vertexColorAttrib)) ->
 
   if color <> None then invalid_arg "draw_mesh: color (a)";
+  if texenv <> None then invalid_arg "draw_mesh: texenv";
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
@@ -297,6 +346,7 @@ let draw_mesh world_proj_matrix ?color = function
         vertexUVAttrib)) ->
 
   if color <> None then invalid_arg "draw_mesh: color";
+  if texenv <> None then invalid_arg "draw_mesh: texenv";
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
@@ -317,6 +367,44 @@ let draw_mesh world_proj_matrix ?color = function
   glUnuseProgram();
 
     | (mesh_buffers, ndx_len,
+       UVColorAttrib
+       (shader_prog, _, _,
+        uniformMatrix,
+        uniformTexEnv,
+        vertexPositionAttrib,
+        vertexUVAttrib,
+        vertexColorAttrib)) ->
+
+  if color <> None then invalid_arg "draw_mesh: color";
+  let texenv =
+    match texenv with
+    | None -> invalid_arg "draw_mesh: texenv"
+    | Some v -> (Obj.magic v : int)
+  in
+
+  glUseProgram shader_prog;
+  glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
+  glUniform1i uniformTexEnv texenv;
+
+  glEnableVertexAttribArray vertexUVAttrib;
+  glEnableVertexAttribArray vertexColorAttrib;
+  glEnableVertexAttribArray vertexPositionAttrib;
+
+  glBindBuffer GL_ARRAY_BUFFER mesh_buffers.(0);
+  glVertexAttribPointerOfs32 vertexUVAttrib 2 VAttr.GL_FLOAT false 8 0;
+  glVertexAttribPointerOfs32 vertexColorAttrib 3 VAttr.GL_FLOAT false 8 2;
+  glVertexAttribPointerOfs32 vertexPositionAttrib 3 VAttr.GL_FLOAT false 8 5;
+
+  glBindBuffer GL_ELEMENT_ARRAY_BUFFER mesh_buffers.(1);
+  glDrawElements0 GL_TRIANGLES ndx_len Elem.GL_UNSIGNED_INT;
+
+  glDisableVertexAttribArray vertexUVAttrib;
+  glDisableVertexAttribArray vertexColorAttrib;
+  glDisableVertexAttribArray vertexPositionAttrib;
+
+  glUnuseProgram();
+
+    | (mesh_buffers, ndx_len,
        ColorNormalAttrib
        (shader_prog, _, _,
         uniformMatrix,
@@ -325,6 +413,7 @@ let draw_mesh world_proj_matrix ?color = function
         vertexNormalAttrib)) ->
 
   if color <> None then invalid_arg "draw_mesh: color (b)";
+  if texenv <> None then invalid_arg "draw_mesh: texenv";
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
@@ -354,6 +443,7 @@ let draw_mesh world_proj_matrix ?color = function
         vertexPositionAttrib)) ->
 
   if color <> None then invalid_arg "draw_mesh: color (c)";
+  if texenv <> None then invalid_arg "draw_mesh: texenv";
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformMatrix 1 false world_proj_matrix;
@@ -377,6 +467,7 @@ let draw_mesh world_proj_matrix ?color = function
         vertexPositionAttrib,
         plainColorAttrib)) ->
 
+  if texenv <> None then invalid_arg "draw_mesh: texenv";
   let r, g, b =
     match color with
     | None -> invalid_arg "draw_mesh: color (d)"
@@ -430,6 +521,13 @@ let delete_mesh = function
         vertexShaderID,
         fragmentShaderID,
         _, _, _))
+
+    | (mesh_buffers, _,
+       UVColorAttrib
+       (shaderProgram,
+        vertexShaderID,
+        fragmentShaderID,
+        _, _, _, _, _))
 
     | (mesh_buffers, _,
        ColorNormalAttrib
