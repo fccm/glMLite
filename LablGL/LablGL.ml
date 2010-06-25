@@ -196,9 +196,9 @@ module GlDraw = struct
   let index = glIndex ;;
 
   let vertex ~x ~y ?(z=0.) ?(w=1.) () = glVertex4 ~x ~y ~z ~w ;;
-  let vertex2 v = glVertex2v ~v ;;
-  let vertex3 v = glVertex3v ~v ;;
-  let vertex4 v = glVertex4v ~v ;;
+  let vertex2 v = glVertex2v v ;;
+  let vertex3 v = glVertex3v v ;;
+  let vertex4 v = glVertex4v v ;;
 
   let polygon_mode ~face mode =
     let mode = match mode with
@@ -348,8 +348,8 @@ module GlMat = struct
   let rotate3 ~angle (x,y,z) = glRotate ~angle ~x ~y ~z ;;
   let rotate ~angle ?(x=0.) ?(y=0.) ?(z=0.) () = glRotate ~angle ~x ~y ~z ;;
 
-  let ortho ~x:(left, right) ~y:(bottom, top) ~z:(near_val, far_val) =
-    glOrtho ~left ~right ~bottom ~top ~near_val ~far_val ;;
+  let ortho ~x:(left, right) ~y:(bottom, top) ~z:(near, far) =
+    glOrtho ~left ~right ~bottom ~top ~near ~far ;;
 
   let frustum ~x:(left, right) ~y:(bottom, top) ~z:(near, far) =
     glFrustum ~left ~right ~bottom ~top ~near ~far ;;
