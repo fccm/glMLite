@@ -49,7 +49,7 @@ let loadGLTextures() =
 
   (* 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image, 
      border 0 (normal), rgb color data, unsigned byte data, and finally the data itself. *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 ;;
 
 (* A general OpenGL initialization function.  Sets all of the initial parameters. *)

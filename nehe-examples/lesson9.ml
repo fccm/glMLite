@@ -44,8 +44,6 @@ let zoom = ref (-15.0)          (* viewing distance from stars. *)
 let tilt = ref 90.0             (* tilt the view *)
 let spin = ref 0.0              (* spin twinkling stars *)
 
-let texture = ref 0             (* storage for one texture; *)
-
 
 let ( += ) a b =
   a := !a +. b
@@ -63,24 +61,25 @@ let loadGLTextures() =
   in
 
   (* Create Textures *)
-  texture := glGenTexture();
+  let texture = glGenTexture() in
 
   (* linear filtered texture *)
-  glBindTexture BindTex.GL_TEXTURE_2D !texture;   (* 2d texture (x and y size) *)
+  glBindTexture BindTex.GL_TEXTURE_2D texture;   (* 2d texture (x and y size) *)
 
   (* scale linearly when image bigger than texture *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR);
   (* scale linearly when image smalled than texture *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR);
 
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) width height 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB width height GL_RGB GL_UNSIGNED_BYTE image_data;
+
+  (texture)
 ;;
 
 
 (* A general OpenGL initialization function.  Sets all of the initial parameters. *)
 let initGL ~width ~height =                (* We call this right after our OpenGL window is created. *)
 
-  loadGLTextures();                      (* load the textures. *)
   glEnable GL_TEXTURE_2D;                (* Enable texture mapping. *)
 
   glClearColor 0.0 0.0 0.0 0.0;          (* This Will Clear The Background Color To Black *)
@@ -119,10 +118,10 @@ let reSizeGLScene ~width ~height =
 
 
 (* The main drawing function. *)
-let drawGLScene() =
+let drawGLScene texture () =
   glClear [GL_COLOR_BUFFER_BIT; GL_DEPTH_BUFFER_BIT];   (* Clear The Screen And The Depth Buffer *)
   
-  glBindTexture BindTex.GL_TEXTURE_2D !texture;   (* pick the texture. *)
+  glBindTexture BindTex.GL_TEXTURE_2D texture;   (* pick the texture. *)
 
   for loop=0 to pred star_num do               (* loop through all the stars. *)
       glLoadIdentity();                        (* reset the view before we draw each star. *)
@@ -240,14 +239,18 @@ let () =
   let window = glutCreateWindow "Jeff Molofee's GL Code Tutorial ... NeHe '99" in
   ignore(window);
 
+  (* Initialize our window. *)
+  initGL 640 480;
+  let texture = loadGLTextures() in       (* load the textures. *)
+
   (* Register the function to do all our OpenGL drawing. *)
-  glutDisplayFunc drawGLScene;
+  glutDisplayFunc (drawGLScene texture);
 
   (* Go fullscreen.  This is as soon as possible. *)
   glutFullScreen();
 
   (* Even if there are no events, redraw our gl scene. *)
-  glutIdleFunc drawGLScene;
+  glutIdleFunc (drawGLScene texture);
 
   (* Register the function called when our window is resized. *)
   glutReshapeFunc reSizeGLScene;
@@ -257,9 +260,6 @@ let () =
 
   (* Register the function called when special keys (arrows, page down, etc) are pressed. *)
   glutSpecialFunc specialKeyPressed;
-
-  (* Initialize our window. *)
-  initGL 640 480;
   
   (* Start Event Processing Engine *)
   glutMainLoop();

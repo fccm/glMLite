@@ -142,19 +142,19 @@ let loadGLTextures() =
   glBindTexture BindTex.GL_TEXTURE_2D texture.(0);   (* 2d texture (x and y size) *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MAG_FILTER Mag.GL_NEAREST); (* scale cheaply when image bigger than texture *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MIN_FILTER Min.GL_NEAREST); (* scale cheaply when image smalled than texture *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* linear filtered texture *)
   glBindTexture BindTex.GL_TEXTURE_2D texture.(1);   (* 2d texture (x and y size) *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR); (* scale linearly when image bigger than texture *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MIN_FILTER Min.GL_LINEAR); (* scale linearly when image smaller than texture *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* mipmapped texture *)
   glBindTexture BindTex.GL_TEXTURE_2D texture.(2);   (* 2d texture (x and y size) *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR); (* scale linearly when image bigger than texture *)
   glTexParameter GL_TEXTURE_2D (GL_TEXTURE_MIN_FILTER Min.GL_LINEAR_MIPMAP_NEAREST); (* scale mipmap when image smaller than texture *)
-  gluBuild2DMipmaps (Cnst 3) sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
+  gluBuild2DMipmaps InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (texture)
 ;;

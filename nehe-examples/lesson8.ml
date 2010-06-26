@@ -61,22 +61,22 @@ let loadGLTextures() =
 
   (* 2d texture, level of detail 0 (normal), 3 components (red, green, blue), x size from image, y size from image,
      border 0 (normal), rgb color data, unsigned byte data, and finally the data itself. *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* texture 2 (linear scaling) *)
   glBindTexture BindTex.GL_TEXTURE_2D texture.(1);   (* 2d texture (x and y size) *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR); (* scale linearly when image bigger than texture *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR); (* scale linearly when image smalled than texture *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* texture 3 (mipmapped scaling) *)
   glBindTexture BindTex.GL_TEXTURE_2D texture.(2);   (* 2d texture (x and y size) *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR); (* scale linearly when image bigger than texture *)
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR_MIPMAP_NEAREST); (* scale linearly + mipmap when image smalled than texture *)
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* 2d texture, 3 colors, width, height, RGB in that order, byte data, and the data. *)
-  gluBuild2DMipmaps (Cnst 3) sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
+  gluBuild2DMipmaps InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (texture)
 ;;

@@ -109,7 +109,7 @@ let loadGLTextures() =
 
   (* 2d texture, 3 components (red, green, blue), x size from image, y size from image, 
      rgb color data, unsigned byte data, and finally the data itself. *)
-  gluBuild2DMipmaps (Cnst 3) sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
+  gluBuild2DMipmaps InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (texture)
 ;;

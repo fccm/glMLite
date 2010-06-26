@@ -69,7 +69,7 @@ let loadGLTextures() =                                (* Load Bitmaps And Conver
 
   Array.iteri (fun i (sizeX, sizeY, image_data) ->
       glBindTexture BindTex.GL_TEXTURE_2D textures.(i);
-      glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) sizeX sizeY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+      glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB sizeX sizeY GL_RGB GL_UNSIGNED_BYTE image_data;
       glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR);
       glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR);
   ) img_textures;

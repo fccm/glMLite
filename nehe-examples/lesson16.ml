@@ -61,19 +61,19 @@ let loadGLTextures() =
   glBindTexture BindTex.GL_TEXTURE_2D iTexture.(0);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_NEAREST);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_NEAREST);
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) dimensionX dimensionY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB dimensionX dimensionY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* Create Linear Filtered Texture *)
   glBindTexture BindTex.GL_TEXTURE_2D iTexture.(1);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR);
-  glTexImage2D TexTarget.GL_TEXTURE_2D 0 (Cnst 3) dimensionX dimensionY 0 GL_RGB GL_UNSIGNED_BYTE image_data;
+  glTexImage2D TexTarget.GL_TEXTURE_2D 0 InternalFormat.GL_RGB dimensionX dimensionY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (* Create MipMapped Texture *)
   glBindTexture BindTex.GL_TEXTURE_2D iTexture.(2);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MAG_FILTER Mag.GL_LINEAR);
   glTexParameter TexParam.GL_TEXTURE_2D (TexParam.GL_TEXTURE_MIN_FILTER Min.GL_LINEAR_MIPMAP_NEAREST);
-  gluBuild2DMipmaps (Cnst 3) dimensionX dimensionY GL_RGB GL_UNSIGNED_BYTE image_data;
+  gluBuild2DMipmaps InternalFormat.GL_RGB dimensionX dimensionY GL_RGB GL_UNSIGNED_BYTE image_data;
 
   (iTexture)
 ;;
