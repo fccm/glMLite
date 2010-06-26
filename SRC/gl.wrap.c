@@ -452,6 +452,9 @@ t_val ml_glgetpolygonmode( value unit )
 {
     CAMLparam1( unit );
     CAMLlocal1( tuple );
+#if defined(USE_MY_GL3_CORE_PROFILE)
+    caml_failwith("GL_POLYGON_MODE: deprecated in OpenGL 3.X");
+#else
     GLint polygonMode_state[2];
     glGetIntegerv( GL_POLYGON_MODE, polygonMode_state );
     tuple = caml_alloc(2, 0);
@@ -465,6 +468,7 @@ t_val ml_glgetpolygonmode( value unit )
       if (polygonMode_state[1] == GL_LINE)  Store_field( tuple, 1, Val_long(1) );
       if (polygonMode_state[1] == GL_FILL)  Store_field( tuple, 1, Val_long(2) );
     }
+#endif
     CAMLreturn( tuple );
 }
 
