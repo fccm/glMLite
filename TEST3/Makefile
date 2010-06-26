@@ -1,6 +1,8 @@
 GL_PATH := "../SRC/"
 #GL_PATH := "+glMLite"
 
+all: ogl_draw.cmo ogl_matrix.cmo
+
 shaders.cmo: shaders.ml
 	ocamlc -c $<
 
@@ -33,4 +35,4 @@ ogl_matrix.cmx: ogl_matrix.ml ogl_matrix.cmi
 
 clean:
 	rm -f *.[oa] *.{opt,byte,cmxa} *.cm[ioxa]
-.PHONY: clean
+.PHONY: clean all
