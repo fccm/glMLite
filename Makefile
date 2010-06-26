@@ -340,6 +340,7 @@ TEST3_FILES=\
 	$(TEST3)/shaders.ml         \
 	$(TEST3)/ogl3_vbo.ml        \
 	$(TEST3)/ogl3_vao.ml        \
+	$(TEST3)/ogl3_highlevel.ml  \
 	#EOL
 
 
