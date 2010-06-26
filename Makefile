@@ -536,7 +536,7 @@ $(PACK)/$(NEHE):  $(NEHE_FILES)
 	if [ ! -d $@ ]; then mkdir -p $@ ; fi
 	cp $^ $@/
 	cp -R $(NEHE_SUBS) $@/
-	for f in `tree -fida --noreport $(NEHE_SUBS) | grep svn`; do rm -rf $$f; done
+	for f in `tree -fida --noreport $(PACK)/$(NEHE_SUBS) | grep svn`; do rm -rf $$f; done
 
 
 $(PACK)/$(SRC):  $(SRC_FILES)
