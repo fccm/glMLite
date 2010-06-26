@@ -7,12 +7,12 @@ let get_identity_matrix() =
 ;;
 
 (* construct a projection matrix *)
-let projection_matrix ~fov ~aspect ~near ~far =
+let perspective_projection ~fov ~ratio ~near ~far =
 
   let maxY = near *. tan (fov *. 3.14159256 /. 360.0) in
   let minY = -. maxY in
-  let minX = minY *. aspect
-  and maxX = maxY *. aspect in
+  let minX = minY *. ratio
+  and maxX = maxY *. ratio in
 
   let data = Array.make 16 0.0 in
 
@@ -27,7 +27,7 @@ let projection_matrix ~fov ~aspect ~near ~far =
   (data)
 ;;
 
-let ortho_projection_matrix ~left ~right ~bottom ~top ~near ~far =
+let ortho_projection ~left ~right ~bottom ~top ~near ~far =
   let x_diff = right -. left
   and y_diff = top -. bottom
   and z_diff = far -. near in

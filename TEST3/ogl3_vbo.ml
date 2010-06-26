@@ -51,7 +51,7 @@ let reshape ~width ~height =
   let ratio = float width /. float height in
 
   (* creation of the matrices *)
-  let projectionMatrix = projection_matrix 60.0 ratio 1.0 500.0 in
+  let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
   let worldMatrix = get_identity_matrix() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
   worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;

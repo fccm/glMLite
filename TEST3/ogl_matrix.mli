@@ -1,13 +1,13 @@
 
 val get_identity_matrix: unit -> float array
 
-val projection_matrix:
-  fov:float -> aspect:float -> near:float -> far:float -> float array
-(** replaces gluPerspective *)
+val perspective_projection:
+  fov:float -> ratio:float -> near:float -> far:float -> float array
+(** replaces [gluPerspective] *)
 
-val ortho_projection_matrix: left:float -> right:float ->
+val ortho_projection: left:float -> right:float ->
   bottom:float -> top:float -> near:float -> far:float -> float array
-(** replaces glOrtho *)
+(** replaces [glOrtho] *)
 
 val translation_matrix: float * float * float -> float array
 
