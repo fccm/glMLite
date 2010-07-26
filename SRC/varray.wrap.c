@@ -1453,7 +1453,7 @@ CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
 }
 CAMLprim value ml_glisvertexarray( value ml_vao ) {
     caml_failwith("glIsVertexArray: the *vertex_array_object extension is not available");
-    return Val_unit
+    return Val_unit;
 }
 #endif
 
