@@ -188,7 +188,7 @@ GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
 	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS) -lgl_stubs
 
 GL.cma:  GL.cmo  dllgl_stubs.so
-	$(OCAMLC) -a -o $@ -ccopt $(GL_LIBS) -dllib -lgl_stubs $<
+	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
 
 GL.cmxs: GL.cmxa
 	$(OCAMLOPT) -shared -linkall -o $@ $<
