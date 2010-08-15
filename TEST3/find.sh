@@ -1,7 +1,6 @@
 # compiling using the findLib:
 PROG=`basename $1 .ml`.opt
 QUAT_PATH="../toolbox/quaternions/"
-PROG=`basename $1 .ml`.opt
 pushd $QUAT_PATH
 make quaternions.cmx
 popd
