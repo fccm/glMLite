@@ -122,7 +122,7 @@ load_jpeg_from_file (value filename)
 
 
 CAMLprim value
-load_jpeg_file (value input)
+caml_load_jpeg_file (value input)
 {
     switch (Tag_val(input))
     {

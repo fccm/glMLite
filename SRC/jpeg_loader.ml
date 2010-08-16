@@ -17,6 +17,6 @@ external load_img: GL.img_input ->
       int * int *
       GL.InternalFormat.internal_format *
       GL.pixel_data_format
-      = "load_jpeg_file"
+      = "caml_load_jpeg_file"
 (** The 2 additionnal integers are the [width] and [height] *)
 
