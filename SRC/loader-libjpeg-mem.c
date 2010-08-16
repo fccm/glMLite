@@ -38,13 +38,13 @@
 
 #include "loader-texure.h"
 
-void
+static void
 mem_init_source (j_decompress_ptr cinfo)
 {
     /* nothing to do */
 }
 
-boolean
+static boolean
 mem_fill_input_buffer (j_decompress_ptr cinfo)
 {
     JOCTET eoi_buffer[2] = { 0xFF, JPEG_EOI };
@@ -57,7 +57,7 @@ mem_fill_input_buffer (j_decompress_ptr cinfo)
     return TRUE;
 }
 
-void
+static void
 mem_skip_input_data (j_decompress_ptr cinfo, long num_bytes)
 {
   struct jpeg_source_mgr *jsrc = cinfo->src;
@@ -75,13 +75,13 @@ mem_skip_input_data (j_decompress_ptr cinfo, long num_bytes)
     }
 }
 
-void
+static void
 mem_term_source (j_decompress_ptr cinfo)
 {
     /* nothing to do */
 }
 
-void
+static void
 err_exit (j_common_ptr cinfo)
 {
     /* get error manager */
@@ -95,7 +95,7 @@ err_exit (j_common_ptr cinfo)
 }
 
 
-CAMLprim value
+static value
 read_jpeg_from_memory (value buffer)
 {
     CAMLparam1(buffer);
