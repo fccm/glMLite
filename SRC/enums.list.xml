@@ -1775,7 +1775,6 @@ glPixelStore
 
   <glenums name='get_integer_2'>
     <enum version='GL_VERSION_0_0'>GL_MAX_VIEWPORT_DIMS</enum>
-    <enum version='GL_VERSION_0_0'>GL_DEPTH_RANGE</enum>
   </glenums>
 
   <glenums name='get_boolean_4'>
@@ -1806,6 +1805,7 @@ glPixelStore
   <glenums name='get_float_2'>
     <enum version='GL_VERSION_0_0'>GL_LINE_WIDTH_RANGE</enum>
     <enum version='GL_VERSION_0_0'>GL_POINT_SIZE_RANGE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_RANGE</enum>
   </glenums>
 
   <glenums name='get_float_1'>
