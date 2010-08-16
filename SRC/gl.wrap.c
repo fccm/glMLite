@@ -2098,6 +2098,27 @@ t_val ml_glgetinteger4( value _get_integer_4 )
 }
 
 
+t_val ml_glgetinteger2( value _get_integer_2 )
+{
+    CAMLparam1( _get_integer_2 );
+    CAMLlocal1( tuple );
+    GLenum get_integer_2;
+
+    GLint params[2];
+
+#include "enums/get_integer_2.inc.c"
+
+    glGetIntegerv( get_integer_2, params );
+
+    tuple = caml_alloc(2, 0);
+
+    Store_field( tuple, 0, Val_int(params[0]) );
+    Store_field( tuple, 1, Val_int(params[1]) );
+
+    CAMLreturn( tuple );
+}
+
+
 t_val ml_glgetinteger1( value _get_integer_1 )
 {
     GLint param;

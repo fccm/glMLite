@@ -1715,6 +1715,7 @@ module Get = struct (* _PACK_ENUM *)
 #include "enums/get_boolean_1.inc.ml"
 #include "enums/get_boolean_4.inc.ml"
 #include "enums/get_integer_4.inc.ml"
+#include "enums/get_integer_2.inc.ml"
 #include "enums/get_integer_1.inc.ml"
 #include "enums/get_float_3.inc.ml"
 #include "enums/get_float_4.inc.ml"
@@ -1744,6 +1745,7 @@ external glGetBoolean1: Get.get_boolean_1 -> bool = "ml_glgetboolean1" NOALLOC
 external glGetBoolean4: Get.get_boolean_4 -> bool * bool * bool * bool = "ml_glgetboolean4" (* DOES ALLOC *)
 external glGetInteger4: Get.get_integer_4 -> int * int * int * int = "ml_glgetinteger4" (* DOES ALLOC *)
 external glGetInteger1: Get.get_integer_1 -> int = "ml_glgetinteger1" NOALLOC
+external glGetInteger2: Get.get_integer_2 -> int * int = "ml_glgetinteger2" (* DOES ALLOC *)
 external glGetFloat4: Get.get_float_4 -> float * float * float * float = "ml_glgetfloat4" (* DOES ALLOC *)
 external glGetFloat3: Get.get_float_3 -> float * float * float = "ml_glgetfloat3" (* DOES ALLOC *)
 external glGetFloat2: Get.get_float_2 -> float * float = "ml_glgetfloat2" (* DOES ALLOC *)
