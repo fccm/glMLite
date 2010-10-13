@@ -1264,9 +1264,10 @@ external glReadPixelsBA: x:int -> y:int -> width:int -> height:int ->
       NOALLOC
 (** same than [glReadPixelsBA_unsafe] but checks the size of the big-array *)
 
-(* TODO
-void glDrawPixels( GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels );
-*)
+external glDrawPixels_str:
+  width: int -> height: int -> format_: pixel_data_format ->
+  type_:pixel_data_type -> pixels:string -> unit
+  = "ml_gldrawpixels_str"
 
 
 (** {3 Clipping} *)

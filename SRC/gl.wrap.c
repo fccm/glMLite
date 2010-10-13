@@ -794,6 +794,25 @@ t_val ml_glreadpixels_ba_bytecode( value * argv, int argn )
     { return ml_glreadpixels_ba_native( argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6] ); }
 
 
+t_val ml_gldrawpixels_str(
+                   value width,
+                   value height,
+                   value _pixel_data_format,
+                   value _pixel_data_type,
+                   value pixels )
+{
+    GLenum pixel_data_format;
+    GLenum pixel_data_type;
+#include "enums/pixel_data_format.inc.c"
+#include "enums/pixel_data_type.inc.c"
+    glDrawPixels(
+            Int_val(width),
+            Int_val(height),
+            pixel_data_format,
+            pixel_data_type,
+            (const GLvoid *) String_val(pixels) ); ret
+}
+
 t_val ml_glpixelmapfv( value _pixel_map, value v )
 {
     CAMLparam2( _pixel_map, v );
