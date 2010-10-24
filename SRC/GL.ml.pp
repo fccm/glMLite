@@ -1265,9 +1265,12 @@ external glReadPixelsBA: x:int -> y:int -> width:int -> height:int ->
 (** same than [glReadPixelsBA_unsafe] but checks the size of the big-array *)
 
 external glDrawPixels_str:
-  width: int -> height: int -> format_: pixel_data_format ->
+  width:int -> height:int -> format_:pixel_data_format ->
   type_:pixel_data_type -> pixels:string -> unit
   = "ml_gldrawpixels_str"
+(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDrawPixels.xml}
+    manual page on opengl.org}
+    @deprecated in core OpenGL 3. *)
 
 
 (** {3 Clipping} *)
