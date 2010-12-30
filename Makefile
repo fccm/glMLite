@@ -353,6 +353,7 @@ QUATERN_FILES=\
 
 
 ROOT_FILES=\
+	LICENSE_LGPL.txt            \
 	LICENSE_GPL.txt             \
 	README.txt                  \
 	README.enums.txt            \
@@ -487,6 +488,10 @@ LICENSE_GPL.txt:
 	wget http://www.gnu.org/licenses/gpl-3.0.txt
 	mv  gpl-3.0.txt  $@
 
+LICENSE_LGPL.txt:
+	wget http://www.gnu.org/licenses/lgpl.txt
+	mv  lgpl.txt  $@
+
 $(PACK):  $(ROOT_FILES)
 	if [ ! -d $@ ]; then mkdir $@ ; fi
 	cp $^ $@/
@@ -595,7 +600,7 @@ $(PACK).tgz:  $(PACK).tar.gz
 	md5sum $@
 
 clean-pack:
-	rm -f  $(PACK).tgz  LICENSE_GPL.txt
+	rm -f  $(PACK).tgz  LICENSE_GPL.txt LICENSE_LGPL.txt
 	rm -rf $(PACK)/
 # }}}
 
