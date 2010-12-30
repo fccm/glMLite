@@ -1,0 +1,1966 @@
+<!-- {{{ COPYING 
+
+  #=======================================================================#
+  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
+  #=======================================================================#
+  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
+  |  Contact:  <fmonnier@linux-nantes.org>                                |
+  #=======================================================================#
+  |  This program is free software: you can redistribute it and/or        |
+  |  modify it under the terms of the GNU General Public License          |
+  |  as published by the Free Software Foundation, either version 3       |
+  |  of the License, or (at your option) any later version.               |
+  |                                                                       |
+  |  This program is distributed in the hope that it will be useful,      |
+  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+  |  GNU General Public License for more details.                         |
+  |                                                                       |
+  |  You should have received a copy of the GNU General Public License    |
+  |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
+  #=======================================================================#
+
+}}} -->
+<glenumslist>
+  <!--
+    OpenGL version 1.1 and 1.2 are all tagged with GL_VERSION_0_0
+    because I don't think it's worth doing the job for tagging these versions
+    that are older than 1999!
+    If you still use 1.2, upgrade or send me the patch ;-)
+  -->
+
+  <!--
+    Gl-enums that are tagged deprecated in core OpenGL 3.X
+    have the following attribute set:
+    deprecated='GL_VERSION_3_'
+    I haven't gone into the details about which OpenGL 3
+    version 3.0, 3.1 or 3.2.
+    First I don't know if there are much difference.
+    Secondly I'm not sure if there will be 3.0 and 3.1 implementations,
+    perhaps the first 3.X implementations will be 3.2.
+  -->
+
+
+  <deprecations>
+    <enum deprecated='GL_VERSION_3_'>GL_QUADS</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_QUAD_STRIP</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_POLYGON</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_RESCALE_NORMAL</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_VERTEX_PROGRAM_TWO_SIDE</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_TEXTURE_GEN_Q</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_TEXTURE_GEN_R</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_TEXTURE_GEN_S</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_TEXTURE_GEN_T</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHTING</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT0</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT1</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT2</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT3</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT4</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT5</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT6</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_LIGHT7</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_COLOR_MATERIAL</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_POINT_SMOOTH</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_POINT_SPRITE</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_CLAMP</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ALPHA_TEST</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ACCUM_BUFFER_BIT</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ACCUM_RED_BITS</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ACCUM_GREEN_BITS</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ACCUM_BLUE_BITS</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_ACCUM_ALPHA_BITS</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_PERSPECTIVE_CORRECTION_HINT</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_POINT_SMOOTH_HINT</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_FOG_HINT</enum>
+    <enum deprecated='GL_VERSION_3_'>GL_GENERATE_MIPMAP_HINT</enum>
+  </deprecations>
+
+
+  <glenums name='primitive'>
+    <enum version='GL_VERSION_0_0'>GL_POINTS</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINES</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_LOOP</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_STRIP</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRIANGLES</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRIANGLE_STRIP</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRIANGLE_FAN</enum>
+    <enum version='GL_VERSION_0_0'>GL_QUADS</enum>
+    <enum version='GL_VERSION_0_0'>GL_QUAD_STRIP</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON</enum>
+  </glenums>
+
+  <glenums name='gl_capability'>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUTO_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLEND</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE0</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE1</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE2</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE3</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE4</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE5</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_MATERIAL</enum>
+    <!--
+    <enum version='GL_VERSION_0_0'>GL_COLOR_SUM</enum>
+    -->
+    <enum version='GL_VERSION_0_0'>GL_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CULL_FACE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_DITHER</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG</enum>
+    <enum version='GL_VERSION_0_0'>GL_HISTOGRAM</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT0</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT1</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT2</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT3</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT5</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT6</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT7</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHTING</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MINMAX</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_MULTISAMPLE</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_NORMALIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SMOOTH</enum>
+
+    <enum version='GL_VERSION_2_0'>GL_POINT_SPRITE</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_FILL</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_LINE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_POINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_COLOR_TABLE</enum>
+
+    <enum version='GL_VERSION_1_2'>GL_RESCALE_NORMAL</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_ALPHA_TO_COVERAGE</enum>
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_ALPHA_TO_ONE</enum>
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_COVERAGE</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_SEPARABLE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_SCISSOR_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+
+    <enum version='GL_VERSION_1_2'>GL_TEXTURE_3D</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_Q</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_T</enum>
+
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_POINT_SIZE</enum>
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_TWO_SIDE</enum>
+  </glenums>
+
+  <!--
+    GL_VERSION_1_3:GL_NORMAL_MAP
+    GL_VERSION_1_3:GL_REFLECTION_MAP
+    GL_VERSION_1_3:GL_PROXY_TEXTURE_CUBE_MAP
+
+    GL_VERSION_2_1:GL_PIXEL_PACK_BUFFER
+    GL_VERSION_2_1:GL_PIXEL_UNPACK_BUFFER
+    GL_VERSION_2_1:GL_COMPRESSED_SRGB
+    GL_VERSION_2_1:GL_COMPRESSED_SRGB_ALPHA
+    GL_VERSION_2_1:GL_COMPRESSED_SLUMINANCE
+    GL_VERSION_2_1:GL_COMPRESSED_SLUMINANCE_ALPHA
+    GL_VERSION_2_1:GL_FLOAT_MAT2x3
+    GL_VERSION_2_1:GL_FLOAT_MAT2x4
+    GL_VERSION_2_1:GL_FLOAT_MAT3x2
+    GL_VERSION_2_1:GL_FLOAT_MAT3x4
+    GL_VERSION_2_1:GL_FLOAT_MAT4x2
+    GL_VERSION_2_1:GL_FLOAT_MAT4x3
+  -->
+
+  <glenums name='polygon_mode'>
+    <enum version='GL_VERSION_0_0'>GL_POINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE</enum>
+    <enum version='GL_VERSION_0_0'>GL_FILL</enum>
+  </glenums>
+
+  <glenums name='face_mode'>
+    <enum version='GL_VERSION_0_0'>GL_FRONT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_AND_BACK</enum>
+  </glenums>
+
+  <!-- GLUT -->
+
+  <glenums name='mouse_button'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_LEFT_BUTTON</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_MIDDLE_BUTTON</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_RIGHT_BUTTON</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WHEEL_UP</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WHEEL_DOWN</enum>
+  </glenums>
+
+  <glenums name='mouse_button_state'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_DOWN</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_UP</enum>
+  </glenums>
+
+  <glenums name='special_key'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F1</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F2</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F3</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F4</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F5</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F6</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F7</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F8</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F9</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F10</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F11</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_F12</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_LEFT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_UP</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_RIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_DOWN</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_PAGE_UP</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_PAGE_DOWN</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_HOME</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_END</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_KEY_INSERT</enum>
+  </glenums>
+
+  <glenums name='get_state'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_X</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_Y</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_WIDTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_HEIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_BUFFER_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_STENCIL_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_DEPTH_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_RED_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_GREEN_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_BLUE_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_ALPHA_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_ACCUM_RED_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_ACCUM_GREEN_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_ACCUM_BLUE_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_ACCUM_ALPHA_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_DOUBLEBUFFER</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_RGBA</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_PARENT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_NUM_CHILDREN</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_COLORMAP_SIZE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_NUM_SAMPLES</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_STEREO</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_WINDOW_CURSOR</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_SCREEN_WIDTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_SCREEN_HEIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_SCREEN_WIDTH_MM</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_SCREEN_HEIGHT_MM</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_MENU_NUM_ITEMS</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_DISPLAY_MODE_POSSIBLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INIT_DISPLAY_MODE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INIT_WINDOW_X</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INIT_WINDOW_Y</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INIT_WINDOW_WIDTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INIT_WINDOW_HEIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_ELAPSED_TIME</enum>
+  </glenums>
+
+  <glenums name='cursor_type'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_RIGHT_ARROW</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_LEFT_ARROW</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_INFO</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_DESTROY</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_HELP</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_CYCLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_SPRAY</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_WAIT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_TEXT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_CROSSHAIR</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_UP_DOWN</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_LEFT_RIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_TOP_SIDE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_BOTTOM_SIDE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_LEFT_SIDE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_RIGHT_SIDE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_TOP_LEFT_CORNER</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_TOP_RIGHT_CORNER</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_BOTTOM_RIGHT_CORNER</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_BOTTOM_LEFT_CORNER</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_FULL_CROSSHAIR</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_NONE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_CURSOR_INHERIT</enum>
+  </glenums>
+
+  <glenums name='glut_device'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_HAS_KEYBOARD</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_HAS_MOUSE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_HAS_SPACEBALL</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_HAS_DIAL_AND_BUTTON_BOX</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_HAS_TABLET</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NUM_MOUSE_BUTTONS</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NUM_SPACEBALL_BUTTONS</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NUM_BUTTON_BOX_BUTTONS</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NUM_DIALS</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NUM_TABLET_BUTTONS</enum>
+    <!-- there are additional ones for recent glut versions -->
+    <!--
+    <enum version='GLUT_API_VERSION_?'>GLUT_DEVICE_IGNORE_KEY_REPEAT</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_DEVICE_KEY_REPEAT</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_HAS_JOYSTICK</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_OWNS_JOYSTICK</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_JOYSTICK_BUTTONS</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_JOYSTICK_AXES</enum>
+    <enum version='GLUT_API_VERSION_?'>GLUT_JOYSTICK_POLL_RATE</enum>
+    -->
+  </glenums>
+
+  <glenums name='init_mode'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_RGBA</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_RGB</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_INDEX</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_SINGLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_DOUBLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_ACCUM</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_ALPHA</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_DEPTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_STENCIL</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_MULTISAMPLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_STEREO</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_LUMINANCE</enum>
+  </glenums>
+
+  <glenums name='game_mode'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_ACTIVE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_POSSIBLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_WIDTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_HEIGHT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_PIXEL_DEPTH</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_REFRESH_RATE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_GAME_MODE_DISPLAY_CHANGED</enum>
+  </glenums>
+
+  <glenums name='visibility_state'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_NOT_VISIBLE</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_VISIBLE</enum>
+  </glenums>
+
+  <glenums name='entry_state'>
+    <enum version='GLUT_API_VERSION_0'>GLUT_LEFT</enum>
+    <enum version='GLUT_API_VERSION_0'>GLUT_ENTERED</enum>
+  </glenums>
+
+
+  <glenums name='clear_mask'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_BUFFER_BIT</enum>
+  </glenums>
+
+  <glenums name='gl_error'>
+    <enum version='GL_VERSION_0_0'>GL_NO_ERROR</enum>
+    <enum version='GL_VERSION_0_0'>GL_INVALID_ENUM</enum>
+    <enum version='GL_VERSION_0_0'>GL_INVALID_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_INVALID_OPERATION</enum>
+    <enum version='GL_VERSION_0_0'>GL_STACK_OVERFLOW</enum>
+    <enum version='GL_VERSION_0_0'>GL_STACK_UNDERFLOW</enum>
+    <enum version='GL_VERSION_0_0'>GL_OUT_OF_MEMORY</enum>
+    <enum version='GL_VERSION_0_0'>GL_TABLE_TOO_LARGE</enum>
+  </glenums>
+
+  <glenums name='shade_mode'>
+    <enum version='GL_VERSION_0_0'>GL_FLAT</enum>
+    <enum version='GL_VERSION_0_0'>GL_SMOOTH</enum>
+  </glenums>
+
+  <glenums name='matrix_mode'>
+    <enum version='GL_VERSION_0_0'>GL_MODELVIEW</enum>
+    <enum version='GL_VERSION_0_0'>GL_PROJECTION</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE</enum>
+    <!-- GL_ARB_imaging -->
+    <!--
+    <enum version='GL_VERSION_0_0'>GL_ARB_imaging:GL_COLOR</enum>
+    -->
+  </glenums>
+
+  <glenums name='color_material_mode'>
+    <enum version='GL_VERSION_0_0'>GL_EMISSION</enum>
+    <enum version='GL_VERSION_0_0'>GL_AMBIENT</enum>
+    <enum version='GL_VERSION_0_0'>GL_DIFFUSE</enum>
+    <enum version='GL_VERSION_0_0'>GL_SPECULAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_AMBIENT_AND_DIFFUSE</enum>
+  </glenums>
+
+  <glenums name='pixel_type'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL</enum>
+  </glenums>
+
+  <glenums name='tex_param_target'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_1_2'>GL_TEXTURE_3D</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP</enum>
+  </glenums>
+
+  <glenums name='target_2d'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_PROXY_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_X</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_X</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_Y</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_Y</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_Z</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_Z</enum>
+    <enum version='GL_VERSION_1_3'>GL_PROXY_TEXTURE_CUBE_MAP</enum>
+  </glenums>
+
+  <!--
+  <glenums name='tex_param_pname'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MIN_FILTER</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MAG_FILTER</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MIN_LOD</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MAX_LOD</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_BASE_LEVEL</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MAX_LEVEL</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_WRAP_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_WRAP_T</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_WRAP_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_PRIORITY</enum>
+  </glenums>
+
+  <glenums name='tex_parameter'>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST_MIPMAP_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR_MIPMAP_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST_MIPMAP_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR_MIPMAP_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLAMP</enum>
+    <enum version='GL_VERSION_0_0'>GL_REPEAT</enum>
+  </glenums>
+  -->
+
+  <glenums name='min_filter'>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST_MIPMAP_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR_MIPMAP_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST_MIPMAP_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR_MIPMAP_LINEAR</enum>
+  </glenums>
+
+  <glenums name='mag_filter'>
+    <enum version='GL_VERSION_0_0'>GL_NEAREST</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINEAR</enum>
+  </glenums>
+
+  <glenums name='tex_coord'>
+    <enum version='GL_VERSION_0_0'>GL_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_T</enum>
+    <enum version='GL_VERSION_0_0'>GL_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_Q</enum>
+  </glenums>
+
+  <glenums name='tex_coord_gen_func'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_MODE</enum>
+  </glenums>
+
+  <glenums name='tex_coord_fun_params'>
+    <enum version='GL_VERSION_0_0'>GL_OBJECT_PLANE</enum>
+    <enum version='GL_VERSION_0_0'>GL_EYE_PLANE</enum>
+  </glenums>
+
+  <glenums name='tex_gen_param'>
+    <enum version='GL_VERSION_0_0'>GL_OBJECT_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_EYE_LINEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_SPHERE_MAP</enum>
+    <enum version='GL_VERSION_1_3'>GL_NORMAL_MAP    </enum>
+    <enum version='GL_VERSION_1_3'>GL_REFLECTION_MAP</enum>
+  </glenums>
+
+
+  <glenums name='wrap_param'>
+    <enum version='GL_VERSION_0_0'>GL_CLAMP</enum>
+    <enum version='GL_VERSION_1_3'>GL_CLAMP_TO_BORDER</enum>
+    <enum version='GL_VERSION_1_2'>GL_CLAMP_TO_EDGE</enum>
+    <enum version='GL_VERSION_1_4'>GL_MIRRORED_REPEAT</enum>
+    <enum version='GL_VERSION_0_0'>GL_REPEAT</enum>
+  </glenums>
+
+  <glenums name='texenv_target'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_ENV</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_FILTER_CONTROL</enum>
+    <enum version='GL_VERSION_2_0'>GL_POINT_SPRITE</enum>
+  </glenums>
+
+  <glenums name='texenv_pname'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_ENV_MODE</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_LOD_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMBINE_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMBINE_ALPHA</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC0_RGB</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC1_RGB</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC2_RGB</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC0_ALPHA</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC1_ALPHA</enum>
+    <enum version='GL_VERSION_1_5'>GL_SRC2_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND0_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND1_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND2_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND0_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND1_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_OPERAND2_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_SCALE</enum>
+    <enum version='GL_VERSION_2_0'>GL_COORD_REPLACE</enum>
+  </glenums>
+
+  <glenums name='texenv_param'>
+    <enum version='GL_VERSION_0_0'>GL_ADD</enum>
+    <enum version='GL_VERSION_0_0'>GL_ADD_SIGNED</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTERPOLATE</enum>
+    <enum version='GL_VERSION_0_0'>GL_MODULATE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DECAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLEND</enum>
+    <enum version='GL_VERSION_0_0'>GL_REPLACE</enum>
+    <enum version='GL_VERSION_0_0'>GL_SUBTRACT</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMBINE</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONSTANT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PRIMARY_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_PREVIOUS</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_SRC_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_FALSE</enum>
+  </glenums>
+
+  <glenums name='gl_func'>
+    <enum version='GL_VERSION_0_0'>GL_NEVER</enum>
+    <enum version='GL_VERSION_0_0'>GL_LESS</enum>
+    <enum version='GL_VERSION_0_0'>GL_EQUAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_LEQUAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREATER</enum>
+    <enum version='GL_VERSION_0_0'>GL_NOTEQUAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_GEQUAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALWAYS</enum>
+  </glenums>
+
+  <glenums name='hint_target'>
+    <enum version='GL_VERSION_0_0'>GL_FOG_HINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_SMOOTH_HINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PERSPECTIVE_CORRECTION_HINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SMOOTH_HINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_SMOOTH_HINT</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_COMPRESSION_HINT</enum>
+    <enum version='GL_VERSION_1_4'>GL_GENERATE_MIPMAP_HINT</enum>
+    <enum version='GL_VERSION_2_0'>GL_FRAGMENT_SHADER_DERIVATIVE_HINT</enum>
+  </glenums>
+
+  <glenums name='hint_mode'>
+    <enum version='GL_VERSION_0_0'>GL_FASTEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_NICEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_DONT_CARE</enum>
+  </glenums>
+
+  <glenums name='list_mode'>
+    <enum version='GL_VERSION_0_0'>GL_COMPILE</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMPILE_AND_EXECUTE</enum>
+  </glenums>
+
+  <glenums name='blend_sfactor'>
+    <enum version='GL_VERSION_0_0'>GL_ZERO</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DST_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_DST_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_DST_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_DST_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_ALPHA_SATURATE</enum>
+  </glenums>
+
+  <glenums name='blend_dfactor'>
+    <enum version='GL_VERSION_0_0'>GL_ZERO</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_SRC_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_SRC_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_DST_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ONE_MINUS_DST_ALPHA</enum>
+  </glenums>
+
+  <glenums name='stencil_op'>
+    <enum version='GL_VERSION_0_0'>GL_KEEP</enum>
+    <enum version='GL_VERSION_0_0'>GL_ZERO</enum>
+    <enum version='GL_VERSION_0_0'>GL_REPLACE</enum>
+    <enum version='GL_VERSION_0_0'>GL_INCR</enum>
+    <enum version='GL_VERSION_0_0'>GL_INCR_WRAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_DECR</enum>
+    <enum version='GL_VERSION_0_0'>GL_DECR_WRAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_INVERT</enum>
+  </glenums>
+
+  <glenums name='draw_buffer_mode'>
+    <enum version='GL_VERSION_0_0'>GL_NONE</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK</enum>
+    <enum version='GL_VERSION_0_0'>GL_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_AND_BACK</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX0</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX1</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX2</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX3</enum>
+  </glenums>
+
+  <glenums name='read_buffer_mode'>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FRONT</enum>
+    <enum version='GL_VERSION_0_0'>GL_BACK</enum>
+    <enum version='GL_VERSION_0_0'>GL_LEFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_RIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX0</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX1</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX2</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUX3</enum>
+  </glenums>
+
+  <glenums name='map1_target'>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_4</enum>
+  </glenums>
+
+  <glenums name='map2_target'>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_4</enum>
+  </glenums>
+
+  <glenums name='pixel_map'>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_I_TO_I</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_S_TO_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_I_TO_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_I_TO_G</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_I_TO_B</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_I_TO_A</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_R_TO_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_G_TO_G</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_B_TO_B</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MAP_A_TO_A</enum>
+  </glenums>
+
+  <glenums name='render_mode'>
+    <enum version='GL_VERSION_0_0'>GL_RENDER</enum>
+    <enum version='GL_VERSION_0_0'>GL_SELECT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FEEDBACK</enum>
+  </glenums>
+
+  <!-- the type attrib_bit is deprecated in GL3 -->
+  <glenums name='attrib_bit'>
+    <!-- check which of these are deprecated (globally) -->
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_ENABLE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_EVAL_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_HINT_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHTING_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIST_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_MULTISAMPLE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PIXEL_MODE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_STIPPLE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_SCISSOR_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_BUFFER_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRANSFORM_BIT</enum>
+    <enum version='GL_VERSION_0_0'>GL_VIEWPORT_BIT</enum>
+  </glenums>
+
+  <glenums name='enabled_cap'>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUTO_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLEND</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE0</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE1</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE2</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE3</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE4</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE5</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_MATERIAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_SUM</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CULL_FACE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_DITHER</enum>
+    <enum version='GL_VERSION_0_0'>GL_EDGE_FLAG_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG</enum>
+    <enum version='GL_VERSION_1_5'>GL_FOG_COORD_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_HISTOGRAM</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT0</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT1</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT2</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT3</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT5</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT6</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT7</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHTING</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MINMAX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MULTISAMPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_NORMAL_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_NORMALIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SMOOTH</enum>
+    <enum version='GL_VERSION_2_0'>GL_POINT_SPRITE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_FILL</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_LINE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_POINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_RESCALE_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_SAMPLE_ALPHA_TO_COVERAGE</enum>
+    <enum version='GL_VERSION_0_0'>GL_SAMPLE_ALPHA_TO_ONE</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_COVERAGE</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_SCISSOR_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_SECONDARY_COLOR_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_SEPARABLE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_3D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_COORD_ARRAY</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_Q</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_T</enum>
+    <enum version='GL_VERSION_0_0'>GL_VERTEX_ARRAY</enum>
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_POINT_SIZE</enum>
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_TWO_SIDE</enum>
+  </glenums>
+
+  <glenums name='clip_plane'>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE0</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE1</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE2</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE3</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE4</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE5</enum>
+  </glenums>
+
+  <glenums name='pixel_buffer_format'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_INDEX</enum>
+    <enum version='GL_VERSION_1_4'>GL_DEPTH_COMPONENT</enum>
+    <enum version='GL_VERSION_0_0'>GL_RED</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_BGR</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA</enum>
+    <enum version='GL_VERSION_0_0'>GL_BGRA</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE_ALPHA</enum>
+  </glenums>
+
+  <glenums name='pixel_buffer_type'>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BYTE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BITMAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT</enum>
+    <enum version='GL_VERSION_0_0'>GL_SHORT</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT</enum>
+    <enum version='GL_VERSION_0_0'>GL_INT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FLOAT</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE_3_3_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE_2_3_3_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_6_5</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_6_5_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_4_4_4_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_4_4_4_4_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_5_5_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_1_5_5_5_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_8_8_8_8</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_8_8_8_8_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_10_10_10_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_2_10_10_10_REV</enum>
+  </glenums>
+
+  <glenums name='pixel_data_format'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_RED</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE_ALPHA</enum>
+  </glenums>
+
+  <glenums name='pixel_data_type'>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BYTE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BITMAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT</enum>
+    <enum version='GL_VERSION_0_0'>GL_SHORT</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT</enum>
+    <enum version='GL_VERSION_0_0'>GL_INT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FLOAT</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE_3_3_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_BYTE_2_3_3_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_6_5</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_6_5_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_4_4_4_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_4_4_4_4_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_5_5_5_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_SHORT_1_5_5_5_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_8_8_8_8</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_8_8_8_8_REV</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_10_10_10_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNSIGNED_INT_2_10_10_10_REV</enum>
+  </glenums>
+
+  <glenums name='copy_tex_target'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_X</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_X</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_Y</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_Y</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_POSITIVE_Z</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP_NEGATIVE_Z</enum>
+  </glenums>
+
+  <glenums name='internal_format'>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA4</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA8</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA12</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA16</enum>
+    <enum version='GL_VERSION_1_3'>GL_COMPRESSED_ALPHA</enum>
+    <enum version='GL_VERSION_1_3'>GL_COMPRESSED_LUMINANCE</enum>
+    <enum version='GL_VERSION_1_3'>GL_COMPRESSED_LUMINANCE_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMPRESSED_INTENSITY</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMPRESSED_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_COMPRESSED_RGBA</enum>
+
+    <enum version='GL_VERSION_1_4'>GL_DEPTH_COMPONENT</enum>
+    <enum version='GL_VERSION_1_4'>GL_DEPTH_COMPONENT16</enum>
+    <enum version='GL_VERSION_1_4'>GL_DEPTH_COMPONENT24</enum>
+    <enum version='GL_VERSION_1_4'>GL_DEPTH_COMPONENT32</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE8</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE12</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE16</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE_ALPHA</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE4_ALPHA4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE6_ALPHA2</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE8_ALPHA8</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE12_ALPHA4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE12_ALPHA12</enum>
+    <enum version='GL_VERSION_0_0'>GL_LUMINANCE16_ALPHA16</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTENSITY</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTENSITY4</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTENSITY8</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTENSITY12</enum>
+    <enum version='GL_VERSION_0_0'>GL_INTENSITY16</enum>
+    <enum version='GL_VERSION_0_0'>GL_R3_G3_B2</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB4</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB5</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB8</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB10</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB12</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB16</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA2</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA4</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB5_A1</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA8</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGB10_A2</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA12</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA16</enum>
+
+    <enum version='GL_VERSION_2_1'>GL_SLUMINANCE</enum>
+    <enum version='GL_VERSION_2_1'>GL_SLUMINANCE8</enum>
+    <enum version='GL_VERSION_2_1'>GL_SLUMINANCE_ALPHA</enum>
+    <enum version='GL_VERSION_2_1'>GL_SLUMINANCE8_ALPHA8</enum>
+    <enum version='GL_VERSION_2_1'>GL_SRGB</enum>
+    <enum version='GL_VERSION_2_1'>GL_SRGB8</enum>
+    <enum version='GL_VERSION_2_1'>GL_SRGB_ALPHA</enum>
+    <enum version='GL_VERSION_2_1'>GL_SRGB8_ALPHA8</enum>
+  </glenums>
+
+  <glenums name='orientation'>
+    <enum version='GL_VERSION_0_0'>GL_CW</enum>
+    <enum version='GL_VERSION_0_0'>GL_CCW</enum>
+  </glenums>
+
+  <glenums name='texture_i'>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE0</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE1</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE2</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE3</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE4</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE5</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE6</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE7</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE8</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE9</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE10</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE11</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE12</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE13</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE14</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE15</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE16</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE17</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE18</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE19</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE20</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE21</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE22</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE23</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE24</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE25</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE26</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE27</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE28</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE29</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE30</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE31</enum>
+  </glenums>
+
+  <glenums name='accum_op'>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM</enum>
+    <enum version='GL_VERSION_0_0'>GL_LOAD</enum>
+    <enum version='GL_VERSION_0_0'>GL_ADD</enum>
+    <enum version='GL_VERSION_0_0'>GL_MULT</enum>
+    <enum version='GL_VERSION_0_0'>GL_RETURN</enum>
+  </glenums>
+
+  <glenums name='pixel_packing_i'>
+    <enum version='GL_VERSION_0_0'>GL_PACK_ROW_LENGTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_IMAGE_HEIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_PIXELS</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_ROWS</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_IMAGES</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_ALIGNMENT</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_ROW_LENGTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_IMAGE_HEIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_PIXELS</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_ROWS</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_IMAGES</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_ALIGNMENT</enum>
+  </glenums>
+
+  <glenums name='pixel_packing_b'>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SWAP_BYTES</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_LSB_FIRST</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SWAP_BYTES</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_LSB_FIRST</enum>
+  </glenums>
+
+  <glenums name='pixel_transfer_i'>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_SHIFT</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_OFFSET</enum>
+  </glenums>
+
+  <glenums name='pixel_transfer_f'>
+    <enum version='GL_VERSION_0_0'>GL_RED_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_RED_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_BIAS</enum>
+    <enum version='GL_VERSION_0_0'></enum>
+  </glenums>
+
+  <glenums name='pixel_transfer_b'>
+    <enum version='GL_VERSION_0_0'>GL_MAP_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP_STENCIL</enum>
+  </glenums>
+
+  <glenums name='pixel_transfer_f_ARB'>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_RED_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_GREEN_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_BLUE_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_ALPHA_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_RED_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_GREEN_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_BLUE_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_ALPHA_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_RED_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_GREEN_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_BLUE_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_ALPHA_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_RED_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_GREEN_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_BLUE_BIAS</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_ALPHA_BIAS</enum>
+  </glenums>
+
+  <glenums name='blend_mode'>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_ADD</enum>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_SUBTRACT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_REVERSE_SUBTRACT</enum>
+    <!--
+     the manual gives these ones,
+     but they are not in my header (which is GL 2.1)
+    <enum version='GL_VERSION_0_0'>GL_FUNC_MIN</enum>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_MAX</enum>
+    -->
+    <enum version='GL_VERSION_0_0'>GL_MIN</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX</enum>
+  </glenums>
+
+  <glenums name='blend_mode_ext'>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_ADD_EXT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_SUBTRACT_EXT</enum>
+    <enum version='GL_VERSION_0_0'>GL_FUNC_REVERSE_SUBTRACT_EXT</enum>
+    <enum version='GL_VERSION_0_0'>GL_MIN_EXT</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_EXT</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_MIN_SGIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_MAX_SGIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_LOGIC_OP</enum>
+  </glenums>
+
+  <glenums name='op_code'>
+    <enum version='GL_VERSION_0_0'>GL_CLEAR</enum>
+    <enum version='GL_VERSION_0_0'>GL_SET</enum>
+    <enum version='GL_VERSION_0_0'>GL_COPY</enum>
+    <enum version='GL_VERSION_0_0'>GL_COPY_INVERTED</enum>
+    <enum version='GL_VERSION_0_0'>GL_NOOP</enum>
+    <enum version='GL_VERSION_0_0'>GL_INVERT</enum>
+    <enum version='GL_VERSION_0_0'>GL_AND</enum>
+    <enum version='GL_VERSION_0_0'>GL_NAND</enum>
+    <enum version='GL_VERSION_0_0'>GL_OR</enum>
+    <enum version='GL_VERSION_0_0'>GL_NOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_XOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_EQUIV</enum>
+    <enum version='GL_VERSION_0_0'>GL_AND_REVERSE</enum>
+    <enum version='GL_VERSION_0_0'>GL_AND_INVERTED</enum>
+    <enum version='GL_VERSION_0_0'>GL_OR_REVERSE</enum>
+    <enum version='GL_VERSION_0_0'>GL_OR_INVERTED</enum>
+  </glenums>
+
+  <glenums name='interleaved_format'>
+    <enum version='GL_VERSION_0_0'>GL_V2F</enum>
+    <enum version='GL_VERSION_0_0'>GL_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_C4UB_V2F</enum>
+    <enum version='GL_VERSION_0_0'>GL_C4UB_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_C3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_N3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_C4F_N3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T2F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T4F_V4F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T2F_C4UB_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T2F_C3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T2F_N3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T2F_C4F_N3F_V3F</enum>
+    <enum version='GL_VERSION_0_0'>GL_T4F_C4F_N3F_V4F</enum>
+  </glenums>
+
+  <!-- VBO -->
+
+  <glenums name='buffer_object_target'>
+    <enum version='GL_VERSION_1_5'>GL_ARRAY_BUFFER</enum>
+    <enum version='GL_VERSION_1_5'>GL_ELEMENT_ARRAY_BUFFER</enum>
+    <enum version='GL_VERSION_2_1'>GL_PIXEL_PACK_BUFFER</enum>
+    <enum version='GL_VERSION_2_1'>GL_PIXEL_UNPACK_BUFFER</enum>
+      </glenums>
+      <glenums name='buffer_object_target_arb'>
+    <enum version='GL_VERSION_1_5'>GL_ARRAY_BUFFER_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_ELEMENT_ARRAY_BUFFER_ARB</enum>
+    <enum version='GL_VERSION_2_1'>GL_PIXEL_PACK_BUFFER_ARB</enum>
+    <enum version='GL_VERSION_2_1'>GL_PIXEL_UNPACK_BUFFER_ARB</enum>
+  </glenums>
+
+  <glenums name='vbo_usage_pattern'>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_DRAW</enum>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_READ</enum>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_COPY</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_DRAW</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_READ</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_COPY</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_DRAW</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_READ</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_COPY</enum>
+      </glenums>
+      <glenums name='vbo_usage_pattern_arb'>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_DRAW_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_READ_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_STREAM_COPY_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_DRAW_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_READ_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_STATIC_COPY_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_DRAW_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_READ_ARB</enum>
+    <enum version='GL_VERSION_1_5'>GL_DYNAMIC_COPY_ARB</enum>
+  </glenums>
+
+
+<!--
+  TODO
+
+GL_ALIASED_POINT_SIZE_RANGE
+params returns two values, the smallest and largest supported sizes for aliased points.
+
+GL_ALIASED_LINE_WIDTH_RANGE
+params returns two values, the smallest and largest supported widths for aliased lines.
+
+GL_ALPHA_BIAS 1
+params returns one value, the alpha bias factor used during pixel transfers. The initial value is 0. See glPixelTransfer.
+
+
+
+GL_ALPHA_TEST_FUNC 1
+params returns one value,
+the symbolic name of the alpha test function. The initial value isGL_ALWAYS. See glAlphaFunc.
+
+GL_ALPHA_TEST_REF 1
+params returns one value, the reference value for the alpha test. The initial value is 0. See glAlphaFunc. An integer value, if requested, is linearly mapped from the internal floating-point representation such that 1.0 returns the most positive representable integer value, and-1.0returns the most negative representable integer value.
+
+GL_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object currently bound to the targetGL_ARRAY_BUFFER. If no buffer object is bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_ATTRIB_STACK_DEPTH 1
+params returns one value, the depth of the attribute stack. If the stack is empty, 0 is returned. The initial value is 0. See glPushAttrib.
+
+
+GL_BLEND_DST_ALPHA 1
+params returns one value, the symbolic constant identifying the alpha destination blend function. The initial value isGL_ZERO. See glBlendFunc and glBlendFuncSeparate.
+
+GL_BLEND_DST_RGB 1
+params returns one value, the symbolic constant identifying the RGB destination blend function. The initial value isGL_ZERO. See glBlendFunc and glBlendFuncSeparate.
+
+GL_BLEND_EQUATION_RGB 1
+params returns one value, a symbolic constant indicating whether the RGB blend equation isGL_FUNC_ADD,GL_FUNC_SUBTRACT,GL_FUNC_REVERSE_SUBTRACT,GL_MINorGL_MAX. See glBlendEquationSeparate.
+
+GL_BLEND_EQUATION_ALPHA 1
+params returns one value, a symbolic constant indicating whether the Alpha blend equation isGL_FUNC_ADD,GL_FUNC_SUBTRACT,GL_FUNC_REVERSE_SUBTRACT,GL_MINorGL_MAX. See glBlendEquationSeparate.
+
+GL_BLEND_SRC_ALPHA 1
+params returns one value, the symbolic constant identifying the alpha source blend function. The initial value isGL_ONE. See glBlendFuncandglBlendFuncSeparate.
+
+GL_BLEND_SRC_RGB 1
+params returns one value, the symbolic constant identifying the RGB source blend function. The initial value isGL_ONE. See glBlendFuncandglBlendFuncSeparate.
+
+GL_BLUE_BIAS 1
+params returns one value, the blue bias factor used during pixel transfers. The initial value is 0. See glPixelTransfer.
+
+
+GL_VERSION_1_3\:GL_CLIENT_ACTIVE_TEXTURE
+params returns a single integer value indicating the current client active multitexture unit. The initial value isGL_TEXTURE0. See glClientActiveTexture.
+
+GL_CLIENT_ATTRIB_STACK_DEPTH 1
+params returns one value indicating the depth of the attribute stack. The initial value is 0. See glPushClientAttrib.
+
+GL_COLOR_ARRAY_BUFFER_BINDING 1
+params returns a single value, the name of the buffer object associated with the color array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglColorPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_COLOR_ARRAY_SIZE 1
+params returns one value, the number of components per color in the color array. The initial value is 4. See glColorPointer.
+
+
+GL_COLOR_ARRAY_TYPE 1
+params returns one value, the data type of each component in the color array. The initial value isGL_FLOAT. See glColorPointer.
+
+GL_COLOR_MATERIAL_FACE 1
+params returns one value, a symbolic constant indicating which materials have a parameter that is tracking the current color. The initial value isGL_FRONT_AND_BACK. See glColorMaterial.
+
+GL_COLOR_MATERIAL_PARAMETER 1
+params returns one value, a symbolic constant indicating which material parameters are tracking the current color. The initial value isGL_AMBIENT_AND_DIFFUSE. See glColorMaterial.
+
+
+GL_COMPRESSED_TEXTURE_FORMATS
+params returns a GL_NUM_COMPRESSED_TEXTURE_FORMATS of symbolic constants indicating which compressed texture formats are available. See glCompressedTexImage2D.
+
+
+GL_CULL_FACE_MODE 1
+params returns one value, a symbolic constant indicating which polygon faces are to be culled. The initial value isGL_BACK. See glCullFace.
+
+
+GL_CURRENT_FOG_COORD 1
+params returns one value, the current fog coordinate. The initial value is 0. See glFogCoord.
+
+
+GL_CURRENT_PROGRAM 1
+params returns one value, the name of the program object that is currently active, or 0 if no program object is active. See glUseProgram.
+
+
+
+GL_DEPTH_BIAS 1
+params returns one value, the depth bias factor used during pixel transfers. The initial value is 0. See glPixelTransfer.
+
+
+GL_DEPTH_FUNC 1
+params returns one value, the symbolic constant that indicates the depth comparison function. The initial value isGL_LESS. See glDepthFunc.
+
+
+GL_DRAW_BUFFER 1
+params returns one value, a symbolic constant indicating which buffers are being drawn to. See glDrawBuffer. The initial value isGL_BACKif there are back buffers, otherwise it isGL_FRONT.
+
+GL_DRAW_BUFFERi 1
+params returns one value, a symbolic constant indicating which buffers are being drawn to by the corresponding output color. See glDrawBuffers. The initial value ofGL_DRAW_BUFFER0isGL_BACKif there are back buffers, otherwise it isGL_FRONT. The initial values of draw buffers for all other output colors isGL_NONE.
+
+
+
+GL_EDGE_FLAG_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object associated with the edge flag array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglEdgeFlagPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+GL_ELEMENT_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object currently bound to the targetGL_ELEMENT_ARRAY_BUFFER. If no buffer object is bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_FEEDBACK_BUFFER_SIZE 1
+params returns one value, the size of the feedback buffer. See glFeedbackBuffer.
+
+GL_FEEDBACK_BUFFER_TYPE 1
+params returns one value, the type of the feedback buffer. See glFeedbackBuffer.
+
+GL_VERSION_1_5\:GL_FOG_COORD_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object associated with the fog coordinate array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglFogCoordPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+GL_VERSION_1_5\:GL_FOG_COORD_ARRAY_TYPE 1
+params returns one value, the type of the fog coordinate array. The initial value isGL_FLOAT. See glFogCoordPointer.
+
+GL_FOG_COORD_SRC 1
+params returns one value, a symbolic constant indicating the source of the fog coordinate. The initial value isGL_FRAGMENT_DEPTH. See glFog.
+
+
+GL_FOG_HINT 1
+params returns one value, a symbolic constant indicating the mode of the fog hint. The initial value isGL_DONT_CARE. See glHint.
+
+
+GL_FOG_MODE 1
+params returns one value, a symbolic constant indicating which fog equation is selected. The initial value isGL_EXP. See glFog.
+
+
+GL_FRAGMENT_SHADER_DERIVATIVE_HINT 1
+params returns one value, a symbolic constant indicating the mode of the derivative accuracy hint for fragment shaders. The initial value isGL_DONT_CARE. See glHint.
+
+GL_FRONT_FACE 1 GL_CCW GL_CW
+params returns one value, a symbolic constant indicating whether clockwise or counterclockwise polygon winding is treated as front-facing. The initial value isGL_CCW. See glFrontFace.
+
+GL_GENERATE_MIPMAP_HINT 1
+params returns one value, a symbolic constant indicating the mode of the mipmap generation filtering hint. The initial value isGL_DONT_CARE. See glHint.
+
+GL_GREEN_BIAS 1
+params returns one value, the green bias factor used during pixel transfers. The initial value is 0.
+
+
+
+GL_INDEX_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object associated with the color index array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglIndexPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+GL_INDEX_ARRAY_TYPE 1
+params returns one value, the data type of indexes in the color index array. The initial value isGL_FLOAT. See glIndexPointer.
+
+GL_INDEX_BITS 1
+params returns one value, the number of bitplanes in each color index buffer.
+
+GL_INDEX_OFFSET 1
+params returns one value, the offset added to color and stencil indices during pixel transfers. The initial value is 0. See glPixelTransfer.
+
+GL_INDEX_SHIFT 1
+params returns one value, the amount that color and stencil indices are shifted during pixel transfers. The initial value is 0. See glPixelTransfer.
+
+GL_INDEX_WRITEMASK 1
+params returns one value, a mask indicating which bitplanes of each color index buffer can be written. The initial value is all 1's. See glIndexMask.
+
+
+GL_LINE_SMOOTH_HINT 1
+params returns one value, a symbolic constant indicating the mode of the line antialiasing hint. The initial value isGL_DONT_CARE. See glHint.
+
+
+GL_LINE_STIPPLE_PATTERN 1
+params returns one value, the 16-bit line stipple pattern. The initial value is all 1's. See glLineStipple.
+
+GL_LINE_STIPPLE_REPEAT 1
+params returns one value, the line stipple repeat factor. The initial value is 1. See glLineStipple.
+
+GL_LOGIC_OP_MODE 1
+params returns one value, a symbolic constant indicating the selected logic operation mode. The initial value isGL_COPY. See glLogicOp.
+
+GL_MAP1_COLOR_4 1b
+
+
+GL_MAP1_GRID_DOMAIN
+params returns two values: the endpoints of the 1D map's grid domain. The initial value is (0, 1). See glMapGrid.
+
+GL_MAP1_GRID_SEGMENTS 1
+params returns one value, the number of partitions in the 1D map's grid domain. The initial value is 1. See glMapGrid.
+
+
+GL_MAP2_GRID_SEGMENTS 2
+params returns two values: the number of partitions in the 2D map'siandjgrid domains. The initial value is (1,1). See glMapGrid.
+
+
+GL_MATRIX_MODE 1
+params returns one value, a symbolic constant indicating which matrix stack is currently the target of all matrix operations. The initial value isGL_MODELVIEW. See glMatrixMode.
+
+
+GL_MAX_EVAL_ORDER 1
+params returns one value, the maximum equation order supported by 1D and 2D evaluators. The value must be at least 8. See glMap1andglMap2.
+
+
+GL_MAX_PIXEL_MAP_TABLE 1
+params returns one value, the maximum supported size of aglPixelMaplookup table. The value must be at least 32. See glPixelMap.
+
+
+GL_MAX_TEXTURE_IMAGE_UNITS 1
+params returns one value, the maximum supported texture image units that can be used to access texture maps from the fragment shader. The value must be at least 2. See glActiveTexture.
+
+GL_MAX_TEXTURE_LOD_BIAS 1
+params returns one value, the maximum, absolute value of the texture level-of-detail bias. The value must be at least 4.
+
+
+GL_MAX_VARYING_FLOATS 1  !!! Deprecated in OpenGL 3 !!!
+params returns one value, the maximum number of interpolators available for processing varying variables used by vertex and fragment shaders. This value represents the number of individual floating-point values that can be interpolated; varying variables declared as vectors, matrices, and arrays will all consume multiple interpolators. The value must be at least 32.
+
+
+GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS 1
+params returns one value, the maximum supported texture image units that can be used to access texture maps from the vertex shader. The value may be 0. See glActiveTexture.
+
+
+
+
+GL_NORMAL_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object associated with the normal array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglNormalPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+GL_NORMAL_ARRAY_TYPE 1
+params returns one value, the data type of each coordinate in the normal array. The initial value isGL_FLOAT. See glNormalPointer.
+
+
+GL_NUM_COMPRESSED_TEXTURE_FORMATS
+params returns a single integer value indicating the number of available compressed texture formats. The minimum value is 0. See glCompressedTexImage2D.
+
+
+GL_PERSPECTIVE_CORRECTION_HINT 1
+params returns one value, a symbolic constant indicating the mode of the perspective correction hint. The initial value isGL_DONT_CARE. See glHint.
+
+GL_PIXEL_MAP_A_TO_A_SIZE 1
+params returns one value, the size of the alpha-to-alpha pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_B_TO_B_SIZE 1
+params returns one value, the size of the blue-to-blue pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_G_TO_G_SIZE 1
+params returns one value, the size of the green-to-green pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_I_TO_A_SIZE 1
+params returns one value, the size of the index-to-alpha pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_I_TO_B_SIZE 1
+params returns one value, the size of the index-to-blue pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_I_TO_G_SIZE 1
+params returns one value, the size of the index-to-green pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_I_TO_I_SIZE 1
+params returns one value, the size of the index-to-index pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_I_TO_R_SIZE 1
+params returns one value, the size of the index-to-red pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_R_TO_R_SIZE 1
+params returns one value, the size of the red-to-red pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_PIXEL_MAP_S_TO_S_SIZE 1
+params returns one value, the size of the stencil-to-stencil pixel translation table. The initial value is 1. See glPixelMap.
+
+GL_VERSION_2_1\:GL_PIXEL_PACK_BUFFER_BINDING
+params returns a single value, the name of the buffer object currently bound to the targetGL_PIXEL_PACK_BUFFER. If no buffer object is bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_VERSION_2_1\:GL_PIXEL_UNPACK_BUFFER_BINDING
+params returns a single value, the name of the buffer object currently bound to the targetGL_PIXEL_UNPACK_BUFFER. If no buffer object is bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+
+GL_POINT_SMOOTH_HINT 1
+params returns one value, a symbolic constant indicating the mode of the point antialiasing hint. The initial value isGL_DONT_CARE. See glHint.
+
+
+GL_POLYGON_MODE 2
+params returns two values: symbolic constants indicating whether front-facing and back-facing polygons are rasterized as points, lines, or filled polygons. The initial value isGL_FILL. See glPolygonMode.
+
+
+
+GL_POLYGON_SMOOTH_HINT 1
+params returns one value, a symbolic constant indicating the mode of the polygon antialiasing hint. The initial value isGL_DONT_CARE. See glHint.
+
+
+GL_POST_COLOR_MATRIX_RED_BIAS 1
+params returns one value, the red bias factor applied to RGBA fragments after color matrix transformations. The initial value is 0. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_GREEN_BIAS 1
+params returns one value, the green bias factor applied to RGBA fragments after color matrix transformations. The initial value is 0. See glPixelTransfer
+
+GL_POST_COLOR_MATRIX_BLUE_BIAS 1
+params returns one value, the blue bias factor applied to RGBA fragments after color matrix transformations. The initial value is 0. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_ALPHA_BIAS 1
+params returns one value, the alpha bias factor applied to RGBA fragments after color matrix transformations. The initial value is 0. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_RED_SCALE 1
+params returns one value, the red scale factor applied to RGBA fragments after color matrix transformations. The initial value is 1. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_GREEN_SCALE 1
+params returns one value, the green scale factor applied to RGBA fragments after color matrix transformations. The initial value is 1. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_BLUE_SCALE 1
+params returns one value, the blue scale factor applied to RGBA fragments after color matrix transformations. The initial value is 1. See glPixelTransfer.
+
+GL_POST_COLOR_MATRIX_ALPHA_SCALE 1
+params returns one value, the alpha scale factor applied to RGBA fragments after color matrix transformations. The initial value is 1. See glPixelTransfer.
+
+
+GL_POST_CONVOLUTION_RED_BIAS 1
+params returns one value, the red bias factor applied to RGBA fragments after convolution. The initial value is 0. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_GREEN_BIAS 1
+params returns one value, the green bias factor applied to RGBA fragments after convolution. The initial value is 0. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_BLUE_BIAS 1
+params returns one value, the blue bias factor applied to RGBA fragments after convolution. The initial value is 0. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_ALPHA_BIAS 1
+params returns one value, the alpha bias factor applied to RGBA fragments after convolution. The initial value is 0. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_RED_SCALE 1
+params returns one value, the red scale factor applied to RGBA fragments after convolution. The initial value is 1. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_GREEN_SCALE 1
+params returns one value, the green scale factor applied to RGBA fragments after convolution. The initial value is 1. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_BLUE_SCALE 1
+params returns one value, the blue scale factor applied to RGBA fragments after convolution. The initial value is 1. See glPixelTransfer.
+
+GL_POST_CONVOLUTION_ALPHA_SCALE 1
+params returns one value, the alpha scale factor applied to RGBA fragments after convolution. The initial value is 1. See glPixelTransfer.
+
+
+GL_READ_BUFFER 1
+params returns one value, a symbolic constant indicating which color buffer is selected for reading. The initial value isGL_BACKif there is a back buffer, otherwise it isGL_FRONT. See glReadPixelsandglAccum.
+
+GL_RED_BIAS 1
+params returns one value, the red bias factor used during pixel transfers. The initial value is 0.
+
+
+GL_RENDER_MODE 1
+params returns one value, a symbolic constant indicating whether the GL is in render, select, or feedback mode. The initial value isGL_RENDER. See glRenderMode.
+
+
+
+
+GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING 1
+params returns a single value, the name of the buffer object associated with the secondary color array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglSecondaryColorPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+
+
+GL_SECONDARY_COLOR_ARRAY_TYPE 1
+params returns one value, the data type of each component in the secondary color array. The initial value isGL_FLOAT. See glSecondaryColorPointer.
+
+
+
+GL_SHADE_MODEL 1
+params returns one value, a symbolic constant indicating whether the shading mode is flat or smooth. The initial value is GL_SMOOTH. See glShadeModel.
+
+GL_SMOOTH_LINE_WIDTH_RANGE 2
+params returns two values, the smallest and largest supported widths for antialiased lines. See glLineWidth.
+
+GL_SMOOTH_LINE_WIDTH_GRANULARITY 1
+params returns one value, the granularity of widths for antialiased lines. See glLineWidth.
+
+GL_SMOOTH_POINT_SIZE_RANGE 2
+params returns two values, the smallest and largest supported widths for antialiased points. See glPointSize.
+
+GL_SMOOTH_POINT_SIZE_GRANULARITY 1
+params returns one value, the granularity of sizes for antialiased points. See glPointSize.
+
+
+GL_STENCIL_BACK_FUNC 1
+params returns one value, a symbolic constant indicating what function is used for back-facing polygons to compare the stencil reference value with the stencil buffer value. The initial value isGL_ALWAYS. See glStencilFuncSeparate.
+
+
+GL_STENCIL_BACK_REF 1
+params returns one value, the reference value that is compared with the contents of the stencil buffer for back-facing polygons. The initial value is 0. See glStencilFuncSeparate.
+
+GL_STENCIL_BACK_VALUE_MASK 1
+params returns one value, the mask that is used for back-facing polygons to mask both the stencil reference value and the stencil buffer value before they are compared. The initial value is all 1's. See glStencilFuncSeparate.
+
+GL_STENCIL_BACK_WRITEMASK 1
+params returns one value, the mask that controls writing of the stencil bitplanes for back-facing polygons. The initial value is all 1's. See glStencilMaskSeparate.
+
+
+
+GL_STENCIL_FUNC
+params returns one value, a symbolic constant indicating what function is used to compare the stencil reference value with the stencil buffer value. The initial value isGL_ALWAYS. See glStencilFunc. If the GL version is 2.0 or greater, this stencil state only affects non-polygons and front-facing polygons. Back-facing polygons use separate stencil state. See glStencilFuncSeparate.
+
+GL_STENCIL_REF
+params returns one value, the reference value that is compared with the contents of the stencil buffer. The initial value is 0. See glStencilFunc. If the GL version is 2.0 or greater, this stencil state only affects non-polygons and front-facing polygons. Back-facing polygons use separate stencil state. See glStencilFuncSeparate.
+
+
+GL_STENCIL_VALUE_MASK
+params returns one value, the mask that is used to mask both the stencil reference value and the stencil buffer value before they are compared. The initial value is all 1's. See glStencilFunc. If the GL version is 2.0 or greater, this stencil state only affects non-polygons and front-facing polygons. Back-facing polygons use separate stencil state. See glStencilFuncSeparate.
+
+GL_STENCIL_WRITEMASK
+params returns one value, the mask that controls writing of the stencil bitplanes. The initial value is all 1's. See glStencilMask. If the GL version is 2.0 or greater, this stencil state only affects non-polygons and front-facing polygons. Back-facing polygons use separate stencil state. See glStencilMaskSeparate.
+
+
+
+GL_TEXTURE_COMPRESSION_HINT
+params returns a single value indicating the mode of the texture compression hint. The initial value is GL_DONT_CARE.
+
+
+GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING
+params returns a single value, the name of the buffer object associated with the texture coordinate array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglTexCoordPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_TEXTURE_COORD_ARRAY_SIZE
+params returns one value, the number of coordinates per element in the texture coordinate array. The initial value is 4. See glTexCoordPointer.
+
+
+GL_TEXTURE_COORD_ARRAY_TYPE
+params returns one value, the data type of the coordinates in the texture coordinate array. The initial value isGL_FLOAT. See glTexCoordPointer.
+
+
+GL_UNPACK_ALIGNMENT 1
+params returns one value, the byte alignment used for reading pixel data from memory. The initial value is 4. See glPixelStore.
+
+
+GL_VERTEX_ARRAY_BUFFER_BINDING 1
+params returns a single value, the name of the buffer object associated with the vertex array. This buffer object would have been bound to the targetGL_ARRAY_BUFFERat the time of the most recent call toglVertexPointer. If no buffer object was bound to this target, 0 is returned. The initial value is 0. See glBindBuffer.
+
+GL_VERTEX_ARRAY_SIZE 1
+params returns one value, the number of coordinates per vertex in the vertex array. The initial value is 4. See glVertexPointer.
+
+
+GL_VERTEX_ARRAY_TYPE returns GL_SHORT,GL_INT,GL_FLOAT or GL_DOUBLE
+### OpenGL 3 will not have support for the GL_DOUBLE token. This means it will not be possible to send double precision vertex data to OpenGL.
+
+
+GL_STENCIL_BACK_FAIL
+GL_STENCIL_BACK_PASS_DEPTH_FAIL
+GL_STENCIL_BACK_PASS_DEPTH_PASS
+GL_STENCIL_FAIL
+GL_STENCIL_PASS_DEPTH_FAIL
+GL_STENCIL_PASS_DEPTH_PASS  GL_KEEP,GL_ZERO,GL_REPLACE,GL_INCR,GL_INCR_WRAP,GL_DECR,GL_DECR_WRAP,GL_INVERT
+  http://www.opengl.org/sdk/docs/man/xhtml/glStencilOpSeparate.xml
+
+
+TODO
+glPixelStore
+-->
+
+  <glenums name='get_boolean_1'>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_AUTO_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLEND</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE0</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE1</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE2</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE3</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE4</enum>
+    <enum version='GL_VERSION_0_0'>GL_CLIP_PLANE5</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_MATERIAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_SUM</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CONVOLUTION_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_CULL_FACE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_POSITION_VALID</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_WRITEMASK</enum>
+    <enum version='GL_VERSION_0_0'>GL_DITHER</enum>
+    <enum version='GL_VERSION_0_0'>GL_DOUBLEBUFFER</enum>
+    <enum version='GL_VERSION_0_0'>GL_EDGE_FLAG</enum>
+    <enum version='GL_VERSION_0_0'>GL_EDGE_FLAG_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG</enum>
+    <enum version='GL_VERSION_1_5'>GL_FOG_COORD_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_HISTOGRAM</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_LOGIC_OP</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_MODE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT0</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT1</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT2</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT3</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT4</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT5</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT6</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT7</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHTING</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT_MODEL_LOCAL_VIEWER</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT_MODEL_TWO_SIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP1_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_COLOR_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_1</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_2</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_TEXTURE_COORD_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_3</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_VERTEX_4</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP_STENCIL</enum>
+    <enum version='GL_VERSION_0_0'>GL_MINMAX</enum>
+    <enum version='GL_VERSION_0_0'>GL_NORMAL_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_NORMALIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SWAP_BYTES</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SMOOTH</enum>
+    <enum version='GL_VERSION_2_0'>GL_POINT_SPRITE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_FILL</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_LINE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_POINT</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_SMOOTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_STIPPLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_COLOR_MATRIX_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_LSB_FIRST</enum>
+    <enum version='GL_VERSION_0_0'>GL_POST_CONVOLUTION_COLOR_TABLE</enum>
+    <enum version='GL_VERSION_0_0'>GL_RESCALE_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_RGBA_MODE</enum>
+
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_COVERAGE_INVERT</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_SCISSOR_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_SECONDARY_COLOR_ARRAY</enum>
+    <enum version='GL_VERSION_0_0'>GL_SEPARABLE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_TEST</enum>
+    <enum version='GL_VERSION_0_0'>GL_STEREO</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_3D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_COORD_ARRAY</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_Q</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_R</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_S</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_GEN_T</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_LSB_FIRST</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SWAP_BYTES</enum>
+    <enum version='GL_VERSION_0_0'>GL_VERTEX_ARRAY</enum>
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_POINT_SIZE</enum>
+    <enum version='GL_VERSION_2_0'>GL_VERTEX_PROGRAM_TWO_SIDE</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_PACK_ALIGNMENT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_IMAGE_HEIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_ROW_LENGTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_IMAGES</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_PIXELS</enum>
+    <enum version='GL_VERSION_0_0'>GL_PACK_SKIP_ROWS</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_IMAGE_HEIGHT</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_ROW_LENGTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_IMAGES</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_PIXELS</enum>
+    <enum version='GL_VERSION_0_0'>GL_UNPACK_SKIP_ROWS</enum>
+  </glenums>
+
+  <glenums name='get_integer_4'>
+    <enum version='GL_VERSION_0_0'>GL_VIEWPORT</enum>
+    <enum version='GL_VERSION_0_0'>GL_SCISSOR_BOX</enum>
+  </glenums>
+
+  <glenums name='get_integer_2'>
+    <enum version='GL_VERSION_0_0'>GL_MAX_VIEWPORT_DIMS</enum>
+  </glenums>
+
+  <glenums name='get_boolean_4'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_WRITEMASK</enum>
+  </glenums>
+
+  <glenums name='get_float_4'>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_CLEAR_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLEND_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_CLEAR_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_POSITION</enum>
+    <enum version='GL_VERSION_2_1'>GL_CURRENT_RASTER_SECONDARY_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_TEXTURE_COORDS</enum>
+    <enum version='GL_VERSION_1_4'>GL_CURRENT_SECONDARY_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_TEXTURE_COORDS</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_COLOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIGHT_MODEL_AMBIENT</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAP2_GRID_DOMAIN</enum>
+  </glenums>
+
+  <glenums name='get_float_3'>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_NORMAL</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_DISTANCE_ATTENUATION</enum>
+  </glenums>
+
+  <glenums name='get_float_2'>
+    <enum version='GL_VERSION_0_0'>GL_LINE_WIDTH_RANGE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SIZE_RANGE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_RANGE</enum>
+  </glenums>
+
+  <glenums name='get_float_1'>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_DISTANCE</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_DENSITY</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_END</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_FOG_START</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_CLEAR_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_WIDTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_LINE_WIDTH_GRANULARITY</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_CLEAR_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_CLEAR_VALUE</enum>  <!-- could also be requested as integer,
+                               but tricky with ocaml since 1.0 will be mapped to the greater
+                               int which is truncated in ocaml, but perhaps int32 could be used -->
+
+    <enum version='GL_VERSION_1_3'>GL_SAMPLE_COVERAGE_VALUE</enum>
+    <enum version='GL_VERSION_0_0'>GL_ZOOM_X</enum>
+    <enum version='GL_VERSION_0_0'>GL_ZOOM_Y</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_RED_SCALE</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SIZE_GRANULARITY</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SIZE_MAX</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_SIZE_MIN</enum>
+    <enum version='GL_VERSION_0_0'>GL_POINT_FADE_THRESHOLD_SIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_FACTOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_POLYGON_OFFSET_UNITS</enum>
+  </glenums>
+
+  <glenums name='get_integer32_1'>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_CLEAR_VALUE</enum>  <!-- could also be requested as integer,
+                               but tricky with ocaml since 1.0 will be mapped to the greater
+                               int which is truncated in ocaml, but perhaps int32 could be used -->
+  </glenums>
+
+  <glenums name='get_integer_1'>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_RED_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_GREEN_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_BLUE_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_ACCUM_ALPHA_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_CURRENT_RASTER_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIST_BASE</enum>
+    <enum version='GL_VERSION_0_0'>GL_LIST_INDEX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_LIGHTS</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_LIST_NESTING</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_TEXTURE_SIZE</enum>
+    <enum version='GL_VERSION_2_0'>GL_MAX_TEXTURE_COORDS</enum>
+    <enum version='GL_VERSION_1_3'>GL_ACTIVE_TEXTURE</enum>
+    <enum version='GL_VERSION_2_0'>GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS</enum>
+    <enum version='GL_VERSION_1_3'>GL_MAX_TEXTURE_UNITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_ELEMENTS_INDICES</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_ELEMENTS_VERTICES</enum>
+    <enum version='GL_VERSION_0_0'>GL_SUBPIXEL_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_DEPTH_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_STENCIL_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_NAME_STACK_DEPTH</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_COLOR_MATRIX_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MODELVIEW_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_PROJECTION_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_MODELVIEW_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_PROJECTION_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_TEXTURE_STACK_DEPTH</enum>
+
+    <enum version='GL_VERSION_1_4'>GL_SAMPLE_BUFFERS</enum>
+    <enum version='GL_VERSION_1_4'>GL_SAMPLES</enum>
+
+    <enum version='GL_VERSION_1_4'>GL_MAX_CLIP_PLANES</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_AUX_BUFFERS</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_RED_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_GREEN_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_BLUE_BITS</enum>
+    <enum version='GL_VERSION_0_0'>GL_ALPHA_BITS</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_MAX_3D_TEXTURE_SIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_CLIENT_ATTRIB_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_ATTRIB_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_COLOR_MATRIX_STACK_DEPTH</enum>
+    <enum version='GL_VERSION_1_3'>GL_MAX_CUBE_MAP_TEXTURE_SIZE</enum>
+    <enum version='GL_VERSION_2_0'>GL_MAX_DRAW_BUFFERS</enum>
+    <enum version='GL_VERSION_0_0'>GL_MAX_NAME_STACK_DEPTH</enum>
+
+    <enum version='GL_VERSION_0_0'>GL_NORMAL_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_INDEX_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_EDGE_FLAG_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_COORD_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_0_0'>GL_VERTEX_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_1_4'>GL_SECONDARY_COLOR_ARRAY_STRIDE</enum>
+    <enum version='GL_VERSION_1_5'>GL_FOG_COORD_ARRAY_STRIDE</enum>
+
+    <enum version='GL_VERSION_1_4'>GL_SECONDARY_COLOR_ARRAY_SIZE</enum>
+    <enum version='GL_VERSION_0_0'>GL_SELECTION_BUFFER_SIZE</enum>
+
+    <enum version='GL_VERSION_2_0'>GL_MAX_FRAGMENT_UNIFORM_COMPONENTS</enum>
+    <enum version='GL_VERSION_2_0'>GL_MAX_VERTEX_UNIFORM_COMPONENTS</enum>
+
+    <enum version='GL_VERSION_3_0'>GL_NUM_EXTENSIONS</enum>
+
+    <enum version='GL_VERSION_2_0'>GL_MAX_VERTEX_ATTRIBS</enum>
+  </glenums>
+
+
+  <glenums name='get_string'>
+    <enum version='GL_VERSION_0_0'>GL_VENDOR</enum>
+    <enum version='GL_VERSION_0_0'>GL_RENDERER</enum>
+    <enum version='GL_VERSION_0_0'>GL_VERSION</enum>
+    <enum version='GL_VERSION_2_0'>GL_SHADING_LANGUAGE_VERSION</enum>
+    <enum version='GL_VERSION_0_0'>GL_EXTENSIONS</enum>
+  </glenums>
+
+  <glenums name='texture_binding'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_3D</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_CUBE_MAP</enum>
+  </glenums>
+
+  <glenums name='get_texture_binding'>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_BINDING_1D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_BINDING_2D</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_BINDING_3D</enum>
+    <enum version='GL_VERSION_1_3'>GL_TEXTURE_BINDING_CUBE_MAP</enum>
+  </glenums>
+
+  <glenums name='get_matrix'>
+    <enum version='GL_VERSION_0_0'>GL_COLOR_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_MODELVIEW_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_PROJECTION_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_TEXTURE_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRANSPOSE_COLOR_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRANSPOSE_MODELVIEW_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRANSPOSE_PROJECTION_MATRIX</enum>
+    <enum version='GL_VERSION_0_0'>GL_TRANSPOSE_TEXTURE_MATRIX</enum>
+  </glenums>
+
+
+  <!-- Glext -->
+
+  <glenums name='glext_capability'>
+    <enum version='GL_VERSION_0_0'>GL_OCCLUSION_TEST_HP</enum>
+  </glenums>
+
+  <glenums name='glext_get_boolean_1'>
+    <enum version='GL_VERSION_0_0'>GL_OCCLUSION_TEST_RESULT_HP</enum>
+  </glenums>
+
+</glenumslist>
+<!-- vim: sw=2 sts=2 ts=2 et fdm=marker
+-->

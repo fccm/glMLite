@@ -1,0 +1,2 @@
+# with findlib:
+ocamlfind opt -linkpkg -package glMLite.fungl,glMLite.funglut ariane_fungl.ml -o ariane_fungl.opt

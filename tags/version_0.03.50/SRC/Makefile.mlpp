@@ -1,0 +1,15 @@
+include ../Makefile.depend
+
+#  Makes use of a minimal preprocessor for OCaml source files.
+#  It is similar to cpp, but this replacement for cpp is because
+#  cpp versions in different environments may have different
+#  behaviours with unexpected reactions which will break OCaml code.
+
+MLPP=./mlpp.exe
+
+$(MLPP): mlpp.ml
+	$(OCAMLOPT) str.cmxa $< -o $@
+
+clean-mlpp:
+	rm -f $(MLPP)
+

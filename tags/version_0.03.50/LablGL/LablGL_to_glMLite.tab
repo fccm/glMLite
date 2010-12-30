@@ -1,0 +1,325 @@
+GL_COMPILE_AND_EXECUTE	`compile_and_execute
+GL_COMPILE		`compile
+glGenLists		GlList.gen_lists
+glNewList		GlList.begins
+glEndList		GlList.ends
+glDeleteLists		GlList.delete_lists
+glCallList		GlList.call
+glGenLists:glNewList	GlList.create
+
+GL_FLAT			`flat
+GL_SMOOTH		`smooth
+glShadeModel		GlDraw.shade_model
+
+GL_POINTS		`points
+GL_LINES		`lines
+GL_LINE_LOOP		`line_loop
+GL_LINE_STRIP		`line_strip
+GL_TRIANGLES		`triangles
+GL_TRIANGLE_STRIP	`triangle_strip
+GL_TRIANGLE_FAN		`triangle_fan
+GL_QUADS		`quads
+GL_QUAD_STRIP		`quad_strip
+GL_POLYGON		`polygon
+glBegin			GlDraw.begins
+glEnd			GlDraw.ends
+glVertex2v		GlDraw.vertex2
+glVertex3v		GlDraw.vertex3
+glVertex4v		GlDraw.vertex4
+glVertex3		GlDraw.vertex
+glNormal3v		GlDraw.normal3
+glNormal3		GlDraw.normal
+glViewport		GlDraw.viewport
+glCullFace		GlDraw.cull_face
+glColor3		GlDraw.color
+glColor4		GlDraw.color
+glLineWidth		GlDraw.line_width
+glRect			GlDraw.rect
+GL_POINT		`point
+GL_FILL			`fill
+glPolygonMode		GlDraw.polygon_mode
+glPointSize		GlDraw.point_size
+
+glLoadIdentity		GlMat.load_identity
+glPushMatrix		GlMat.push
+glPopMatrix		GlMat.pop
+glTranslate		GlMat.translate
+glScale			GlMat.scale
+glRotate		GlMat.rotate
+glOrtho			GlMat.ortho
+glMatrixMode		GlMat.mode
+glMultMatrix		GlMat.mult
+glFrustum		GlMat.frustum
+
+gluLookAt		GluMat.look_at
+gluPerspective		GluMat.perspective
+
+GL_NEVER		`never
+GL_LESS			`less
+GL_EQUAL		`equal
+GL_LEQUAL		`lequal
+GL_GREATER		`greater
+GL_NOTEQUAL		`notequal
+GL_GEQUAL		`gequal
+GL_ALWAYS		`always
+
+glDepthFunc		GlFunc.depth_func
+glAlphaFunc		GlFunc.alpha_func
+glStencilFunc		GlFunc.stencil_func
+glBlendFunc		GlFunc.blend_func
+
+Sfactor.GL_ZERO			`zero
+Sfactor.GL_DST_COLOR		`dst_color
+Sfactor.GL_ONE_MINUS_DST_COLOR	`one_minus_dst_color
+Sfactor.GL_SRC_ALPHA		`src_alpha
+Sfactor.GL_ONE_MINUS_SRC_ALPHA	`one_minus_src_alpha
+Sfactor.GL_DST_ALPHA		`dst_alpha
+Sfactor.GL_ONE_MINUS_DST_ALPHA	`one_minus_dst_alpha
+Sfactor.GL_SRC_ALPHA_SATURATE	`src_alpha_saturate
+Sfactor.GL_ONE			`one
+
+Dfactor.GL_ZERO			`zero
+Dfactor.GL_SRC_COLOR		`src_color
+Dfactor.GL_ONE_MINUS_SRC_COLOR	`one_minus_src_color
+Dfactor.GL_SRC_ALPHA		`src_alpha
+Dfactor.GL_ONE_MINUS_SRC_ALPHA	`one_minus_src_alpha
+Dfactor.GL_DST_ALPHA		`dst_alpha
+Dfactor.GL_ONE_MINUS_DST_ALPHA	`one_minus_dst_alpha
+Dfactor.GL_ONE			`one
+
+glTexImage2D		GlTex.image2d
+glTexParameter		GlTex.parameter
+glTexCoord2		GlTex.coord2
+
+glutInitWindowPosition	Glut.initWindowPosition
+glutInitDisplayMode	Glut.initDisplayMode
+glutInitWindowSize	Glut.initWindowSize
+glutCreateWindow	Glut.createWindow
+glutMainLoop		Glut.mainLoop
+glutInit		Glut.init
+glutPostRedisplay	Glut.postRedisplay
+glutSwapBuffers		Glut.swapBuffers
+glutSetWindowTitle	Glut.setWindowTitle
+glutSetIconTitle	Glut.setIconTitle
+glutPositionWindow	Glut.positionWindow
+glutReshapeWindow	Glut.reshapeWindow
+glutFullScreen		Glut.fullScreen
+glutPopWindow		Glut.popWindow
+glutPushWindow		Glut.pushWindow
+glutIconifyWindow	Glut.iconifyWindow
+glutShowWindow		Glut.showWindow
+glutHideWindow		Glut.hideWindow
+
+glutDisplayFunc		Glut.displayFunc
+glutReshapeFunc		Glut.reshapeFunc
+glutKeyboardFunc	Glut.keyboardFunc
+glutKeyboardUpFunc	Glut.keyboardUpFunc
+glutMouseFunc		Glut.mouseFunc
+glutMotionFunc		Glut.motionFunc
+glutPassiveMotionFunc	Glut.passiveMotionFunc
+glutIdleFunc		Glut.idleFunc
+
+glutSpecialFunc		Glut.specialFunc
+glutSpecialUpFunc	Glut.specialUpFunc
+
+glutWireSphere		Glut.wireSphere
+glutSolidSphere		Glut.solidSphere
+glutWireCone		Glut.wireCone
+glutSolidCone		Glut.solidCone
+glutWireCube		Glut.wireCube
+glutSolidCube		Glut.solidCube
+glutWireTorus		Glut.wireTorus
+glutSolidTorus		Glut.solidTorus
+glutWireDodecahedron	Glut.wireDodecahedron
+glutSolidDodecahedron	Glut.solidDodecahedron
+glutWireTeapot		Glut.wireTeapot
+glutSolidTeapot		Glut.solidTeapot
+glutWireOctahedron	Glut.wireOctahedron
+glutSolidOctahedron	Glut.solidOctahedron
+glutWireTetrahedron	Glut.wireTetrahedron
+glutSolidTetrahedron	Glut.solidTetrahedron
+glutWireIcosahedron	Glut.wireIcosahedron
+glutSolidIcosahedron	Glut.solidIcosahedron
+
+gameModeString		Glut.glutGameModeString
+enterGameMode		Glut.glutEnterGameMode
+leaveGameMode		Glut.glutLeaveGameMode
+gameModeGet		Glut.glutGameModeGet
+
+glEnable		Gl.enable
+glFlush			Gl.flush
+
+GL_ALPHA_TEST		`alpha_test
+GL_AUTO_NORMAL		`auto_normal
+GL_BLEND		`blend
+GL_CLIP_PLANE0		`clip_plane0
+GL_CLIP_PLANE1		`clip_plane1
+GL_CLIP_PLANE2		`clip_plane2
+GL_CLIP_PLANE3		`clip_plane3
+GL_CLIP_PLANE4		`clip_plane4
+GL_CLIP_PLANE5		`clip_plane5
+GL_COLOR_MATERIAL	`color_material
+GL_CULL_FACE		`cull_face
+GL_DEPTH_TEST		`depth_test
+GL_DITHER		`dither
+GL_FOG			`fog
+GL_LIGHT0		`light0
+GL_LIGHT1		`light1
+GL_LIGHT2		`light2
+GL_LIGHT3		`light3
+GL_LIGHT4		`light4
+GL_LIGHT5		`light5
+GL_LIGHT6		`light6
+GL_LIGHT7		`light7
+GL_LIGHTING		`lighting
+GL_LINE_SMOOTH		`line_smooth
+GL_LINE_STIPPLE		`line_stipple
+GL_LINE			`line
+GL_INDEX_LOGIC_OP	`index_logic_op
+GL_COLOR_LOGIC_OP	`color_logic_op
+GL_MAP1_COLOR_4		`map1_color_4
+GL_MAP1_INDEX		`map1_index
+GL_MAP1_NORMAL		`map1_normal
+GL_MAP1_TEXTURE_COORD_1	`map1_texture_coord_1
+GL_MAP1_TEXTURE_COORD_2	`map1_texture_coord_2
+GL_MAP1_TEXTURE_COORD_3	`map1_texture_coord_3
+GL_MAP1_TEXTURE_COORD_4	`map1_texture_coord_4
+GL_MAP1_VERTEX_3	`map1_vertex_3
+GL_MAP1_VERTEX_4	`map1_vertex_4
+GL_MAP2_COLOR_4		`map2_color_4
+GL_MAP2_INDEX		`map2_index
+GL_MAP2_NORMAL		`map2_normal
+GL_MAP2_TEXTURE_COORD_1	`map2_texture_coord_1
+GL_MAP2_TEXTURE_COORD_2	`map2_texture_coord_2
+GL_MAP2_TEXTURE_COORD_3	`map2_texture_coord_3
+GL_MAP2_TEXTURE_COORD_4	`map2_texture_coord_4
+GL_MAP2_VERTEX_3	`map2_vertex_3
+GL_MAP2_VERTEX_4	`map2_vertex_4
+GL_NORMALIZE		`normalize
+GL_POINT_SMOOTH		`point_smooth
+GL_POLYGON_SMOOTH	`polygon_smooth
+GL_POLYGON_STIPPLE	`polygon_stipple
+GL_SCISSOR_TEST		`scissor_test
+GL_STENCIL_TEST		`stencil_test
+GL_TEXTURE_1D		`texture_1d
+GL_TEXTURE_2D		`texture_2d
+GL_TEXTURE_GEN_Q	`texture_gen_q
+GL_TEXTURE_GEN_R	`texture_gen_r
+GL_TEXTURE_GEN_S	`texture_gen_s
+GL_TEXTURE_GEN_T	`texture_gen_t
+
+GL_COLOR_BUFFER_BIT	`color
+GL_DEPTH_BUFFER_BIT	`depth
+GL_ACCUM_BUFFER_BIT	`accum
+GL_STENCIL_BUFFER_BIT	`stencil
+glClearColor		GlClear.color
+glClearDepth		GlClear.depth
+glClearIndex		GlClear.index
+glClear			GlClear.clear
+
+glPushAttrib		GlMisc.push_attrib
+glPopAttrib		GlMisc.pop_attrib
+
+Attrib.GL_ACCUM_BUFFER_BIT	`accum_buffer
+Attrib.GL_COLOR_BUFFER_BIT	`color_buffer
+Attrib.GL_CURRENT_BIT		`current
+Attrib.GL_DEPTH_BUFFER_BIT	`depth_buffer
+Attrib.GL_ENABLE_BIT		`enable
+Attrib.GL_EVAL_BIT		`eval
+Attrib.GL_FOG_BIT		`fog
+Attrib.GL_HINT_BIT		`hint
+Attrib.GL_LIGHTING_BIT		`lighting
+Attrib.GL_LINE_BIT		`line
+Attrib.GL_LIST_BIT		`list
+Attrib.GL_MULTISAMPLE_BIT	`multisample
+Attrib.GL_PIXEL_MODE_BIT	`pixel_mode
+Attrib.GL_POINT_BIT		`point
+Attrib.GL_POLYGON_BIT		`polygon
+Attrib.GL_POLYGON_STIPPLE_BIT	`polygon_stipple
+Attrib.GL_SCISSOR_BIT		`scissor
+Attrib.GL_STENCIL_BUFFER_BIT	`stencil_buffer
+Attrib.GL_TEXTURE_BIT		`texture
+Attrib.GL_TRANSFORM_BIT		`transform
+Attrib.GL_VIEWPORT_BIT		`viewport
+
+glEdgeFlagPointer	GlArray.edge_flag
+glTexCoordPointer	GlArray.tex_coord
+glColorPointer		GlArray.color
+glIndexPointer		GlArray.index
+glNormalPointer		GlArray.normal
+glVertexPointer		GlArray.vertex
+glEnableClientState	GlArray.enable
+glDisableClientState	GlArray.disable
+glArrayElement		GlArray.element
+glDrawArrays		GlArray.draw_arrays
+glDrawElements		GlArray.draw_elements
+
+GL_COLOR_ARRAY			`color
+GL_EDGE_FLAG_ARRAY		`edge_flag
+GL_FOG_COORD_ARRAY		`fog_coord
+GL_INDEX_ARRAY			`index
+GL_NORMAL_ARRAY			`normal
+GL_SECONDARY_COLOR_ARRAY	`secondary_color
+GL_TEXTURE_COORD_ARRAY		`texture_coord
+GL_VERTEX_ARRAY			`vertex
+
+glColorMaterial		GlLight.color_material
+glLightModel		GlLight.light_model
+glFog			GlLight.fog
+glMaterial		GlLight.material
+glLight			GlLight.light
+
+GL_BACK			`back
+GL_FRONT_AND_BACK	`both
+GL_FRONT		`front
+
+GL_EMISSION		`emission
+GL_DIFFUSE		`diffuse
+GL_SPECULAR		`specular
+GL_AMBIENT_AND_DIFFUSE	`ambient_and_diffuse
+GL_AMBIENT		`ambient
+
+Material.GL_SHININESS		`shininess
+Material.GL_AMBIENT_AND_DIFFUSE	`ambient_and_diffuse
+Material.GL_COLOR_INDEXES	`color_indexes
+
+Light.GL_POSITION		`position
+Light.GL_SPOT_DIRECTION		`spot_direction
+Light.GL_SPOT_EXPONENT		`spot_exponent
+Light.GL_SPOT_CUTOFF		`spot_cutoff
+Light.GL_CONSTANT_ATTENUATION	`constant_attenuation
+Light.GL_LINEAR_ATTENUATION	`linear_attenuation
+Light.GL_QUADRATIC_ATTENUATION	`quadratic_attenuation
+
+Bigarray.Array1.create		Raw.create
+Bigarray.Array1.set		Raw.set_float
+float32				`float
+
+GL_MODELVIEW		`modelview
+GL_PROJECTION		`projection
+GL_TEXTURE		`texture
+GL_COLOR		`color
+
+
+GLUT_KEY_F2		Glut.KEY_F2
+GLUT_KEY_F3		Glut.KEY_F3
+GLUT_KEY_F4		Glut.KEY_F4
+GLUT_KEY_F5		Glut.KEY_F5
+GLUT_KEY_F6		Glut.KEY_F6
+GLUT_KEY_F7		Glut.KEY_F7
+GLUT_KEY_F8		Glut.KEY_F8
+GLUT_KEY_F9		Glut.KEY_F9
+GLUT_KEY_F10		Glut.KEY_F10
+GLUT_KEY_F11		Glut.KEY_F11
+GLUT_KEY_F12		Glut.KEY_F12
+GLUT_KEY_F1		Glut.KEY_F1
+GLUT_KEY_LEFT		Glut.KEY_LEFT
+GLUT_KEY_UP		Glut.KEY_UP
+GLUT_KEY_RIGHT		Glut.KEY_RIGHT
+GLUT_KEY_DOWN		Glut.KEY_DOWN
+GLUT_KEY_PAGE_UP	Glut.KEY_PAGE_UP
+GLUT_KEY_PAGE_DOWN	Glut.KEY_PAGE_DOWN
+GLUT_KEY_HOME		Glut.KEY_HOME
+GLUT_KEY_END		Glut.KEY_END
+GLUT_KEY_INSERT		Glut.KEY_INSERT
+

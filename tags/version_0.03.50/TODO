@@ -1,0 +1,12 @@
+
+The jpeg loader dirrectly loads the texture into the ba.
+We should do the same for the PNG and SVG loaders, instead
+of C-malloc a buffer and copy from this buffer into the ba.
+
+make targets:
+> clean_core
+> clean_jpeg
+> clean_fun
+> clean_genimg
+> clean_svg
+> clean_png

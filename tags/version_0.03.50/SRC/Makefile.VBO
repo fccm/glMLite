@@ -1,0 +1,112 @@
+# {{{ COPYING 
+#
+# +-----------------------------------------------------------------------+
+# |  This file contains compile rules to build glMLite, an OCaml binding  |
+# |  to the OpenGL API.                                                   |
+# +-----------------------------------------------------------------------+
+# |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
+# |  Contact:  <fmonnier@linux-nantes.org>                                |
+# +-----------------------------------------------------------------------+
+# |  This program is free software: you can redistribute it and/or        |
+# |  modify it under the terms of the GNU General Public License          |
+# |  as published by the Free Software Foundation, either version 3       |
+# |  of the License, or (at your option) any later version.               |
+# |                                                                       |
+# |  This program is distributed in the hope that it will be useful,      |
+# |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+# |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+# |  GNU General Public License for more details.                         |
+# |                                                                       |
+# |  You should have received a copy of the GNU General Public License    |
+# |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
+# +-----------------------------------------------------------------------+
+#
+# }}}
+
+include ../Makefile.depend
+# {{{ Enums 
+
+ENUMS_DIR=enums
+
+# enums are pre-generated in the directory enums/
+# to re-generate them uncomment this line (if commented):
+include ./Makefile.enums
+
+# }}}
+include ./Makefile.mlpp
+
+.PHONY: vbo vbo_byte vbo_opt vbo_clean
+vbo: vbo_byte vbo_opt
+vbo_byte: VBO.cma
+vbo_opt: VBO.cmxa
+
+
+ML_VBO_INCS=\
+    $(ENUMS_DIR)/buffer_object_target.inc.ml   $(ENUMS_DIR)/vbo_usage_pattern.inc.ml
+
+C_VBO_INCS=\
+    $(ENUMS_DIR)/vbo_usage_pattern_arb.inc.c     $(ENUMS_DIR)/buffer_object_target_arb.inc.c \
+    $(ENUMS_DIR)/vbo_usage_pattern_arb.inc-r.c
+
+
+VBO.ml: VBO.ml.pp $(ML_VBO_INCS) $(MLPP)
+	$(MLPP) -C $<  > $@
+
+VBO.mli: VBO.ml.pp $(ML_VBO_INCS) $(MLPP)
+	$(MLPP) -D MLI -C $<  > $@
+	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+
+VBO.cmi: VBO.mli GL.cmi
+	$(OCAMLC) -c $<
+
+VBO.cmx: VBO.ml VBO.cmi
+	$(OCAMLOPT) -c $(ML_STATIC)  $<
+
+VBO.cmo: VBO.ml VBO.cmi
+	$(OCAMLC) -c $(ML_STATIC)  $<
+
+vbo.wrap.o: vbo.wrap.c  $(C_VBO_INCS)
+	$(OCAMLC)  -c  $<
+
+
+ifeq ($(USE_GL3_CORE_PROFILE),OK)
+gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
+	$(OCAMLC)  -c  $<
+
+dllVBO.so libVBO.a: vbo.wrap.o gl3_deprecations.o
+	$(OCAMLMKLIB)  -o  VBO  $^ -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+else
+dllVBO.so libVBO.a: vbo.wrap.o
+	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+endif
+
+
+VBO.cmxa VBO.a:  VBO.cmx  dllVBO.so
+	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+
+VBO.cma:  VBO.cmo  dllVBO.so
+	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+
+vbo_clean:
+	rm -f VBO.{ml,mli} VBO.cm[ioxa] VBO.{o,a,cmxa} dllVBO.so vbo.wrap.o
+
+DIST_FILES_VBO=\
+    VBO.cma   \
+    VBO.cmi   \
+    VBO.cmxa  \
+    VBO.cmx   \
+    VBO.a     \
+    VBO.o     \
+    libVBO.a  \
+#EOL
+SO_DIST_FILES_VBO=\
+    dllVBO.so \
+#EOL
+
+install: $(DIST_FILES_VBO)  $(SO_DIST_FILES_VBO)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_VBO); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_VBO);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+
+# vim: fdm=marker

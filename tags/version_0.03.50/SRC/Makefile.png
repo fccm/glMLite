@@ -1,0 +1,80 @@
+# {{{ COPYING 
+#
+# +-----------------------------------------------------------------------+
+# |  This file contains compile rules to build glMLite, an OCaml binding  |
+# |  to the OpenGL API.                                                   |
+# +-----------------------------------------------------------------------+
+# |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
+# |  Contact:  <fmonnier@linux-nantes.org>                                |
+# +-----------------------------------------------------------------------+
+# |  This program is free software: you can redistribute it and/or        |
+# |  modify it under the terms of the GNU General Public License          |
+# |  as published by the Free Software Foundation, either version 3       |
+# |  of the License, or (at your option) any later version.               |
+# |                                                                       |
+# |  This program is distributed in the hope that it will be useful,      |
+# |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+# |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+# |  GNU General Public License for more details.                         |
+# |                                                                       |
+# |  You should have received a copy of the GNU General Public License    |
+# |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
+# +-----------------------------------------------------------------------+
+#
+# }}}
+
+PNG_CFLAGS := $(shell libpng-config --cflags)
+PNG_LIBS   := $(shell libpng-config --libs)
+
+.PHONY: png png_byte png_opt
+png all: png_byte png_opt
+png_byte: png_loader.cma
+png_opt: png_loader.cmxa
+
+include ../Makefile.depend
+
+GL.cmi:
+	$(MAKE) $@ -f Makefile
+
+ENUMS_DIR=enums
+include ./Makefile.enums
+
+png_loader.cmi png_loader.cmo: png_loader.ml  GL.cmi
+	$(OCAMLC) -c $<
+
+png_loader.cmx png_loader.o: png_loader.ml
+	$(OCAMLOPT) -c $<
+
+loader-libpng.o: loader-libpng.c  loader-texure.h  $(ENUMS_DIR)/pixel_data_format.inc-r.c
+	$(OCAMLC)  -c -ccopt "$(PNG_CFLAGS)" $<
+
+dllpng_loader.so libpng_loader.a: loader-libpng.o
+	$(OCAMLMKLIB) -o png_loader $< -L"`ocamlc -where`" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+
+png_loader.cmxa png_loader.a:  png_loader.cmx  dllpng_loader.so
+	$(OCAMLMKLIB) -o png_loader $< -L"`ocamlc -where`" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+
+png_loader.cma:  png_loader.cmo  dllpng_loader.so
+	$(OCAMLMKLIB) -o png_loader $< -L"`ocamlc -where`" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+
+DIST_FILES_PNG=\
+    png_loader.cma   \
+    png_loader.cmi   \
+    png_loader.cmxa  \
+    png_loader.cmx   \
+    png_loader.a     \
+    png_loader.o     \
+    libpng_loader.a  \
+#EOL
+SO_DIST_FILES_PNG=\
+    dllpng_loader.so \
+#EOL
+
+install: $(DIST_FILES_PNG)  $(SO_DIST_FILES_PNG)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_PNG); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_PNG);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+
+
+# vim: fdm=marker

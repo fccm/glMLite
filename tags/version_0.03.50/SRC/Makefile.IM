@@ -1,0 +1,53 @@
+include ../Makefile.depend
+
+.PHONY: genimg genimg_byte genimg_opt
+genimg all: genimg_byte genimg_opt
+genimg_byte: genimg_loader.cma
+genimg_opt: genimg_loader.cmxa
+
+IM_LIBS := $(shell Magick-config --libs)
+LD_FLAGS := $(shell Magick-config --ldflags)
+C_FLAGS := $(shell Magick-config --cflags)
+CPP_FLAGS := $(shell Magick-config --cppflags)
+# gcc `Magick-config --cflags --cppflags` -o core core.c `Magick-config --ldflags --libs`
+
+GL.cmi:
+	$(MAKE) $@ -f Makefile
+
+genimg_loader.cmi genimg_loader.cmo: genimg_loader.ml  GL.cmi
+	$(OCAMLC) -c $<
+
+genimg_loader.cmx genimg_loader.o: genimg_loader.ml
+	$(OCAMLOPT) -c $<
+
+loader-libmagick.o: loader-libmagick.c  loader-texure.h
+	$(OCAMLC) -c -ccopt "$(C_FLAGS)" -ccopt "$(CPP_FLAGS)" $<
+
+dllgenimg_loader.so libgenimg_loader.a: loader-libmagick.o
+	$(OCAMLMKLIB) -o genimg_loader $< -L"`ocamlc -where`" -lbigarray $(IM_LIBS) $(LD_FLAGS) #$(GL_LIBS)
+
+genimg_loader.cmxa genimg_loader.a:  genimg_loader.cmx  dllgenimg_loader.so
+	$(OCAMLMKLIB) -o genimg_loader $< -L"`ocamlc -where`" -lbigarray $(IM_LIBS) $(LD_FLAGS) #$(GL_LIBS)
+
+genimg_loader.cma:  genimg_loader.cmo  dllgenimg_loader.so
+	$(OCAMLMKLIB) -o genimg_loader $< -L"`ocamlc -where`" -lbigarray $(IM_LIBS) $(LD_FLAGS) #$(GL_LIBS)
+
+DIST_FILES_GENIMG=\
+    genimg_loader.cma   \
+    genimg_loader.cmi   \
+    genimg_loader.cmxa  \
+    genimg_loader.cmx   \
+    genimg_loader.a     \
+    genimg_loader.o     \
+    libgenimg_loader.a  \
+#EOL
+SO_DIST_FILES_GENIMG=\
+    dllgenimg_loader.so \
+#EOL
+
+install: $(DIST_FILES_GENIMG)  $(SO_DIST_FILES_GENIMG)
+	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
+
+	for file in $(SO_DIST_FILES_GENIMG); do if [ -f $$file ];then install -m 0755 $$file $(SO_PREFIX)/; fi; done
+	for file in $(DIST_FILES_GENIMG);    do if [ -f $$file ];then install -m 0644 $$file $(PREFIX)/; fi; done
+

@@ -1,0 +1,35 @@
+include ../Makefile.depend
+
+all: OSMesa.cma OSMesa.cmxa
+
+
+osmesa.wrap.o: osmesa.wrap.c
+#	ocamlc -c -cc "gcc -o $@" $<
+	ocamlc -c  $<
+
+dll_osmesa.wrap_stubs.so: osmesa.wrap.o
+	ocamlmklib  -o  _osmesa.wrap_stubs  $<  -lGL -lGLU -lOSMesa
+
+OSMesa.mli: OSMesa.ml
+	ocamlc -i $< > $@
+
+OSMesa.cmi: OSMesa.mli
+	ocamlc -c $<
+
+OSMesa.cmo: OSMesa.ml OSMesa.cmi
+	ocamlc -c $<
+
+OSMesa.cma:  OSMesa.cmo  dll_osmesa.wrap_stubs.so
+	ocamlc -a  -o $@  $<  -dllib dll_osmesa.wrap_stubs.so \
+	    -cclib -lGL  -cclib -lGLU  -cclib -lOSMesa
+
+OSMesa.cmx: OSMesa.ml OSMesa.cmi
+	ocamlopt -c $<
+
+OSMesa.cmxa:  OSMesa.cmx  dll_osmesa.wrap_stubs.so
+	ocamlopt -a  -o $@  $<  -cclib -l_osmesa.wrap_stubs \
+	    -cclib -lGL  -cclib -lGLU  -cclib -lOSMesa
+
+clean:
+	rm -f *.[oa] *.so *.cm[ixoa] *.cmxa
+

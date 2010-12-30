@@ -1,0 +1,73 @@
+# {{{ COPYING 
+#
+# +-----------------------------------------------------------------------+
+# |  This file contains compile rules to build glMLite, an OCaml binding  |
+# |  to the OpenGL API.                                                   |
+# +-----------------------------------------------------------------------+
+# |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
+# |  Contact:  <fmonnier@linux-nantes.org>                                |
+# +-----------------------------------------------------------------------+
+# |  This program is free software: you can redistribute it and/or        |
+# |  modify it under the terms of the GNU General Public License          |
+# |  as published by the Free Software Foundation, either version 3       |
+# |  of the License, or (at your option) any later version.               |
+# |                                                                       |
+# |  This program is distributed in the hope that it will be useful,      |
+# |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+# |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+# |  GNU General Public License for more details.                         |
+# |                                                                       |
+# |  You should have received a copy of the GNU General Public License    |
+# |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
+# +-----------------------------------------------------------------------+
+#
+# }}}
+
+include ../Makefile.depend
+
+.PHONY: va varray varray_byte varray_opt
+varray_byte: vertArray.cma
+varray_opt: vertArray.cmxa
+va varray: varray_byte varray_opt
+
+
+vertArray.ml: vertArray.ml.pp  $(ENUMS_DIR)/interleaved_format.inc.ml $(MLPP)
+	$(MLPP) -C $<  > $@
+
+vertArray.mli: vertArray.ml
+	cp $< $@
+	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+
+vertArray.cmi: vertArray.mli GL.cmi
+	$(OCAMLC) -c $<
+
+vertArray.cmx: vertArray.ml vertArray.cmi
+	$(OCAMLOPT) -c $(ML_STATIC)  $<
+
+vertArray.cmo: vertArray.ml vertArray.cmi
+	$(OCAMLC) -c $(ML_STATIC)  $<
+
+varray.wrap.o: varray.wrap.c  $(ENUMS_DIR)/interleaved_format.inc.c
+	$(OCAMLC)  -c  $<
+
+
+ifeq ($(USE_GL3_CORE_PROFILE),OK)
+gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
+	$(OCAMLC)  -c  $<
+
+dllvertArray.so libvertArray.a: varray.wrap.o gl3_deprecations.o
+	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+else
+dllvertArray.so libvertArray.a: varray.wrap.o
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+endif
+
+
+vertArray.cmxa vertArray.a:  vertArray.cmx  dllvertArray.so
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+
+vertArray.cma:  vertArray.cmo  dllvertArray.so
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+
+
+# vim: fdm=marker

@@ -1,0 +1,11 @@
+
+The module Genimg_loader is a generic image loader.
+It uses the ImageMagick library so it can read all the
+images file formats the ImageMagick knows.
+the full list of the supported image formats is available
+on this web-page:
+ http://www.imagemagick.org/script/formats.php
+
+To build this module, run this command:
+ make all -f Makefile.IM
+

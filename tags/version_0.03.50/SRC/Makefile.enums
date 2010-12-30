@@ -1,0 +1,67 @@
+include ../Makefile.depend
+
+#### configure, test the config
+
+CONF_TOOL=configure.exe
+
+# ocaml knows which cc to use, so rely on it
+configure.o: configure.c
+	$(OCAMLC) -c $<
+configure_boot.cmx: configure_boot.ml
+	$(OCAMLOPT) -c $<
+$(CONF_TOOL): configure.o configure_boot.cmx
+	$(OCAMLOPT) -cclib "$(GL_LIBS)" configure.o configure_boot.cmx -o $@
+
+clean-conf:
+	rm -f configure.exe
+
+CONF_GL_VERSION = $(shell ./$(CONF_TOOL) --gl-version)
+
+
+#### generating xmlm
+XMLM_PATH=.
+
+xmlm.cmi: xmlm.mli
+	ocamlc -c -g -o xmlm.cmi xmlm.mli
+xmlm.cmo: xmlm.ml xmlm.cmi
+	ocamlc -c -g -o xmlm.cmo xmlm.ml
+xmlm.cma: xmlm.cmo xmlm.cmi
+	ocamlc -a -g -o xmlm.cma xmlm.cmo
+xmlm.cmx: xmlm.ml xmlm.cmi
+	ocamlopt -c -g -o xmlm.cmx xmlm.ml
+xmlm.cmxa: xmlm.cmx xmlm.cmi
+	ocamlopt -a -g -o xmlm.cmxa xmlm.cmx
+
+#### generating the gl-enums
+
+ENUMS_TOOL=enums.exe
+ENUMS_DIR=enums
+
+$(ENUMS_DIR):
+	if [ ! -d $@ ]; then mkdir $@ ; fi
+
+$(ENUMS_TOOL): enums_xmlm.ml $(ENUMS_DIR) xmlm.cmxa
+	$(OCAMLOPT) \
+	      -I $(XMLM_PATH) xmlm.cmxa  \
+	      $<  -o $@
+
+
+$(ENUMS_DIR)/%.inc.ml:  enums.list.xml  $(ENUMS_TOOL)  $(CONF_TOOL)
+	./$(ENUMS_TOOL) $(CONF_GL_VERSION) $< -ml  `basename $@ .inc.ml`  >  $@
+
+$(ENUMS_DIR)/%.inc.c:  enums.list.xml  $(ENUMS_TOOL)  $(CONF_TOOL)
+	./$(ENUMS_TOOL) $(CONF_GL_VERSION) $< -c  `basename $@ .inc.c`  >  $@
+
+$(ENUMS_DIR)/%.inc-r.c:  enums.list.xml  $(ENUMS_TOOL)  $(CONF_TOOL)
+	./$(ENUMS_TOOL) $(CONF_GL_VERSION) $< -cr  `basename $@ .inc-r.c`  >  $@
+
+clean-enum-incs:
+	rm -f  $(ENUMS_TOOL)  $(ENUMS_DIR)/*.inc{,-r}.{c,ml}
+	if [ -d $(ENUMS_DIR) ] ; then rmdir  $(ENUMS_DIR)/ ; fi
+
+clean-enum-dist:
+	rm -f  $(ENUMS_TOOL)
+
+clean_enum: clean-enum-incs clean-enum-dist
+.PHONY: clean_enum clean-enum-incs clean-enum-dist
+

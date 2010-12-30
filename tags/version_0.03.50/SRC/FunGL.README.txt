@@ -1,0 +1,15 @@
+
+FunGL is an _experimental_ attempt at a functional interface to OpenGL.
+
+This module trys to be a functional wrapper around OpenGL,
+so you don't have to think about the side effects and restoring
+the previous gl state when using these functions.
+You can set parameters for a local effect.
+________________________________________________________________________
+
+FunGlut is an _experimental_ attempt at a functional interface to Glut.
+
+It tries to provide an interface similar to a List.fold_left function.
+________________________________________________________________________
+
+to build FunGL and FunGlut run the command `make fun`

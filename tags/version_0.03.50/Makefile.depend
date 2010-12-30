@@ -1,0 +1,101 @@
+# {{{ COPYING 
+#
+# +------------------------------------------------------------------------+
+# |  This file contains compile rules to build glMLite, an OCaml binding   |
+# |  to the OpenGL API.                                                    |
+# +------------------------------------------------------------------------+
+# |  Copyright (C) 2006 - 2008 Florent Monnier <fmonnier@linux-nantes.org> |
+# +------------------------------------------------------------------------+
+# |  This program is free software: you can redistribute it and/or         |
+# |  modify it under the terms of the GNU General Public License           |
+# |  as published by the Free Software Foundation, either version 3        |
+# |  of the License, or (at your option) any later version.                |
+# |                                                                        |
+# |  This program is distributed in the hope that it will be useful,       |
+# |  but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+# |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         |
+# |  GNU General Public License for more details.                          |
+# |                                                                        |
+# |  You should have received a copy of the GNU General Public License     |
+# |  along with this program.  If not, see <http://www.gnu.org/licenses/>  |
+# +------------------------------------------------------------------------+
+#
+# }}}
+
+#OCAMLOPT=ocamlopt
+#OCAMLC=ocamlc
+#OCAMLDOC=ocamldoc
+OCAMLOPT=ocamlopt.opt -g
+OCAMLC=ocamlc.opt
+OCAMLDOC=ocamldoc.opt
+
+OCAML=ocaml
+OCAMLMKLIB=ocamlmklib
+
+OCAML_PATH := `ocamlc -where`
+DIST_NAME=glMLite
+
+PREFIX=$(OCAML_PATH)/$(DIST_NAME)
+SO_PREFIX=$(PREFIX)
+#SO_PREFIX=$(OCAML_PATH)/stublibs/
+
+USE_GL3_CORE_PROFILE=
+#USE_GL3_CORE_PROFILE = OK
+
+SRC=SRC
+TEST=TEST
+TEST3=TEST3
+LABLGL=LablGL
+
+DOC_INSTALL_PATH=/usr/local/share/doc/$(DIST_NAME)
+#DOC_INSTALL_PATH=$HOME/public_html/doc/$(DIST_NAME)
+
+CC=gcc
+# Maybe for MacOS X:
+##DAR_CC := g++ -lc -lm -lstdc++
+##DAR_CC := g++ -lgll -framework Cocoa -framework Foundation -lstdc++
+#DAR_CC := g++ -framework Foundation -lc -lm -lstdc++
+#CC := $(shell if [ `uname` == "Darwin" ]; then echo $(DAR_CC); else echo "gcc"; fi)
+
+
+# Which Glut do you want?
+GLUT_LINK = glut
+#GLUT_LINK = freeglut
+#GLUT_LINK = openglut
+# If the library radical is not glut, maybe the header file too
+# so edit the file "./SRC/glut.wrap.c" to use the according 
+# <GL/freeglut.h> or <GL/openglut.h>
+
+
+# Linking for Linux
+#GL_LIBS = -lGL
+#GLU_LIBS = -lGLU
+#GLUT_LIBS = -l$(GLUT_LINK)
+
+# Linking for OS X
+#GL_LIBS = -framework OpenGL
+#GLU_LIBS = -framework OpenGL
+#GLUT_LIBS = -framework GLUT
+
+# Linking for MS-Windows (maybe)
+#GL_LIBS = -lopengl32
+#GLU_LIBS = -lglu32
+#GLUT_LIBS = -lglut32
+
+# Portable Linking
+GL_LIBS := $(shell if [ `uname` == "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGL"; fi)
+GLU_LIBS := $(shell if [ `uname` == "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGLU"; fi)
+GLUT_LIBS := $(shell if [ `uname` == "Darwin" ]; then echo "-framework GLUT"; else echo "-l$(GLUT_LINK)"; fi)
+
+
+# {{{ usual rules 
+
+%.cmi: %.mli
+	$(OCAMLC) -c $<
+%.cmo: %.ml
+	$(OCAMLC) -c $<
+%.cmx: %.ml
+	$(OCAMLOPT) -c $<
+# }}}
+
+# vim: fdm=marker
