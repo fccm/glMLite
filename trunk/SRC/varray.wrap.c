@@ -63,19 +63,47 @@
 #define LINUX_FUNC(func, f_type)
 
 #else
-#include <GL/glx.h>
-#define CHECK_FUNC(func, f_type)
-#define LINUX_FUNC(func, f_type) \
-    static f_type func = NULL; \
-    static unsigned int func##_is_loaded = 0; \
-    if (!func##_is_loaded) { \
-        func = (f_type) glXGetProcAddress((GLubyte *)#func); \
-        if (func == NULL) caml_failwith("Unable to load " #func); \
-        else func##_is_loaded = 1; \
+  #if defined(__APPLE__) && !defined(VMDMESA)
+    #include <mach-o/dyld.h>
+    #include <string.h>
+
+    void * MyNSGLGetProcAddress (const char *name) {
+      NSSymbol symbol; 
+      char *symbolName; 
+      symbolName = malloc (strlen (name) + 2);
+
+      strcpy(symbolName + 1, name);
+      symbolName[0] = '_';
+      symbol = NULL;
+      if (NSIsSymbolNameDefined(symbolName))
+        symbol = NSLookupAndBindSymbol(symbolName);
+
+      free(symbolName);
+      return symbol ? NSAddressOfSymbol(symbol) : NULL;
     }
 
+    #define CHECK_FUNC(func, f_type) 
+    #define LINUX_FUNC(func, f_type) \
+      static f_type func = NULL; \
+      static unsigned int func##_is_loaded = 0; \
+      if (!func##_is_loaded) { \
+          func = (f_type) MyNSGLGetProcAddress(#func); \
+          if (func == NULL) caml_failwith("Unable to load " #func); \
+          else func##_is_loaded = 1; \
+      }
+  #else
+    #include <GL/glx.h>
+    #define CHECK_FUNC(func, f_type)
+    #define LINUX_FUNC(func, f_type) \
+      static f_type func = NULL; \
+      static unsigned int func##_is_loaded = 0; \
+      if (!func##_is_loaded) { \
+          func = (f_type) glXGetProcAddress((GLubyte *)#func); \
+          if (func == NULL) caml_failwith("Unable to load " #func); \
+          else func##_is_loaded = 1; \
+      }
+  #endif
 #endif
-
 
 
 /* Vertex Arrays Bindings */
