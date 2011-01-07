@@ -60,7 +60,7 @@
         else func##_is_loaded = 1; \
     }
 
-#define LINUX_FUNC(func, f_type)
+#define UNIX_FUNC(func, f_type)
 
 #else
   #if defined(__APPLE__) && !defined(VMDMESA)
@@ -83,7 +83,7 @@
     }
 
     #define CHECK_FUNC(func, f_type) 
-    #define LINUX_FUNC(func, f_type) \
+    #define UNIX_FUNC(func, f_type) \
       static f_type func = NULL; \
       static unsigned int func##_is_loaded = 0; \
       if (!func##_is_loaded) { \
@@ -94,7 +94,7 @@
   #else
     #include <GL/glx.h>
     #define CHECK_FUNC(func, f_type)
-    #define LINUX_FUNC(func, f_type) \
+    #define UNIX_FUNC(func, f_type) \
       static f_type func = NULL; \
       static unsigned int func##_is_loaded = 0; \
       if (!func##_is_loaded) { \
@@ -1439,14 +1439,14 @@ ml_glvertexattribpointer_ofs32_bytecode( value * argv, int argn )
 CAMLprim value ml_glgenvertexarray( value unit ) {
     GLuint vao_id;
     CHECK_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
-    LINUX_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
+    UNIX_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
     glGenVertexArrays(1, &vao_id);
     return Val_long(vao_id);
 }
 
 CAMLprim value ml_glbindvertexarray( GLuint id ) {
     CHECK_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
-    LINUX_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
+    UNIX_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
     glBindVertexArray( Long_val(id) );
     return Val_unit;
 }
@@ -1456,14 +1456,14 @@ CAMLprim value ml_glbindvertexarray( GLuint id ) {
 CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
     GLuint vao_id = Long_val(ml_vao);
     CHECK_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
-    LINUX_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
+    UNIX_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
     glDeleteVertexArrays( 1, &vao_id );
     return Val_unit;
 }
 
 CAMLprim value ml_glisvertexarray( value ml_vao ) {
     CHECK_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
-    LINUX_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
+    UNIX_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
     return Val_long( glIsVertexArray( Long_val(ml_vao) ));
 }
 
