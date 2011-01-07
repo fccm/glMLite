@@ -589,7 +589,10 @@ cleanmeta clean-meta:
 # }}}
 # {{{ findlib install 
 
-install_findlib: $(DIST_FILES)  $(SO_DIST_FILES) META
+install_findlib_core: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) META
+	ocamlfind install glMLite $^
+
+install_findlib: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) $(DIST_FILES_JPEG) $(SO_DIST_FILES_JPEG) META
 	ocamlfind install glMLite $^
 
 uninstall_findlib:
