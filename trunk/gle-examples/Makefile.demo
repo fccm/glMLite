@@ -1,3 +1,5 @@
+include ../Makefile.depend
+
 GL_PATH := ../SRC/
 
 MODULE := $(shell $(OCAML) .capitalize.ml $(DEMO))
