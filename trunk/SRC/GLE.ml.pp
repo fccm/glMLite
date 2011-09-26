@@ -436,5 +436,132 @@ let gleTwistExtrusion ~contour ~cont_normals ~up ~points ~colors ~twist =
 
 
 
+
+#ifdef MLI
+
+val gleSpiral:
+        contour:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        cont_normals:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        up:(float * float * float) option ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+(** sweep an arbitrary contour along a helical path
+    @param  contour         2D contour
+    @param  cont_normal     2D contour normals
+    @param  up              up vector for contour 
+    @param  start_radius    spiral starts in x-y plane
+    @param  drd_theta       change in radius per revolution
+    @param  start_z         starting z value
+    @param  dzd_theta       change in z per revolution
+    @param  start_xform     starting contour affine transform
+    @param  dx_formd_theta  tangent change transform per revolution
+    @param  start_theta     start angle in x-y plane
+    @param  sweep_theta     degrees to spiral around
+*)
+#else
+(* ML *)
+
+external gleSpiral:
+        ncp:int ->
+        contour:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        cont_normals:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        up:(float * float * float) option ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+        = "ml_glespiral_bytecode"
+          "ml_glespiral"
+
+let gleSpiral ~contour ~cont_normals ~up ~start_radius ~drd_theta ~start_z
+              ~dzd_theta ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta =
+
+  let contour_components = Bigarray.Array2.dim2 contour in
+  if contour_components <> 2 then
+    invalid_arg "gleSpiral: should be 2 components per contour";
+
+  let contnorm_components = Bigarray.Array2.dim2 cont_normals in
+  if contnorm_components <> 2 then
+    invalid_arg "gleSpiral: should be 2 components per contour normal";
+
+  let ncp = Bigarray.Array2.dim1 contour
+  and ncontnm = Bigarray.Array2.dim1 cont_normals
+  in
+  if ncp <> ncontnm then
+    invalid_arg "gleSpiral: bigarrays should contain the same number of coordinates";
+
+  gleSpiral ~ncp ~contour ~cont_normals ~up ~start_radius ~drd_theta ~start_z
+            ~dzd_theta ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta;
+;;
+
+#endif
+
+
+
+
+#ifdef MLI
+
+val gleHelicoid:
+        torus_radius:float ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+(** Generalized Torus. Similar to gleSpiral, except contour is a circle.
+    @param  torus_radius    circle contour (torus) radius
+    @param  start_radius    spiral starts in x-y plane
+    @param  drd_theta       change in radius per revolution
+    @param  start_z         starting z value
+    @param  dzd_theta       change in z per revolution
+    @param  start_xform     starting contour affine transform
+    @param  dx_formd_theta  tangent change transform per revolution
+    @param  start_theta     start angle in x-y plane
+    @param  sweep_theta     degrees to spiral around
+*)
+#else
+(* ML *)
+
+external gleHelicoid:
+        torus_radius:float ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+        = "ml_glehelicoid_bytecode"
+          "ml_glehelicoid"
+
+let gleHelicoid ~torus_radius ~start_radius ~drd_theta ~start_z ~dzd_theta
+                ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta =
+
+  gleHelicoid ~torus_radius ~start_radius ~drd_theta ~start_z ~dzd_theta
+              ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta;
+;;
+
+#endif
+
+
+
 (* vim: sw=2 sts=2 ts=2 et fdm=marker filetype=ocaml
  *)
