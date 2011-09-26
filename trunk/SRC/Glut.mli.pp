@@ -127,6 +127,8 @@ external glutSetCursor: cursor:cursor_type -> unit = "ml_glutsetcursor"
 (** {{:http://www.opengl.org/resources/libraries/glut/spec3/node28.html}
     doc on opengl.org} *)
 
+external glutWarpPointer: x:int -> y:int -> unit = "ml_glutwarppointer"
+
 
 
 (* * {2 Overlay Management} *)

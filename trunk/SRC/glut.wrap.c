@@ -732,5 +732,15 @@ GLUTAPI void GLUTAPIENTRY glutHideOverlay(void);
 #endif
 */
 
+t_val ml_glutwarppointer(value x, value y)
+{
+#if (GLUT_API_VERSION >= 4 || GLUT_XLIB_IMPLEMENTATION >= 9)
+    glutWarpPointer(Int_val(x), Int_val(y));
+#else
+    caml_failwith("glutWarpPointer: function not available");
+#endif
+    return Val_unit;
+}
+
 /* vim: sw=4 sts=4 ts=4 et fdm=marker nowrap
  */

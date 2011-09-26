@@ -58,6 +58,8 @@ external glutIconifyWindow: unit -> unit = "ml_gluticonifywindow"
 #include "enums/cursor_type.inc.ml"
 external glutSetCursor: cursor:cursor_type -> unit = "ml_glutsetcursor"
 
+external glutWarpPointer: x:int -> y:int -> unit = "ml_glutwarppointer"
+
 
 #include "enums/init_mode.inc.ml"
 external glutInitDisplayMode: mode:init_mode list -> unit = "ml_glutinitdisplaymode"
