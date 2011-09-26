@@ -22,15 +22,15 @@ CONF_GL_VERSION = $(shell ./$(CONF_TOOL) --gl-version)
 XMLM_PATH=.
 
 xmlm.cmi: xmlm.mli
-	ocamlc -c -g -o xmlm.cmi xmlm.mli
+	$(OCAMLC) -c -g -o xmlm.cmi xmlm.mli
 xmlm.cmo: xmlm.ml xmlm.cmi
-	ocamlc -c -g -o xmlm.cmo xmlm.ml
+	$(OCAMLC) -c -g -o xmlm.cmo xmlm.ml
 xmlm.cma: xmlm.cmo xmlm.cmi
-	ocamlc -a -g -o xmlm.cma xmlm.cmo
+	$(OCAMLC) -a -g -o xmlm.cma xmlm.cmo
 xmlm.cmx: xmlm.ml xmlm.cmi
-	ocamlopt -c -g -o xmlm.cmx xmlm.ml
+	$(OCAMLOPT) -c -g -o xmlm.cmx xmlm.ml
 xmlm.cmxa: xmlm.cmx xmlm.cmi
-	ocamlopt -a -g -o xmlm.cmxa xmlm.cmx
+	$(OCAMLOPT) -a -g -o xmlm.cmxa xmlm.cmx
 
 #### generating the gl-enums
 

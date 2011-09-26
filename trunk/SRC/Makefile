@@ -110,7 +110,7 @@ GL.ml: GL.ml.pp $(ML_GL_INCS) $(MLPP)
 
 GL.mli: GL.ml.pp $(ML_GL_INCS) $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 GL.cmi: GL.mli $(ML_GL_INCS)
 
@@ -206,7 +206,7 @@ Glu.ml: Glu.ml.pp $(MLPP)
 
 Glu.mli: Glu.ml.pp $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@  # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@  # 's/= struct/: sig/g'
 
 
 Glu.cmi: Glu.mli GL.cmi
@@ -307,7 +307,7 @@ FunGL.ml: FunGL.ml.pp $(ML_GL_INCS) $(MLPP)
 
 FunGL.mli: FunGL.ml.pp $(ML_GL_INCS) $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 FunGL.cmi: FunGL.mli GL.cmi
 
@@ -430,13 +430,13 @@ loader-libjpeg.o: loader-libjpeg.c  loader-libjpeg-mem.c  loader-texure.h
 	$(OCAMLC)  -c  $<
 
 dlljpeg_loader.so libjpeg_loader.a: loader-libjpeg.o
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 jpeg_loader.cmxa jpeg_loader.a:  jpeg_loader.cmx  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 jpeg_loader.cma:  jpeg_loader.cmo  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 # }}}
 
@@ -577,7 +577,7 @@ uninstall:
 #	sed -i -e "s:GLUT_LIBS:$(GLUT_LIBS):g" $@
 
 META: META.in
-	ocaml meta.ml \
+	$(OCAML) meta.ml \
 	    -GL_LIBS "$(GL_LIBS)" \
 	    -GLU_LIBS "$(GLU_LIBS)" \
 	    -GLUT_LIBS "$(GLUT_LIBS)" \
@@ -590,13 +590,13 @@ cleanmeta clean-meta:
 # {{{ findlib install 
 
 install_findlib_core: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) META
-	ocamlfind install glMLite $^
+	$(OCAMLFIND) install glMLite $^
 
 install_findlib: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) $(DIST_FILES_JPEG) $(SO_DIST_FILES_JPEG) META
-	ocamlfind install glMLite $^
+	$(OCAMLFIND) install glMLite $^
 
 uninstall_findlib:
-	ocamlfind remove glMLite
+	$(OCAMLFIND) remove glMLite
 
 # }}}
 

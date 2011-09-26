@@ -36,7 +36,7 @@ vertArray.ml: vertArray.ml.pp  $(ENUMS_DIR)/interleaved_format.inc.ml $(MLPP)
 
 vertArray.mli: vertArray.ml
 	cp $< $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 vertArray.cmi: vertArray.mli GL.cmi
 	$(OCAMLC) -c $<
@@ -56,18 +56,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
 dllvertArray.so libvertArray.a: varray.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $^ $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
 else
 dllvertArray.so libvertArray.a: varray.wrap.o
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
 endif
 
 
 vertArray.cmxa vertArray.a:  vertArray.cmx  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
 
 vertArray.cma:  vertArray.cmo  dllvertArray.so
-	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray
+	$(OCAMLMKLIB)  -o  vertArray  $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray
 
 
 # vim: fdm=marker

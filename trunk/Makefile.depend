@@ -32,7 +32,7 @@ OCAMLDOC=ocamldoc.opt
 OCAML=ocaml
 OCAMLMKLIB=ocamlmklib
 
-OCAML_PATH := `ocamlc -where`
+OCAML_PATH := $(shell $(OCAMLC) -where)
 DIST_NAME=glMLite
 
 PREFIX=$(OCAML_PATH)/$(DIST_NAME)

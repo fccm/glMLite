@@ -13,7 +13,7 @@ GLE.ml: GLE.ml.pp  $(MLPP)
 
 GLE.mli: GLE.ml.pp  $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 
 GLE.cmi: GLE.mli
@@ -29,13 +29,13 @@ gle.wrap.o: gle.wrap.c
 	$(OCAMLC)  -c  $<
 
 dllGLE.so libGLE.a: gle.wrap.o
-	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
 
 GLE.cmxa GLE.a:  GLE.cmx  dllGLE.so
-	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
 
 GLE.cma:  GLE.cmo  dllGLE.so
-	$(OCAMLMKLIB) -o GLE $< -L"`ocamlc -where`" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) -lgle $(GL_LIBS)
 
 DIST_FILES_GLE=\
     GLE.cma   \

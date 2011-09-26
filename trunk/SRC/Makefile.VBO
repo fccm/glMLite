@@ -54,7 +54,7 @@ VBO.ml: VBO.ml.pp $(ML_VBO_INCS) $(MLPP)
 
 VBO.mli: VBO.ml.pp $(ML_VBO_INCS) $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 VBO.cmi: VBO.mli GL.cmi
 	$(OCAMLC) -c $<
@@ -74,18 +74,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
 dllVBO.so libVBO.a: vbo.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  VBO  $^ -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $^ -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
 else
 dllVBO.so libVBO.a: vbo.wrap.o
-	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
 endif
 
 
 VBO.cmxa VBO.a:  VBO.cmx  dllVBO.so
-	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
 
 VBO.cma:  VBO.cmo  dllVBO.so
-	$(OCAMLMKLIB)  -o  VBO  $< -L"`ocamlc -where`" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
 
 vbo_clean:
 	rm -f VBO.{ml,mli} VBO.cm[ioxa] VBO.{o,a,cmxa} dllVBO.so vbo.wrap.o
