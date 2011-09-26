@@ -284,6 +284,9 @@ glColorMask
 #ifdef MLI
 val draw_enabled: cap:GL.gl_capability -> (unit -> unit) -> unit
 (** use this function as replacement of {!GL.glEnable} *)
+
+val with_enablements: caps:GL.gl_capability list -> (unit -> unit) -> unit
+(** same than [draw_enabled] but with several capabilities *)
 #else
 (* ML *)
 type enabled_state = bool
@@ -293,6 +296,11 @@ let draw_enabled ~cap f =
   let es = set_get_enabled cap in
   f ();
   if es then restore_enabled cap;
+;;
+let with_enablements ~caps f =
+  let ess = List.rev_map (fun cap -> cap, set_get_enabled cap) caps in
+  f ();
+  List.iter (function (cap,true) -> restore_enabled cap | _ -> ()) ess;
 ;;
 #endif
 
