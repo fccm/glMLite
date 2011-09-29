@@ -8,4 +8,4 @@ then
 else
 	GL_PATH="+glMLite"
 fi
-ocaml -I $GL_PATH GL.cma FunGL.cma Glu.cma Glut.cma FunGlut.cma ariane_fungl.ml
+ocaml -I $GL_PATH GL.cma FunGL.cma Glu.cma Glut.cma FunGlut.cma ariane_fungl.ml $*
