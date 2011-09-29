@@ -54,7 +54,7 @@ let reshape ~width ~height =
   let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
   let worldMatrix = get_identity_matrix() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
-  worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
+  worldViewProjectionMatrix := mult_matrix projectionMatrix worldMatrix;
 ;;
 
 
@@ -75,7 +75,7 @@ let display
 
   let rotation = Quaternions.quaternion_of_axis (0.0, x, y) (now *. 0.8) in
   let m = Quaternions.matrix_of_quaternion rotation in
-  let world_proj_matrix = mult_matrix4 !worldViewProjectionMatrix m in
+  let world_proj_matrix = mult_matrix !worldViewProjectionMatrix m in
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformID 1 false world_proj_matrix;

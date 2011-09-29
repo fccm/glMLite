@@ -75,10 +75,10 @@ let translation_matrix (x,y,z) =
 ;;
 
 (* multiply two matrices *)
-let mult_matrix4 ~mat1 ~mat2 =
+let mult_matrix ~mat1 ~mat2 =
   if Array.length mat1 <> 16
   || Array.length mat2 <> 16
-  then invalid_arg "mult_Matrix4";
+  then invalid_arg "mult_matrix";
 
   let mat1_get = Array.unsafe_get mat1
   and mat2_get = Array.unsafe_get mat2 in
