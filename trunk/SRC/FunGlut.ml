@@ -68,7 +68,7 @@ let fun_glut ~display
   | None -> ()
   end;
 
-  let app = ref init in
+  let app = ref (init ()) in
 
   begin match reshape with
     Some cb -> glutReshapeFunc cb
