@@ -116,10 +116,10 @@ let fun_glut ~display
              (fun ~value ->
                 let _app = _timer !app in
                 app := _app;
-                glutTimerFunc ~msecs ~value:_app ~timer
+                glutTimerFunc ~msecs ~value:() ~timer
              )
            in
-           glutTimerFunc ~msecs ~value:!app ~timer
+           glutTimerFunc ~msecs ~value:() ~timer
         )
   end;
 
