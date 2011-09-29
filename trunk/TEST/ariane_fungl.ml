@@ -109,9 +109,18 @@ let keyboard app ~key ~x ~y =
                             (Array.to_list(Array.make 400 0))
   | _ -> app
 
+let reshape app ~width:w ~height:h =
+  glViewport 0 0 w h;
+  glMatrixMode GL_PROJECTION;
+  glLoadIdentity();
+  Glu.gluPerspective 60. ((float w)/.(float (max 1 h))) 0.1 1000.0;
+  glMatrixMode GL_MODELVIEW;
+  glutPostRedisplay();
+  app
+
 let () =
   FunGlut.fun_glut
       ~display_mode:[GLUT_RGB; GLUT_DOUBLE]
       ~timer:[((_timer), 200)]
-      ~display ~keyboard (*~special*) ~init:(init_app()) ()
+      ~display ~reshape ~keyboard (*~special*) ~init:init_app ()
 
