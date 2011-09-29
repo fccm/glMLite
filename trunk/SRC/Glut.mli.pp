@@ -129,6 +129,7 @@ external glutSetCursor: cursor:cursor_type -> unit = "ml_glutsetcursor"
 
 external glutWarpPointer: x:int -> y:int -> unit = "ml_glutwarppointer"
 
+external glutIgnoreKeyRepeat: ignore:bool -> unit = "ml_glutignorekeyrepeat"
 
 
 (* * {2 Overlay Management} *)

@@ -502,15 +502,10 @@ t_val ml_glutgamemodeget( value _game_mode )
     return Val_int( glutGameModeGet( game_mode ));
 }
 
-
-/* TODO
-GLUT_KEY_REPEAT_OFF
-GLUT_KEY_REPEAT_ON
-GLUT_KEY_REPEAT_DEFAULT
-
-void glutIgnoreKeyRepeat( int ignore );
-void glutSetKeyRepeat( int repeatMode );
-*/
+t_val ml_glutignorekeyrepeat( value ignore )
+{
+    glutIgnoreKeyRepeat( Int_val(ignore) ); ret
+}
 
 
 /* Menu Management */
