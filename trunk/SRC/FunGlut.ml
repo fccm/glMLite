@@ -70,20 +70,11 @@ let fun_glut ~display
 
   let app = ref (init ()) in
 
-  begin match reshape with
-    Some cb -> glutReshapeFunc cb
-  | None -> glutReshapeFunc (fun ~width:w ~height:h ->
-      let h = if h = 0 then 1 else h in
-      glViewport 0 0 w h;
-      glMatrixMode GL_PROJECTION;
-      glLoadIdentity();
-      gluPerspective 60. ((float w)/.(float h)) 0.1 1000.0;
-      glMatrixMode GL_MODELVIEW;
-      glutPostRedisplay())
-  end;
-
   glutDisplayFunc (fun () -> display !app);
 
+  begin match reshape with None -> ()
+  | Some cb -> glutReshapeFunc (fun ~width ~height -> app := cb !app ~width ~height)
+  end;
   begin match keyboard with None -> ()
   | Some cb -> glutKeyboardFunc (fun ~key ~x ~y -> app := cb !app ~key ~x ~y)
   end;
