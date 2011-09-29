@@ -20,6 +20,8 @@
   in the Software.
 *)
 
+type t = float array
+
 let get_identity_matrix() =
   [| 1.0; 0.0; 0.0; 0.0;
      0.0; 1.0; 0.0; 0.0;
