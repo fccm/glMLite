@@ -19,6 +19,11 @@
   from, out of or in connection with the software or the use or other dealings
   in the Software.
 *)
+(** a module to manage opengl matrices *)
+
+(** matrices handling by opengl is now deprecated,
+    programmers are now supposed to handle matrices themselves,
+    so here is a module to do so *)
 
 val get_identity_matrix: unit -> float array
 
