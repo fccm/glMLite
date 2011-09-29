@@ -40,6 +40,7 @@ let fun_glut ~display
       ?visibility ?entry ?timer ?idle
       ?(full_screen=false)
       ?(window_size=800, 600)
+      ?window_position
       ?title ?display_mode
       ?init_gl
       ~init () =
@@ -51,6 +52,10 @@ let fun_glut ~display
   end;
   begin match window_size with
   | width, height -> glutInitWindowSize width height
+  end;
+  begin match window_position with
+  | Some(x, y) -> glutInitWindowPosition x y
+  | None -> ()
   end;
   begin match title with
     Some title -> ignore(glutCreateWindow title)
