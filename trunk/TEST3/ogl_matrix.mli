@@ -39,7 +39,7 @@ val ortho_projection: left:float -> right:float ->
 
 val translation_matrix: float * float * float -> t
 
-val mult_matrix: mat1:t -> mat2:t -> t
+val mult_matrix: m1:t -> m2:t -> t
 
 val matrix_translate: matrix:t -> float * float * float -> unit
 
