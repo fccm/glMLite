@@ -39,6 +39,10 @@ val ortho_projection: left:float -> right:float ->
 
 val translation_matrix: float * float * float -> t
 
+val x_rotation_matrix: angle:float -> t
+val y_rotation_matrix: angle:float -> t
+val z_rotation_matrix: angle:float -> t
+
 val mult_matrix: m1:t -> m2:t -> t
 
 val matrix_translate: matrix:t -> float * float * float -> unit

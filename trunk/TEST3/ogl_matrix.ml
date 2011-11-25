@@ -22,6 +22,9 @@
 
 type t = float array
 
+let pi = 3.14159_26535_89793_23846_2643
+let deg_to_rad = pi /. 180.0
+
 let get_identity () =
   [| 1.0; 0.0; 0.0; 0.0;
      0.0; 1.0; 0.0; 0.0;
@@ -67,12 +70,40 @@ let ortho_projection ~left ~right ~bottom ~top ~near ~far =
 
 (* construct a transformation matrix from a translation *)
 let translation_matrix (x,y,z) =
-  let data = get_identity_matrix() in
+  let data = get_identity() in
   data.(12) <- data.(12) +. x;
   data.(13) <- data.(13) +. y;
   data.(14) <- data.(14) +. z;
   (data)
 ;;
+
+let x_rotation_matrix ~angle:a =
+  let a = a *. deg_to_rad in
+  let cos_a = cos a
+  and sin_a = sin a in
+  [| 1.0;      0.0;    0.0;  0.0;
+     0.0;    cos_a;  sin_a;  0.0;
+     0.0; -. sin_a;  cos_a;  0.0;
+     0.0;      0.0;    0.0;  1.0; |]
+ 
+let y_rotation_matrix ~angle:a =
+  let a = a *. deg_to_rad in
+  let cos_a = cos a
+  and sin_a = sin a in
+  [| cos_a;  0.0; -. sin_a;  0.0;
+       0.0;  1.0;      0.0;  0.0;
+     sin_a;  0.0;    cos_a;  0.0;
+       0.0;  0.0;      0.0;  1.0; |]
+
+let z_rotation_matrix ~angle:a =
+  let a = a *. deg_to_rad in
+  let cos_a = cos a
+  and sin_a = sin a in
+  [|   cos_a;  sin_a;  0.0;  0.0;
+    -. sin_a;  cos_a;  0.0;  0.0;
+         0.0;    0.0;  1.0;  0.0;
+         0.0;    0.0;  0.0;  1.0; |]
+
 
 (* multiply two matrices *)
 let mult_matrix ~m1 ~m2 =
