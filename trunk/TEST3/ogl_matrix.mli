@@ -37,7 +37,11 @@ val ortho_projection: left:float -> right:float ->
   bottom:float -> top:float -> near:float -> far:float -> t
 (** replaces [glOrtho] *)
 
+
+(** {3 transformation matrices} *)
+
 val translation_matrix: float * float * float -> t
+val scale_matrix: float * float * float -> t
 
 val x_rotation_matrix: angle:float -> t
 val y_rotation_matrix: angle:float -> t

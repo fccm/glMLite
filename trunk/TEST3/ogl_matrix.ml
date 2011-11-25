@@ -76,6 +76,13 @@ let translation_matrix (x,y,z) =
        x;   y;   z; 1.0; |]
 
 
+let scale_matrix (x,y,z) =
+  [|   x; 0.0; 0.0; 0.0;
+     0.0;   y; 0.0; 0.0;
+     0.0; 0.0;   z; 0.0;
+     0.0; 0.0; 0.0; 1.0; |]
+
+
 let x_rotation_matrix ~angle:a =
   let a = a *. deg_to_rad in
   let cos_a = cos a
