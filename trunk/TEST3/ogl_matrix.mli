@@ -27,7 +27,7 @@
 
 type t = float array
 
-val get_identity_matrix: unit -> t
+val get_identity: unit -> t
 
 val perspective_projection:
   fov:float -> ratio:float -> near:float -> far:float -> t
