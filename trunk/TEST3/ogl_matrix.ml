@@ -68,14 +68,13 @@ let ortho_projection ~left ~right ~bottom ~top ~near ~far =
   |] in
   (mat)
 
-(* construct a transformation matrix from a translation *)
+
 let translation_matrix (x,y,z) =
-  let data = get_identity() in
-  data.(12) <- data.(12) +. x;
-  data.(13) <- data.(13) +. y;
-  data.(14) <- data.(14) +. z;
-  (data)
-;;
+  [| 1.0; 0.0; 0.0; 0.0;
+     0.0; 1.0; 0.0; 0.0;
+     0.0; 0.0; 1.0; 0.0;
+       x;   y;   z; 1.0; |]
+
 
 let x_rotation_matrix ~angle:a =
   let a = a *. deg_to_rad in
