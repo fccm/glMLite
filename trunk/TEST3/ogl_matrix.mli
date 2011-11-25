@@ -47,7 +47,28 @@ val x_rotation_matrix: angle:float -> t
 val y_rotation_matrix: angle:float -> t
 val z_rotation_matrix: angle:float -> t
 
+(** the following:
+{[
+  let scale = Ogl_matrix.scale_matrix (0.1, 0.1, 0.1)
+  and rot   = Ogl_matrix.x_rotation_matrix 20.0
+  and trans = Ogl_matrix.translation_matrix (3.0, 4.0, 5.0)
+  in
+  let m = Ogl_matrix.get_identity() in
+  let m = Ogl_matrix.mult_matrix m scale in
+  let m = Ogl_matrix.mult_matrix m rot in
+  let m = Ogl_matrix.mult_matrix m trans in
+  (m)
+]}
+  is equivalent to:
+{[
+  glScale 0.1 0.1 0.1;
+  glRotate (20.0) 1.0 0.0 0.0;
+  glTranslate 3.0 4.0 5.0;
+]}
+*)
+
 val mult_matrix: m1:t -> m2:t -> t
 
 val matrix_translate: matrix:t -> float * float * float -> unit
+(** imperative, modifies the matrix parameter *)
 
