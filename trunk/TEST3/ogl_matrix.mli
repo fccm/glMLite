@@ -29,6 +29,9 @@ type t = float array
 
 val get_identity: unit -> t
 
+
+(** {3 projection matrices} *)
+
 val perspective_projection:
   fov:float -> ratio:float -> near:float -> far:float -> t
 (** replaces [gluPerspective] *)
@@ -36,6 +39,12 @@ val perspective_projection:
 val ortho_projection: left:float -> right:float ->
   bottom:float -> top:float -> near:float -> far:float -> t
 (** replaces [glOrtho] *)
+
+val frustum:
+  left:float -> right:float ->
+  bottom:float -> top:float ->
+  near:float -> far:float -> t
+(** replaces [glFrustum] *)
 
 
 (** {3 transformation matrices} *)

@@ -69,6 +69,25 @@ let ortho_projection ~left ~right ~bottom ~top ~near ~far =
   (mat)
 
 
+let frustum ~left ~right ~bottom ~top ~near ~far =
+  let near_twice = 2.0 *. near
+  and right_minus_left = right -. left
+  and top_minus_bottom = top -. bottom
+  and far_minus_near = far -. near
+  in
+  let e = near_twice /. right_minus_left
+  and f = near_twice /. top_minus_bottom
+  and a = (right +. left) /. right_minus_left
+  and b = (top +. bottom) /. top_minus_bottom
+  and c = -. ((far +. near) /. far_minus_near)
+  and d = -. (near_twice *. far /. far_minus_near)
+  in
+  [| e;   0.0;  a;   0.0;
+     0.0; f;    b;   0.0;
+     0.0; 0.0;  c;   d;
+     0.0; 0.0; -1.0; 0.0; |]
+
+
 let translation_matrix (x,y,z) =
   [| 1.0; 0.0; 0.0; 0.0;
      0.0; 1.0; 0.0; 0.0;
