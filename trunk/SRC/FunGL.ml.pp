@@ -50,19 +50,24 @@ type matrix4x4 = float array
 #ifdef MLI
 
 val draw_translated: vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glTranslate} *)
+(** @deprecated functional replacement for {!GL.glTranslate}
+    ([glTranslate] is now deprecated) *)
 
 val draw_rotated: float -> vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glRotate} *)
+(** @deprecated functional replacement for {!GL.glRotate}
+    ([glRotate] is now deprecated) *)
 
 val draw_scaled: vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glScale} *)
+(** @deprecated functional replacement for {!GL.glScale}
+    ([glScale] is now deprecated) *)
 
 val draw_as_identity: (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLoadIdentity} *)
+(** @deprecated functional replacement for {!GL.glLoadIdentity}
+    ([glLoadIdentity] is now deprecated) *)
 
 val draw_with_matrix: matrix4x4 -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMultMatrix}/Flat *)
+(** @deprecated functional replacement for {!GL.glMultMatrix}/Flat
+    ([glMultMatrix/Flat] is now deprecated) *)
 
 #else
 (* ML *)
@@ -118,10 +123,12 @@ let draw_with_matrix mat f =
 #ifdef MLI
 
 val draw_with_rgb: rgb -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glColor3} *)
+(** @deprecated functional replacement for {!GL.glColor3}
+    ([glColor3] is now deprecated) *)
 
 val draw_with_rgba: rgba -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glColor4} *)
+(** @deprecated functional replacement for {!GL.glColor4}
+    ([glColor4] is now deprecated) *)
 
 #else
 (* ML *)
@@ -584,7 +591,9 @@ type qualified_vertices =
 #ifdef MLI
 
 val render_primitive: GL.primitive -> qualified_vertices -> unit
-(** render the given list of qualified vertices as the required primitive *)
+(** @deprecated render the given list of qualified vertices as the required primitive.
+    This function uses the immediate mode which is deprecated, so use
+    [Ogl_draw.make_mesh] and [Ogl_draw.draw_mesh] instead. *)
 
 #else
 (* ML *)
