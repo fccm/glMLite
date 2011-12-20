@@ -30,7 +30,7 @@ include ../Makefile.depend
 
 all: core_byte core_opt \
      jpeg jpeg_opt \
-     varray
+     varray vbo
 
 everything: all fungl funglut doc
 
