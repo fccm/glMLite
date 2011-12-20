@@ -83,6 +83,54 @@ CAMLprim value conf_main( value unit )
     }
 #endif
 
+#ifdef GL_VERSION_3_0
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_3_0") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
+#ifdef GL_VERSION_3_1
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_3_1") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
+#ifdef GL_VERSION_3_2
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_3_2") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
+#ifdef GL_VERSION_3_3
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_3_3") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
+#ifdef GL_VERSION_4_0
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_4_0") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
+#ifdef GL_VERSION_4_1
+    {   vcons = caml_alloc(2, 0);
+        Store_field( vcons, 0, caml_copy_string("GL_VERSION_4_1") );
+        Store_field( vcons, 1, vli );
+        vli = vcons;
+    }
+#endif
+
     res = caml_alloc(2, 0);
     Store_field( res, 0, vli );  /* versions */
     Store_field( res, 1, eli );  /* extensions */
