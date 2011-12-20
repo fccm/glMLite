@@ -2352,10 +2352,11 @@ t_val ml_glmultitexcoord2f_i( value texture, value s, value t )
 
 #ifdef GL_VERSION_2_0
 
-t_val ml_glcreateshader( value shaderType )
+t_val ml_glcreateshader( value _shader_type )
 {
-    GLuint s = glCreateShader(
-        (shaderType == Val_int(0) ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER) );
+    GLenum shader_type;
+#include "enums/shader_type.inc.c"
+    GLuint s = glCreateShader( shader_type );
     if (s == 0) caml_failwith("glCreateShader");
     return Val_shader_object(s);
 }

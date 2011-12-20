@@ -104,7 +104,7 @@ ML_GL_INCS=\
     $(ENUMS_DIR)/tex_gen_param.inc.ml     $(ENUMS_DIR)/clip_plane.inc.ml           \
     $(ENUMS_DIR)/pixel_type.inc.ml        $(ENUMS_DIR)/tex_coord_fun_params.inc.ml \
     $(ENUMS_DIR)/buffer_object_target.inc.ml \
-    $(ENUMS_DIR)/vbo_usage_pattern.inc.ml
+    $(ENUMS_DIR)/vbo_usage_pattern.inc.ml $(ENUMS_DIR)/shader_type.inc.ml
 
 #   $(ENUMS_DIR)/tex_parameter.inc.ml     $(ENUMS_DIR)/tex_param_pname.inc.ml      \
 
@@ -145,7 +145,7 @@ C_GL_INCS=\
     $(ENUMS_DIR)/get_float_1.inc.c         $(ENUMS_DIR)/get_float_2.inc.c          \
     $(ENUMS_DIR)/get_float_4.inc.c         $(ENUMS_DIR)/get_integer_2.inc.c        \
     $(ENUMS_DIR)/get_boolean_4.inc.c       $(ENUMS_DIR)/texture_i.inc.c            \
-    $(ENUMS_DIR)/get_texture_binding.inc.c \
+    $(ENUMS_DIR)/get_texture_binding.inc.c $(ENUMS_DIR)/shader_type.inc.c          \
     $(ENUMS_DIR)/texenv_target.inc.c       $(ENUMS_DIR)/texenv_pname.inc.c         \
     $(ENUMS_DIR)/texenv_param.inc.c        $(ENUMS_DIR)/attrib_bit.inc.c           \
     $(ENUMS_DIR)/stencil_op.inc.c          $(ENUMS_DIR)/target_2d.inc.c            \

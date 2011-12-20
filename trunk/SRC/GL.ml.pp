@@ -1544,8 +1544,8 @@ let glFog ~pname =
 
 type shader_object
 type shader_program
-type shader_type = GL_VERTEX_SHADER | GL_FRAGMENT_SHADER
 
+#include "enums/shader_type.inc.ml"
 external glCreateShader: shader_type:shader_type -> shader_object = "ml_glcreateshader"
 (** {{:http://www.opengl.org/sdk/docs/man/xhtml/glCreateShader.xml}
     manual page on opengl.org} *)

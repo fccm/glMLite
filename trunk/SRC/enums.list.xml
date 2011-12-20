@@ -586,6 +586,12 @@
     <enum version='GL_VERSION_0_0'>GL_ALWAYS</enum>
   </glenums>
 
+  <glenums name='shader_type'>
+    <enum version='GL_VERSION_1_4'>GL_VERTEX_SHADER</enum>
+    <enum version='GL_VERSION_1_4'>GL_FRAGMENT_SHADER</enum>
+    <enum version='GL_VERSION_3_2'>GL_GEOMETRY_SHADER</enum>
+  </glenums>
+
   <glenums name='hint_target'>
     <enum version='GL_VERSION_0_0'>GL_FOG_HINT</enum>
     <enum version='GL_VERSION_0_0'>GL_LINE_SMOOTH_HINT</enum>
