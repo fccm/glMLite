@@ -157,6 +157,32 @@ CAMLprim value ml_glutinitdisplaymode( value mask_list )
 }
 /* }}} */
 
+/* {{{ glutInitContextVersion */
+
+t_val ml_glutinitcontextversion( value major, value minor ) {
+#if defined(__FREEGLUT_EXT_H__)
+    glutInitContextVersion(Int_val(major), Int_val(minor));
+#else
+    caml_failwith("glutInitContextVersion: function not available");
+#endif
+    return Val_unit;
+}
+
+/* }}} */
+/* {{{ glutInitContextProfile */
+
+t_val ml_glutinitcontextprofile( value _context_profile ) {
+#if defined(__FREEGLUT_EXT_H__)
+    int context_profile;
+#include "enums/context_profile.inc.c"
+    glutInitContextProfile(context_profile);
+#else
+    caml_failwith("glutInitContextProfile: function not available");
+#endif
+    return Val_unit;
+}
+
+/* }}} */
 
 /* Callbacks */
 /* {{{ display */

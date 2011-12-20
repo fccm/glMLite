@@ -51,7 +51,10 @@ external glutInitDisplayString: string -> unit = "ml_glutinitdisplaystring"
 (** {{:http://www.opengl.org/documentation/specs/glut/spec3/node70.html}
     doc on opengl.org} *)
 
+external glutInitContextVersion: major:int -> minor:int -> unit = "ml_glutinitcontextversion"
 
+#include "enums/context_profile.inc.ml"
+external glutInitContextProfile: profile:context_profile -> unit = "ml_glutinitcontextprofile"
 
 (** {2 Beginning Event Processing} *)
 

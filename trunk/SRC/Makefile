@@ -253,7 +253,8 @@ ML_GLUT_INCS=\
     $(ENUMS_DIR)/init_mode.inc.ml    $(ENUMS_DIR)/special_key.inc.ml		\
     $(ENUMS_DIR)/game_mode.inc.ml    $(ENUMS_DIR)/visibility_state.inc.ml	\
     $(ENUMS_DIR)/entry_state.inc.ml  $(ENUMS_DIR)/get_state.inc.ml		\
-    $(ENUMS_DIR)/glut_device.inc.ml  $(ENUMS_DIR)/cursor_type.inc.ml
+    $(ENUMS_DIR)/glut_device.inc.ml  $(ENUMS_DIR)/cursor_type.inc.ml		\
+    $(ENUMS_DIR)/context_profile.inc.ml
 
 Glut.ml: Glut.ml.pp  $(ML_GLUT_INCS) $(MLPP)
 	$(MLPP) -C $<  >  $@
@@ -273,7 +274,8 @@ C_GLUT_INCS=\
     $(ENUMS_DIR)/init_mode.inc.c      $(ENUMS_DIR)/special_key.inc-r.c		\
     $(ENUMS_DIR)/game_mode.inc.c      $(ENUMS_DIR)/visibility_state.inc-r.c	\
     $(ENUMS_DIR)/entry_state.inc-r.c  $(ENUMS_DIR)/get_state.inc.c		\
-    $(ENUMS_DIR)/glut_device.inc.c    $(ENUMS_DIR)/cursor_type.inc.c
+    $(ENUMS_DIR)/glut_device.inc.c    $(ENUMS_DIR)/cursor_type.inc.c		\
+    $(ENUMS_DIR)/context_profile.inc.c
 
 
 glut.wrap.o: glut.wrap.c  $(C_GLUT_INCS)

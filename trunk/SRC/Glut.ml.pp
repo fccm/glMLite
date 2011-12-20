@@ -66,7 +66,10 @@ external glutIgnoreKeyRepeat: ignore:bool -> unit = "ml_glutignorekeyrepeat"
 #include "enums/init_mode.inc.ml"
 external glutInitDisplayMode: mode:init_mode list -> unit = "ml_glutinitdisplaymode"
 
+external glutInitContextVersion: major:int -> minor:int -> unit = "ml_glutinitcontextversion"
 
+#include "enums/context_profile.inc.ml"
+external glutInitContextProfile: profile:context_profile -> unit = "ml_glutinitcontextprofile"
 
 external glutDisplayFunc: unit -> unit = "ml_glutdisplayfunc"
 let glutDisplayFunc ~display =
