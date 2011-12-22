@@ -458,13 +458,16 @@ vbo_byte:
 vbo_opt:
 	($(MAKE) vbo_opt -f Makefile.VBO)
 
+install_vbo:
+	($(MAKE) install -f Makefile.VBO)
+
 VBO.mli:
 	($(MAKE) VBO.mli -f Makefile.VBO)
 
 clean_vbo:
 	($(MAKE) vbo_clean -f Makefile.VBO)
 
-.PHONY: clean_vbo
+.PHONY: install_vbo clean_vbo
 # }}}
 
 # {{{ clean 
@@ -544,7 +547,7 @@ SO_DIST_FILES_FUN=\
 #EOL
 
 .PHONY: install  install_core  install_jpeg  install_fun
-install: install_core  install_jpeg  install_fun
+install: install_core  install_jpeg  install_fun  install_vbo
 
 install_core: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) META
 	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
