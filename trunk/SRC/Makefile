@@ -464,6 +464,7 @@ VBO.mli:
 clean_vbo:
 	($(MAKE) vbo_clean -f Makefile.VBO)
 
+.PHONY: clean_vbo
 # }}}
 
 # {{{ clean 
@@ -479,7 +480,7 @@ clean-pp:
 	rm -f vertArray.ml{,i}
 
 cleanall clean_all clean-all: clean cleaner clean-pp clean-conf clean-doc clean-mlpp clean-meta \
-                              clean-enum-incs clean-enum-dist
+                              clean-enum-incs clean-enum-dist clean_vbo
 
 # }}}
 
