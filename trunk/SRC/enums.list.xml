@@ -362,7 +362,7 @@
 
   <glenums name="context_profile">
     <enum version='GLUT_API_VERSION_3_1'>GLUT_CORE_PROFILE</enum>
-    <enum version='GLUT_API_VERSION_3_1'>GLUT_COMPATIBILTIY_PROFILE</enum>
+    <enum version='GLUT_API_VERSION_3_1'>GLUT_COMPATIBILITY_PROFILE</enum>
   </glenums>
 
   <glenums name='game_mode'>
