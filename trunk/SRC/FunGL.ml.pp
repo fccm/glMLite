@@ -157,7 +157,8 @@ let draw_with_rgba rgba f =
 
 #ifdef MLI
 val draw_with_material : face:GL.face_mode -> mode:GL.Material.material_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMaterial} *)
+(** @deprecated functional replacement for {!GL.glMaterial}
+    ([glMaterial] is now deprecated) *)
 #else
 (* ML *)
 type material_state
@@ -174,7 +175,8 @@ let draw_with_material ~face ~mode f =
 
 #ifdef MLI
 val draw_with_lightModel : light_model:GL.light_model -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLightModel} *)
+(** @deprecated functional replacement for {!GL.glLightModel}
+    ([glLightModel] is now deprecated) *)
 #else
 (* ML *)
 type lightModel_state
@@ -191,7 +193,8 @@ let draw_with_lightModel ~light_model f =
 
 #ifdef MLI
 val draw_with_shadeModel : shade_mode:GL.shade_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glShadeModel} *)
+(** @deprecated functional replacement for {!GL.glShadeModel}
+    ([glShadeModel] is now deprecated) *)
 #else
 (* ML *)
 type shade_state
@@ -264,6 +267,8 @@ http://www.opengl.org/documentation/specs/man_pages/hardcopy/GL/html/gl/frustum.
           glGet with argument GL_PROJECTION_MATRIX
           glGet with argument GL_TEXTURE_MATRIX
         )
+
+  glFrustum is now deprecated!
 
 val glFrustum :
        left:float -> right:float ->
@@ -383,7 +388,8 @@ let draw_with_polygonMode2 ~front ~back f =
 
 #ifdef MLI
 val do_with_matrixMode : mode:GL.matrix_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMatrixMode} *)
+(** @deprecated functional replacement for {!GL.glMatrixMode}
+    ([glMatrixMode] is now deprecated) *)
 #else
 (* ML *)
 type matrixMode_state
@@ -401,7 +407,8 @@ let do_with_matrixMode ~mode f =
 #ifdef MLI
 
 val draw_with_lineWidth: width:float -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLineWidth} *)
+(** use this function as replacement of {!GL.glLineWidth},
+    in OpenGL >= 3.0, this function does not support values greater than 1.0 anymore. *)
 
 val draw_with_pointSize: size:float -> (unit -> unit) -> unit
 (** use this function as replacement of {!GL.glPointSize} *)
