@@ -188,7 +188,7 @@ dllgl_stubs.so libgl_stubs.a: gl.wrap.o
 endif
 
 GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS) -lgl_stubs
+	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
 
 GL.cma:  GL.cmo  dllgl_stubs.so
 	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
