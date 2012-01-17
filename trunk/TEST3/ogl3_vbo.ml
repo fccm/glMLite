@@ -52,7 +52,7 @@ let reshape ~width ~height =
 
   (* creation of the matrices *)
   let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
-  let worldMatrix = get_identity_matrix() in
+  let worldMatrix = Ogl_matrix.get_identity() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
   worldViewProjectionMatrix := mult_matrix projectionMatrix worldMatrix;
 ;;
