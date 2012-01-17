@@ -1,25 +1,27 @@
 /* {{{ COPYING 
 
-  +-----------------------------------------------------------------------+
-  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
-  +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
-  |  Contact:  <fmonnier@linux-nantes.org>                                |
-  +-----------------------------------------------------------------------+
-  |  This program is free software: you can redistribute it and/or        |
-  |  modify it under the terms of the GNU Lesser General Public License   |
-  |  as published by the Free Software Foundation, either version 3       |
-  |  of the License, or (at your option) any later version.               |
-  |                                                                       |
-  |  This program is distributed in the hope that it will be useful,      |
-  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-  |  GNU Lesser General Public License for more details.                  |
-  |                                                                       |
-  |  You should have received a copy of the GNU Lesser General Public     |
-  |  License along with this program.  If not, see                        |
-  |  <http://www.gnu.org/licenses/>                                       |
-  +-----------------------------------------------------------------------+
+  This file belongs to glMLite, an OCaml binding to the OpenGL API.
+
+  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+  Contact:  <fmonnier@linux-nantes.org>
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
 
 \* }}} */
 
@@ -155,6 +157,32 @@ CAMLprim value ml_glutinitdisplaymode( value mask_list )
 }
 /* }}} */
 
+/* {{{ glutInitContextVersion */
+
+t_val ml_glutinitcontextversion( value major, value minor ) {
+#if defined(__FREEGLUT_EXT_H__)
+    glutInitContextVersion(Int_val(major), Int_val(minor));
+#else
+    caml_failwith("glutInitContextVersion: function not available");
+#endif
+    return Val_unit;
+}
+
+/* }}} */
+/* {{{ glutInitContextProfile */
+
+t_val ml_glutinitcontextprofile( value _context_profile ) {
+#if defined(__FREEGLUT_EXT_H__)
+    int context_profile;
+#include "enums/context_profile.inc.c"
+    glutInitContextProfile(context_profile);
+#else
+    caml_failwith("glutInitContextProfile: function not available");
+#endif
+    return Val_unit;
+}
+
+/* }}} */
 
 /* Callbacks */
 /* {{{ display */
@@ -500,15 +528,10 @@ t_val ml_glutgamemodeget( value _game_mode )
     return Val_int( glutGameModeGet( game_mode ));
 }
 
-
-/* TODO
-GLUT_KEY_REPEAT_OFF
-GLUT_KEY_REPEAT_ON
-GLUT_KEY_REPEAT_DEFAULT
-
-void glutIgnoreKeyRepeat( int ignore );
-void glutSetKeyRepeat( int repeatMode );
-*/
+t_val ml_glutignorekeyrepeat( value ignore )
+{
+    glutIgnoreKeyRepeat( Int_val(ignore) ); ret
+}
 
 
 /* Menu Management */
@@ -729,6 +752,16 @@ GLUTAPI void GLUTAPIENTRY glutShowOverlay(void);
 GLUTAPI void GLUTAPIENTRY glutHideOverlay(void);
 #endif
 */
+
+t_val ml_glutwarppointer(value x, value y)
+{
+#if (GLUT_API_VERSION >= 4 || GLUT_XLIB_IMPLEMENTATION >= 9)
+    glutWarpPointer(Int_val(x), Int_val(y));
+#else
+    caml_failwith("glutWarpPointer: function not available");
+#endif
+    return Val_unit;
+}
 
 /* vim: sw=4 sts=4 ts=4 et fdm=marker nowrap
  */

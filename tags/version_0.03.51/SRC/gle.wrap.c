@@ -1,25 +1,27 @@
 /* {{{ COPYING 
 
-  +-----------------------------------------------------------------------+
-  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
-  +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
-  |  Contact:  <fmonnier@linux-nantes.org>                                |
-  +-----------------------------------------------------------------------+
-  |  This program is free software: you can redistribute it and/or        |
-  |  modify it under the terms of the GNU Lesser General Public License   |
-  |  as published by the Free Software Foundation, either version 3       |
-  |  of the License, or (at your option) any later version.               |
-  |                                                                       |
-  |  This program is distributed in the hope that it will be useful,      |
-  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-  |  GNU Lesser General Public License for more details.                  |
-  |                                                                       |
-  |  You should have received a copy of the GNU Lesser General Public     |
-  |  License along with this program.  If not, see                        |
-  |  <http://www.gnu.org/licenses/>                                       |
-  +-----------------------------------------------------------------------+
+  This file belongs to glMLite, an OCaml binding to the OpenGL API.
+
+  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+  Contact:  <fmonnier@linux-nantes.org>
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
 
 \* }}} */
 
@@ -276,6 +278,147 @@ CAMLprim value ml_gletwistextrusion_bytecode( value * argv, int argn ) {
                                  argv[4], argv[5], argv[6], argv[7] );
 }
 
+
+
+CAMLprim value ml_glespiral(
+        value ncp,
+        value contour,
+        value cont_normal,
+        value up,
+        value start_radius,
+        value drd_theta,
+        value start_z,
+        value dzd_theta,
+        value start_xform,
+        value dx_formd_theta,
+        value start_theta,
+        value sweep_theta )
+{
+    gleDouble _up[3];
+    gleDouble _start_xform[2][3];
+    gleDouble _dx_formd_theta[2][3];
+
+    if (up != Val_none)
+    {
+        _up[0] = Double_val(Field(Some_val(up),0));
+        _up[1] = Double_val(Field(Some_val(up),1));
+        _up[2] = Double_val(Field(Some_val(up),2));
+    }
+
+    if (start_xform != Val_none)
+    {
+        value fst = Field(Some_val(start_xform),0);
+        value snd = Field(Some_val(start_xform),1);
+
+        _start_xform[0][0] = Double_val(Field(fst,0));
+        _start_xform[0][1] = Double_val(Field(fst,1));
+        _start_xform[0][2] = Double_val(Field(fst,2));
+
+        _start_xform[1][0] = Double_val(Field(snd,0));
+        _start_xform[1][1] = Double_val(Field(snd,1));
+        _start_xform[1][2] = Double_val(Field(snd,2));
+    }
+
+    if (dx_formd_theta != Val_none)
+    {
+        value fst = Field(Some_val(dx_formd_theta),0);
+        value snd = Field(Some_val(dx_formd_theta),1);
+
+        _dx_formd_theta[0][0] = Double_val(Field(fst,0));
+        _dx_formd_theta[0][1] = Double_val(Field(fst,1));
+        _dx_formd_theta[0][2] = Double_val(Field(fst,2));
+
+        _dx_formd_theta[1][0] = Double_val(Field(snd,0));
+        _dx_formd_theta[1][1] = Double_val(Field(snd,1));
+        _dx_formd_theta[1][2] = Double_val(Field(snd,2));
+    }
+
+    check_kind(gleSpiral, contour);
+    check_kind(gleSpiral, cont_normal);
+
+    gleSpiral(
+            Int_val(ncp),
+            (void *) /* gleDouble[][2] */ Data_bigarray_val(contour),
+            (void *) /* gleDouble[][2] */ Data_bigarray_val(cont_normal),
+            (up == Val_none ? NULL : _up),
+            Double_val(start_radius),
+            Double_val(drd_theta),
+            Double_val(start_z),
+            Double_val(dzd_theta),
+            (start_xform == Val_none ? NULL : _start_xform),
+            (dx_formd_theta == Val_none ? NULL : _dx_formd_theta),
+            Double_val(start_theta),
+            Double_val(sweep_theta) );
+
+    return Val_unit;
+}
+CAMLprim value ml_glespiral_bytecode( value * argv, int argn ) { 
+    return ml_glespiral( argv[0], argv[1], argv[2], argv[3],
+                         argv[4], argv[5], argv[6], argv[7],
+                         argv[8], argv[9], argv[10], argv[11] );
+}
+
+
+
+CAMLprim value ml_glehelicoid(
+        value torus_radius,
+        value start_radius,
+        value drd_theta,
+        value start_z,
+        value dzd_theta,
+        value start_xform,
+        value dx_formd_theta,
+        value start_theta,
+        value sweep_theta )
+{
+    gleDouble _start_xform[2][3];
+    gleDouble _dx_formd_theta[2][3];
+
+    if (start_xform != Val_none)
+    {
+        value fst = Field(Some_val(start_xform),0);
+        value snd = Field(Some_val(start_xform),1);
+
+        _start_xform[0][0] = Double_val(Field(fst,0));
+        _start_xform[0][1] = Double_val(Field(fst,1));
+        _start_xform[0][2] = Double_val(Field(fst,2));
+
+        _start_xform[1][0] = Double_val(Field(snd,0));
+        _start_xform[1][1] = Double_val(Field(snd,1));
+        _start_xform[1][2] = Double_val(Field(snd,2));
+    }
+
+    if (dx_formd_theta != Val_none)
+    {
+        value fst = Field(Some_val(dx_formd_theta),0);
+        value snd = Field(Some_val(dx_formd_theta),1);
+
+        _dx_formd_theta[0][0] = Double_val(Field(fst,0));
+        _dx_formd_theta[0][1] = Double_val(Field(fst,1));
+        _dx_formd_theta[0][2] = Double_val(Field(fst,2));
+
+        _dx_formd_theta[1][0] = Double_val(Field(snd,0));
+        _dx_formd_theta[1][1] = Double_val(Field(snd,1));
+        _dx_formd_theta[1][2] = Double_val(Field(snd,2));
+    }
+
+    gleHelicoid(
+            Double_val(torus_radius),
+            Double_val(start_radius),
+            Double_val(drd_theta),
+            Double_val(start_z),
+            Double_val(dzd_theta),
+            (start_xform == Val_none ? NULL : _start_xform),
+            (dx_formd_theta == Val_none ? NULL : _dx_formd_theta),
+            Double_val(start_theta),
+            Double_val(sweep_theta) );
+
+    return Val_unit;
+}
+CAMLprim value ml_glehelicoid_bytecode( value * argv, int argn ) { 
+    return ml_glehelicoid( argv[0], argv[1], argv[2], argv[3],
+                           argv[4], argv[5], argv[6], argv[7], argv[8] );
+}
 
 /* vim: ts=4 sts=4 sw=4 et fdm=marker nowrap
  */

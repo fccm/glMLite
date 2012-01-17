@@ -1,24 +1,27 @@
 (* {{{ COPYING *(
 
-  +-----------------------------------------------------------------------+
-  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
-  +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
-  |  Contact:  <fmonnier@linux-nantes.org>                                |
-  +-----------------------------------------------------------------------+
-  |  This program is free software: you can redistribute it and/or        |
-  |  modify it under the terms of the GNU General Public License          |
-  |  as published by the Free Software Foundation, either version 3       |
-  |  of the License, or (at your option) any later version.               |
-  |                                                                       |
-  |  This program is distributed in the hope that it will be useful,      |
-  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-  |  GNU General Public License for more details.                         |
-  |                                                                       |
-  |  You should have received a copy of the GNU General Public License    |
-  |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
-  +-----------------------------------------------------------------------+
+  This file belongs to glMLite, an OCaml binding to the OpenGL API.
+
+  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+  Contact:  <fmonnier@linux-nantes.org>
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
 
 )* }}} *)
 
@@ -430,6 +433,133 @@ let gleTwistExtrusion ~contour ~cont_normals ~up ~points ~colors ~twist =
     invalid_arg "gleExtrusion: should have the same number of points and twists";
 
   gleTwistExtrusion ~ncp ~contour ~cont_normals ~up ~npoints ~points ~colors ~twist;
+;;
+
+#endif
+
+
+
+
+#ifdef MLI
+
+val gleSpiral:
+        contour:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        cont_normals:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        up:(float * float * float) option ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+(** sweep an arbitrary contour along a helical path
+    @param  contour         2D contour
+    @param  cont_normal     2D contour normals
+    @param  up              up vector for contour 
+    @param  start_radius    spiral starts in x-y plane
+    @param  drd_theta       change in radius per revolution
+    @param  start_z         starting z value
+    @param  dzd_theta       change in z per revolution
+    @param  start_xform     starting contour affine transform
+    @param  dx_formd_theta  tangent change transform per revolution
+    @param  start_theta     start angle in x-y plane
+    @param  sweep_theta     degrees to spiral around
+*)
+#else
+(* ML *)
+
+external gleSpiral:
+        ncp:int ->
+        contour:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        cont_normals:(float, gle_float, Bigarray.c_layout) Bigarray.Array2.t ->
+        up:(float * float * float) option ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+        = "ml_glespiral_bytecode"
+          "ml_glespiral"
+
+let gleSpiral ~contour ~cont_normals ~up ~start_radius ~drd_theta ~start_z
+              ~dzd_theta ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta =
+
+  let contour_components = Bigarray.Array2.dim2 contour in
+  if contour_components <> 2 then
+    invalid_arg "gleSpiral: should be 2 components per contour";
+
+  let contnorm_components = Bigarray.Array2.dim2 cont_normals in
+  if contnorm_components <> 2 then
+    invalid_arg "gleSpiral: should be 2 components per contour normal";
+
+  let ncp = Bigarray.Array2.dim1 contour
+  and ncontnm = Bigarray.Array2.dim1 cont_normals
+  in
+  if ncp <> ncontnm then
+    invalid_arg "gleSpiral: bigarrays should contain the same number of coordinates";
+
+  gleSpiral ~ncp ~contour ~cont_normals ~up ~start_radius ~drd_theta ~start_z
+            ~dzd_theta ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta;
+;;
+
+#endif
+
+
+
+
+#ifdef MLI
+
+val gleHelicoid:
+        torus_radius:float ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+(** Generalized Torus. Similar to gleSpiral, except contour is a circle.
+    @param  torus_radius    circle contour (torus) radius
+    @param  start_radius    spiral starts in x-y plane
+    @param  drd_theta       change in radius per revolution
+    @param  start_z         starting z value
+    @param  dzd_theta       change in z per revolution
+    @param  start_xform     starting contour affine transform
+    @param  dx_formd_theta  tangent change transform per revolution
+    @param  start_theta     start angle in x-y plane
+    @param  sweep_theta     degrees to spiral around
+*)
+#else
+(* ML *)
+
+external gleHelicoid:
+        torus_radius:float ->
+        start_radius:float ->
+        drd_theta:float ->
+        start_z:float ->
+        dzd_theta:float ->
+        start_xform:((float * float * float) * (float * float * float)) option ->
+        dx_formd_theta:((float * float * float) * (float * float * float)) option ->
+        start_theta:float ->
+        sweep_theta:float ->
+        unit
+        = "ml_glehelicoid_bytecode"
+          "ml_glehelicoid"
+
+let gleHelicoid ~torus_radius ~start_radius ~drd_theta ~start_z ~dzd_theta
+                ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta =
+
+  gleHelicoid ~torus_radius ~start_radius ~drd_theta ~start_z ~dzd_theta
+              ~start_xform ~dx_formd_theta ~start_theta ~sweep_theta;
 ;;
 
 #endif

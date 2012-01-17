@@ -26,15 +26,17 @@ let cubeArray =
 
 (* indices of the vertices *)
 let indiceArray =
-  Bigarray.Array1.of_array Bigarray.int Bigarray.c_layout [|
-  (* two triangles for each face of the cube *)
-    0; 1; 2;  2; 1; 3;
-    4; 5; 6;  6; 5; 7;
-    3; 1; 5;  5; 1; 7;
-    0; 2; 6;  6; 2; 4;
-    6; 7; 0;  0; 7; 1;
-    2; 3; 4;  4; 3; 5;
-  |]
+  Bigarray.Array1.of_array Bigarray.int32 Bigarray.c_layout (
+    Array.map Int32.of_int [|
+    (* two triangles for each face of the cube *)
+      0; 1; 2;  2; 1; 3;
+      4; 5; 6;  6; 5; 7;
+      3; 1; 5;  5; 1; 7;
+      0; 2; 6;  6; 2; 4;
+      6; 7; 0;  0; 7; 1;
+      2; 3; 4;  4; 3; 5;
+    |]
+  )
 
 
 let reshape ~width ~height =
@@ -42,9 +44,9 @@ let reshape ~width ~height =
   let height = max height 1 in
   let ratio = float width /. float height in
   let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
-  let worldMatrix = get_identity_matrix() in
+  let worldMatrix = Ogl_matrix.get_identity() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
-  worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
+  worldViewProjectionMatrix := mult_matrix projectionMatrix worldMatrix;
 ;;
 
 
@@ -184,7 +186,7 @@ let display vertexArrayObject
   let now = Unix.gettimeofday() in
   let rotation = Quaternions.quaternion_of_axis (0.0, 1.0, 0.0) (now *. 0.8) in
   let m = Quaternions.matrix_of_quaternion rotation in
-  let my_mat = mult_matrix4 !worldViewProjectionMatrix m in
+  let my_mat = mult_matrix !worldViewProjectionMatrix m in
 
   glUseProgram shaderProgram;
   glUniformMatrix4fv uniformID 1 false my_mat;
@@ -193,9 +195,12 @@ let display vertexArrayObject
   (* use:
    *  GL_UNSIGNED_BYTE  if indiceArray is of type  Bigarray.int8_unsigned
    *  GL_UNSIGNED_SHORT if indiceArray is of type  Bigarray.int16_unsigned
-   *  GL_UNSIGNED_INT   if indiceArray is of type  Bigarray.int or Bigarray.int32
+   *  GL_UNSIGNED_INT   if indiceArray is of type  Bigarray.int32
    *)
   glDrawElements0 GL_TRIANGLES 36 Elem.GL_UNSIGNED_INT;
+  (*
+   * Warning: Do not use Bigarray.int because it is not portable!
+   *)
 
   glBindVertexArray 0;
   glUnuseProgram();

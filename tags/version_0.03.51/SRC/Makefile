@@ -1,25 +1,28 @@
 # {{{ COPYING 
 #
-# +-----------------------------------------------------------------------+
-# |  This file contains compile rules to build glMLite, an OCaml binding  |
-# |  to the OpenGL API.                                                   |
-# +-----------------------------------------------------------------------+
-# |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
-# |  Contact:  <fmonnier@linux-nantes.org>                                |
-# +-----------------------------------------------------------------------+
-# |  This program is free software: you can redistribute it and/or        |
-# |  modify it under the terms of the GNU General Public License          |
-# |  as published by the Free Software Foundation, either version 3       |
-# |  of the License, or (at your option) any later version.               |
-# |                                                                       |
-# |  This program is distributed in the hope that it will be useful,      |
-# |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-# |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-# |  GNU General Public License for more details.                         |
-# |                                                                       |
-# |  You should have received a copy of the GNU General Public License    |
-# |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
-# +-----------------------------------------------------------------------+
+#  This file contains compile rules to build glMLite, an OCaml binding
+#  to the OpenGL API.
+#
+#  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+#  Contact:  <fmonnier@linux-nantes.org>
+#
+#  Permission is hereby granted, free of charge, to any person obtaining a
+#  copy of this software and associated documentation files (the "Software"),
+#  to deal in the Software without restriction, including without limitation the
+#  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+#  sell copies of the Software, and to permit persons to whom the Software is
+#  furnished to do so, subject to the following conditions:
+#
+#  The above copyright notice and this permission notice shall be included in
+#  all copies or substantial portions of the Software.
+#
+#  The Software is provided "as is", without warranty of any kind, express or
+#  implied, including but not limited to the warranties of merchantability,
+#  fitness for a particular purpose and noninfringement. In no event shall
+#  the authors or copyright holders be liable for any claim, damages or other
+#  liability, whether in an action of contract, tort or otherwise, arising
+#  from, out of or in connection with the software or the use or other dealings
+#  in the Software.
 #
 # }}}
 
@@ -27,7 +30,7 @@ include ../Makefile.depend
 
 all: core_byte core_opt \
      jpeg jpeg_opt \
-     varray
+     varray vbo
 
 everything: all fungl funglut doc
 
@@ -101,7 +104,7 @@ ML_GL_INCS=\
     $(ENUMS_DIR)/tex_gen_param.inc.ml     $(ENUMS_DIR)/clip_plane.inc.ml           \
     $(ENUMS_DIR)/pixel_type.inc.ml        $(ENUMS_DIR)/tex_coord_fun_params.inc.ml \
     $(ENUMS_DIR)/buffer_object_target.inc.ml \
-    $(ENUMS_DIR)/vbo_usage_pattern.inc.ml
+    $(ENUMS_DIR)/vbo_usage_pattern.inc.ml $(ENUMS_DIR)/shader_type.inc.ml
 
 #   $(ENUMS_DIR)/tex_parameter.inc.ml     $(ENUMS_DIR)/tex_param_pname.inc.ml      \
 
@@ -110,7 +113,7 @@ GL.ml: GL.ml.pp $(ML_GL_INCS) $(MLPP)
 
 GL.mli: GL.ml.pp $(ML_GL_INCS) $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 GL.cmi: GL.mli $(ML_GL_INCS)
 
@@ -142,7 +145,7 @@ C_GL_INCS=\
     $(ENUMS_DIR)/get_float_1.inc.c         $(ENUMS_DIR)/get_float_2.inc.c          \
     $(ENUMS_DIR)/get_float_4.inc.c         $(ENUMS_DIR)/get_integer_2.inc.c        \
     $(ENUMS_DIR)/get_boolean_4.inc.c       $(ENUMS_DIR)/texture_i.inc.c            \
-    $(ENUMS_DIR)/get_texture_binding.inc.c \
+    $(ENUMS_DIR)/get_texture_binding.inc.c $(ENUMS_DIR)/shader_type.inc.c          \
     $(ENUMS_DIR)/texenv_target.inc.c       $(ENUMS_DIR)/texenv_pname.inc.c         \
     $(ENUMS_DIR)/texenv_param.inc.c        $(ENUMS_DIR)/attrib_bit.inc.c           \
     $(ENUMS_DIR)/stencil_op.inc.c          $(ENUMS_DIR)/target_2d.inc.c            \
@@ -185,7 +188,7 @@ dllgl_stubs.so libgl_stubs.a: gl.wrap.o
 endif
 
 GL.cmxa GL.a:  GL.cmx  dllgl_stubs.so
-	$(OCAMLMKLIB)  -o  GL  $<  $(GL_LIBS) -lgl_stubs
+	$(OCAMLOPT) -a -o $@ -cclib -lgl_stubs -cclib "$(GL_LIBS)" $<
 
 GL.cma:  GL.cmo  dllgl_stubs.so
 	$(OCAMLC) -a -o $@ -ccopt "$(GL_LIBS)" -dllib -lgl_stubs $<
@@ -206,7 +209,7 @@ Glu.ml: Glu.ml.pp $(MLPP)
 
 Glu.mli: Glu.ml.pp $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@  # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@  # 's/= struct/: sig/g'
 
 
 Glu.cmi: Glu.mli GL.cmi
@@ -250,7 +253,8 @@ ML_GLUT_INCS=\
     $(ENUMS_DIR)/init_mode.inc.ml    $(ENUMS_DIR)/special_key.inc.ml		\
     $(ENUMS_DIR)/game_mode.inc.ml    $(ENUMS_DIR)/visibility_state.inc.ml	\
     $(ENUMS_DIR)/entry_state.inc.ml  $(ENUMS_DIR)/get_state.inc.ml		\
-    $(ENUMS_DIR)/glut_device.inc.ml  $(ENUMS_DIR)/cursor_type.inc.ml
+    $(ENUMS_DIR)/glut_device.inc.ml  $(ENUMS_DIR)/cursor_type.inc.ml		\
+    $(ENUMS_DIR)/context_profile.inc.ml
 
 Glut.ml: Glut.ml.pp  $(ML_GLUT_INCS) $(MLPP)
 	$(MLPP) -C $<  >  $@
@@ -270,7 +274,8 @@ C_GLUT_INCS=\
     $(ENUMS_DIR)/init_mode.inc.c      $(ENUMS_DIR)/special_key.inc-r.c		\
     $(ENUMS_DIR)/game_mode.inc.c      $(ENUMS_DIR)/visibility_state.inc-r.c	\
     $(ENUMS_DIR)/entry_state.inc-r.c  $(ENUMS_DIR)/get_state.inc.c		\
-    $(ENUMS_DIR)/glut_device.inc.c    $(ENUMS_DIR)/cursor_type.inc.c
+    $(ENUMS_DIR)/glut_device.inc.c    $(ENUMS_DIR)/cursor_type.inc.c		\
+    $(ENUMS_DIR)/context_profile.inc.c
 
 
 glut.wrap.o: glut.wrap.c  $(C_GLUT_INCS)
@@ -307,7 +312,7 @@ FunGL.ml: FunGL.ml.pp $(ML_GL_INCS) $(MLPP)
 
 FunGL.mli: FunGL.ml.pp $(ML_GL_INCS) $(MLPP)
 	$(MLPP) -D MLI -C $<  > $@
-	ocaml struct_to_sig.ml $@   # 's/= struct/: sig/g'
+	$(OCAML) struct_to_sig.ml $@   # 's/= struct/: sig/g'
 
 FunGL.cmi: FunGL.mli GL.cmi
 
@@ -430,13 +435,13 @@ loader-libjpeg.o: loader-libjpeg.c  loader-libjpeg-mem.c  loader-texure.h
 	$(OCAMLC)  -c  $<
 
 dlljpeg_loader.so libjpeg_loader.a: loader-libjpeg.o
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 jpeg_loader.cmxa jpeg_loader.a:  jpeg_loader.cmx  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 jpeg_loader.cma:  jpeg_loader.cmo  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"`ocamlc -where`" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
 
 # }}}
 
@@ -453,12 +458,16 @@ vbo_byte:
 vbo_opt:
 	($(MAKE) vbo_opt -f Makefile.VBO)
 
+install_vbo:
+	($(MAKE) install -f Makefile.VBO)
+
 VBO.mli:
 	($(MAKE) VBO.mli -f Makefile.VBO)
 
 clean_vbo:
 	($(MAKE) vbo_clean -f Makefile.VBO)
 
+.PHONY: install_vbo clean_vbo
 # }}}
 
 # {{{ clean 
@@ -474,7 +483,7 @@ clean-pp:
 	rm -f vertArray.ml{,i}
 
 cleanall clean_all clean-all: clean cleaner clean-pp clean-conf clean-doc clean-mlpp clean-meta \
-                              clean-enum-incs clean-enum-dist
+                              clean-enum-incs clean-enum-dist clean_vbo
 
 # }}}
 
@@ -538,7 +547,7 @@ SO_DIST_FILES_FUN=\
 #EOL
 
 .PHONY: install  install_core  install_jpeg  install_fun
-install: install_core  install_jpeg  install_fun
+install: install_core  install_jpeg  install_fun  install_vbo
 
 install_core: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) META
 	if [ ! -d $(PREFIX) ]; then install -d $(PREFIX) ; fi
@@ -577,7 +586,7 @@ uninstall:
 #	sed -i -e "s:GLUT_LIBS:$(GLUT_LIBS):g" $@
 
 META: META.in
-	ocaml meta.ml \
+	$(OCAML) meta.ml \
 	    -GL_LIBS "$(GL_LIBS)" \
 	    -GLU_LIBS "$(GLU_LIBS)" \
 	    -GLUT_LIBS "$(GLUT_LIBS)" \
@@ -589,11 +598,14 @@ cleanmeta clean-meta:
 # }}}
 # {{{ findlib install 
 
-install_findlib: $(DIST_FILES)  $(SO_DIST_FILES) META
-	ocamlfind install glMLite $^
+install_findlib_core: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) META
+	$(OCAMLFIND) install glMLite $^
+
+install_findlib: $(DIST_FILES_CORE)  $(SO_DIST_FILES_CORE) $(DIST_FILES_JPEG) $(SO_DIST_FILES_JPEG) META
+	$(OCAMLFIND) install glMLite $^
 
 uninstall_findlib:
-	ocamlfind remove glMLite
+	$(OCAMLFIND) remove glMLite
 
 # }}}
 

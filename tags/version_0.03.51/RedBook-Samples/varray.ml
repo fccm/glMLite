@@ -58,13 +58,13 @@ let derefMethod = ref drawarray
 
 let setupPointers() =
   let vertices =
-    Bigarray.Array1.of_array Bigarray.nativeint Bigarray.c_layout
-    [|  25n;  25n;
-       100n; 325n;
-       175n;  25n;
-       175n; 325n;
-       250n;  25n;
-       325n; 325n; |]
+    Bigarray.Array1.of_array Bigarray.float32 Bigarray.c_layout
+    [|  25.;  25.;
+       100.; 325.;
+       175.;  25.;
+       175.; 325.;
+       250.;  25.;
+       325.; 325.; |]
 
   and colors =
     Bigarray.Array1.of_array Bigarray.float32 Bigarray.c_layout
@@ -78,7 +78,7 @@ let setupPointers() =
   glEnableClientState GL_VERTEX_ARRAY;
   glEnableClientState GL_COLOR_ARRAY;
 
-  glVertexPointer 2  Coord.GL_INT  0  vertices;
+  glVertexPointer 2  Coord.GL_FLOAT  0  vertices;
   glColorPointer 3  Color.GL_FLOAT  0  colors;
 ;;
 

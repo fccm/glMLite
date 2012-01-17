@@ -33,16 +33,18 @@ let cube_vertices =
   |]
 
 let cube_indices =
-  Bigarray.Array1.of_array Bigarray.int Bigarray.c_layout [|
-    (* 6 squares, each square made of 2 triangles,
-       quad faces don't exist anymore in OGL 3.X *)
-    0;1;3;  3;2;0;
-    4;5;7;  7;6;4;
-    3;1;7;  7;5;3;
-    0;2;4;  4;6;0;
-    6;7;1;  1;0;6;
-    2;3;5;  5;4;2;
-  |]
+  Bigarray.Array1.of_array Bigarray.int32 Bigarray.c_layout (
+    Array.map Int32.of_int [|
+      (* 6 squares, each square made of 2 triangles,
+         quad faces don't exist anymore in OGL 3.X *)
+      0;1;3;  3;2;0;
+      4;5;7;  7;6;4;
+      3;1;7;  7;5;3;
+      0;2;4;  4;6;0;
+      6;7;1;  1;0;6;
+      2;3;5;  5;4;2;
+    |]
+  )
 
 
 let reshape ~width ~height =
@@ -52,9 +54,9 @@ let reshape ~width ~height =
 
   (* creation of the matrices *)
   let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
-  let worldMatrix = get_identity_matrix() in
+  let worldMatrix = Ogl_matrix.get_identity() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
-  worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
+  worldViewProjectionMatrix := mult_matrix projectionMatrix worldMatrix;
 ;;
 
 
@@ -75,7 +77,7 @@ let display
 
   let rotation = Quaternions.quaternion_of_axis (0.0, x, y) (now *. 0.8) in
   let m = Quaternions.matrix_of_quaternion rotation in
-  let world_proj_matrix = mult_matrix4 !worldViewProjectionMatrix m in
+  let world_proj_matrix = mult_matrix !worldViewProjectionMatrix m in
 
   glUseProgram shader_prog;
   glUniformMatrix4fv uniformID 1 false world_proj_matrix;

@@ -1,24 +1,27 @@
 (* {{{ COPYING *(
 
-  +-----------------------------------------------------------------------+
-  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
-  +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006, 2007, 2008  Florent Monnier                      |
-  |  Contact:  <fmonnier@linux-nantes.org>                                |
-  +-----------------------------------------------------------------------+
-  |  This program is free software: you can redistribute it and/or        |
-  |  modify it under the terms of the GNU General Public License          |
-  |  as published by the Free Software Foundation, either version 3       |
-  |  of the License, or (at your option) any later version.               |
-  |                                                                       |
-  |  This program is distributed in the hope that it will be useful,      |
-  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-  |  GNU General Public License for more details.                         |
-  |                                                                       |
-  |  You should have received a copy of the GNU General Public License    |
-  |  along with this program.  If not, see <http://www.gnu.org/licenses/> |
-  +-----------------------------------------------------------------------+
+  This file belongs to glMLite, an OCaml binding to the OpenGL API.
+
+  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+  Contact:  <fmonnier@linux-nantes.org>
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
 
 )* }}} *)
 
@@ -47,19 +50,24 @@ type matrix4x4 = float array
 #ifdef MLI
 
 val draw_translated: vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glTranslate} *)
+(** @deprecated functional replacement for {!GL.glTranslate}
+    ([glTranslate] is now deprecated) *)
 
 val draw_rotated: float -> vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glRotate} *)
+(** @deprecated functional replacement for {!GL.glRotate}
+    ([glRotate] is now deprecated) *)
 
 val draw_scaled: vector -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glScale} *)
+(** @deprecated functional replacement for {!GL.glScale}
+    ([glScale] is now deprecated) *)
 
 val draw_as_identity: (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLoadIdentity} *)
+(** @deprecated functional replacement for {!GL.glLoadIdentity}
+    ([glLoadIdentity] is now deprecated) *)
 
 val draw_with_matrix: matrix4x4 -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMultMatrix}/Flat *)
+(** @deprecated functional replacement for {!GL.glMultMatrix}/Flat
+    ([glMultMatrix/Flat] is now deprecated) *)
 
 #else
 (* ML *)
@@ -115,10 +123,12 @@ let draw_with_matrix mat f =
 #ifdef MLI
 
 val draw_with_rgb: rgb -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glColor3} *)
+(** @deprecated functional replacement for {!GL.glColor3}
+    ([glColor3] is now deprecated) *)
 
 val draw_with_rgba: rgba -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glColor4} *)
+(** @deprecated functional replacement for {!GL.glColor4}
+    ([glColor4] is now deprecated) *)
 
 #else
 (* ML *)
@@ -147,7 +157,8 @@ let draw_with_rgba rgba f =
 
 #ifdef MLI
 val draw_with_material : face:GL.face_mode -> mode:GL.Material.material_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMaterial} *)
+(** @deprecated functional replacement for {!GL.glMaterial}
+    ([glMaterial] is now deprecated) *)
 #else
 (* ML *)
 type material_state
@@ -164,7 +175,8 @@ let draw_with_material ~face ~mode f =
 
 #ifdef MLI
 val draw_with_lightModel : light_model:GL.light_model -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLightModel} *)
+(** @deprecated functional replacement for {!GL.glLightModel}
+    ([glLightModel] is now deprecated) *)
 #else
 (* ML *)
 type lightModel_state
@@ -181,7 +193,8 @@ let draw_with_lightModel ~light_model f =
 
 #ifdef MLI
 val draw_with_shadeModel : shade_mode:GL.shade_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glShadeModel} *)
+(** @deprecated functional replacement for {!GL.glShadeModel}
+    ([glShadeModel] is now deprecated) *)
 #else
 (* ML *)
 type shade_state
@@ -255,6 +268,8 @@ http://www.opengl.org/documentation/specs/man_pages/hardcopy/GL/html/gl/frustum.
           glGet with argument GL_TEXTURE_MATRIX
         )
 
+  glFrustum is now deprecated!
+
 val glFrustum :
        left:float -> right:float ->
        bottom:float -> top:float ->
@@ -281,6 +296,9 @@ glColorMask
 #ifdef MLI
 val draw_enabled: cap:GL.gl_capability -> (unit -> unit) -> unit
 (** use this function as replacement of {!GL.glEnable} *)
+
+val with_enablements: caps:GL.gl_capability list -> (unit -> unit) -> unit
+(** same than [draw_enabled] but with several capabilities *)
 #else
 (* ML *)
 type enabled_state = bool
@@ -290,6 +308,11 @@ let draw_enabled ~cap f =
   let es = set_get_enabled cap in
   f ();
   if es then restore_enabled cap;
+;;
+let with_enablements ~caps f =
+  let ess = List.rev_map (fun cap -> cap, set_get_enabled cap) caps in
+  f ();
+  List.iter (function (cap,true) -> restore_enabled cap | _ -> ()) ess;
 ;;
 #endif
 
@@ -365,7 +388,8 @@ let draw_with_polygonMode2 ~front ~back f =
 
 #ifdef MLI
 val do_with_matrixMode : mode:GL.matrix_mode -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glMatrixMode} *)
+(** @deprecated functional replacement for {!GL.glMatrixMode}
+    ([glMatrixMode] is now deprecated) *)
 #else
 (* ML *)
 type matrixMode_state
@@ -383,7 +407,8 @@ let do_with_matrixMode ~mode f =
 #ifdef MLI
 
 val draw_with_lineWidth: width:float -> (unit -> unit) -> unit
-(** use this function as replacement of {!GL.glLineWidth} *)
+(** use this function as replacement of {!GL.glLineWidth},
+    in OpenGL >= 3.0, this function does not support values greater than 1.0 anymore. *)
 
 val draw_with_pointSize: size:float -> (unit -> unit) -> unit
 (** use this function as replacement of {!GL.glPointSize} *)
@@ -573,7 +598,9 @@ type qualified_vertices =
 #ifdef MLI
 
 val render_primitive: GL.primitive -> qualified_vertices -> unit
-(** render the given list of qualified vertices as the required primitive *)
+(** @deprecated render the given list of qualified vertices as the required primitive.
+    This function uses the immediate mode which is deprecated, so use
+    [Ogl_draw.make_mesh] and [Ogl_draw.draw_mesh] instead. *)
 
 #else
 (* ML *)

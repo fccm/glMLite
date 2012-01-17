@@ -1,10 +1,17 @@
 name = "glMLite"
 version = "VERSION"
-directory = "+glMLite"
+#directory = "+glMLite"
 description = "OpenGL bindings"
-archive(byte) = "GL.cma Glu.cma"
-archive(native) = "GL.cmxa Glu.cmxa"
-#linkopts = "-cclib GL_LIBS  -cclib GLU_LIBS"
+archive(byte) = "GL.cma"
+archive(native) = "GL.cmxa"
+#linkopts = "-cclib GL_LIBS"
+
+package "glu" (
+  requires = "glMLite"
+  archive(byte) = "Glu.cma"
+  archive(native) = "Glu.cmxa"
+# linkopts = "-cclib GLU_LIBS"
+)
 
 package "glut" (
   requires = "glMLite"

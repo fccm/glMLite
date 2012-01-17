@@ -1,3 +1,24 @@
+(*
+  Copyright (C) 2010 Florent Monnier
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
+*)
 open GL
 open VertArray
 open VBO
@@ -262,13 +283,13 @@ let make_vertices_ba ba1_set = function
 
 let make_indices_ba ~indices =
   let ndx_len = 3 * (Array.length indices) in
-  let indices_ba = Bigarray.Array1.create Bigarray.int Bigarray.c_layout ndx_len in
+  let indices_ba = Bigarray.Array1.create Bigarray.int32 Bigarray.c_layout ndx_len in
   let ndx_set = Bigarray.Array1.unsafe_set indices_ba in
   Array.iteri (fun i (a,b,c) ->
     let j = i * 3 in
-    ndx_set (j  ) a;
-    ndx_set (j+1) b;
-    ndx_set (j+2) c;
+    ndx_set (j  ) (Int32.of_int a);
+    ndx_set (j+1) (Int32.of_int b);
+    ndx_set (j+2) (Int32.of_int c);
   ) indices;
   (indices_ba, ndx_len)
 

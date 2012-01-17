@@ -1,25 +1,27 @@
 /* {{{ COPYING 
 
-  +-----------------------------------------------------------------------+
-  |  This file belongs to glMLite, an OCaml binding to the OpenGL API.    |
-  +-----------------------------------------------------------------------+
-  |  Copyright (C) 2006 - 2010  Florent Monnier                           |
-  |  Contact:  <fmonnier@linux-nantes.org>                                |
-  +-----------------------------------------------------------------------+
-  |  This program is free software: you can redistribute it and/or        |
-  |  modify it under the terms of the GNU Lesser General Public License   |
-  |  as published by the Free Software Foundation, either version 3       |
-  |  of the License, or (at your option) any later version.               |
-  |                                                                       |
-  |  This program is distributed in the hope that it will be useful,      |
-  |  but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-  |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-  |  GNU Lesser General Public License for more details.                  |
-  |                                                                       |
-  |  You should have received a copy of the GNU Lesser General Public     |
-  |  License along with this program.  If not, see                        |
-  |  <http://www.gnu.org/licenses/>                                       |
-  +-----------------------------------------------------------------------+
+  This file belongs to glMLite, an OCaml binding to the OpenGL API.
+
+  Copyright (C) 2006 - 2011  Florent Monnier, Some rights reserved
+  Contact:  <fmonnier@linux-nantes.org>
+
+  Permission is hereby granted, free of charge, to any person obtaining a
+  copy of this software and associated documentation files (the "Software"),
+  to deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  The Software is provided "as is", without warranty of any kind, express or
+  implied, including but not limited to the warranties of merchantability,
+  fitness for a particular purpose and noninfringement. In no event shall
+  the authors or copyright holders be liable for any claim, damages or other
+  liability, whether in an action of contract, tort or otherwise, arising
+  from, out of or in connection with the software or the use or other dealings
+  in the Software.
 
 \* }}} */
 
@@ -60,22 +62,50 @@
         else func##_is_loaded = 1; \
     }
 
-#define LINUX_FUNC(func, f_type)
+#define UNIX_FUNC(func, f_type)
 
 #else
-#include <GL/glx.h>
-#define CHECK_FUNC(func, f_type)
-#define LINUX_FUNC(func, f_type) \
-    static f_type func = NULL; \
-    static unsigned int func##_is_loaded = 0; \
-    if (!func##_is_loaded) { \
-        func = (f_type) glXGetProcAddress((GLubyte *)#func); \
-        if (func == NULL) caml_failwith("Unable to load " #func); \
-        else func##_is_loaded = 1; \
+  #if defined(__APPLE__) && !defined(VMDMESA)
+    #include <mach-o/dyld.h>
+    #include <string.h>
+
+    void * MyNSGLGetProcAddress (const char *name) {
+      NSSymbol symbol; 
+      char *symbolName; 
+      symbolName = malloc (strlen (name) + 2);
+
+      strcpy(symbolName + 1, name);
+      symbolName[0] = '_';
+      symbol = NULL;
+      if (NSIsSymbolNameDefined(symbolName))
+        symbol = NSLookupAndBindSymbol(symbolName);
+
+      free(symbolName);
+      return symbol ? NSAddressOfSymbol(symbol) : NULL;
     }
 
+    #define CHECK_FUNC(func, f_type) 
+    #define UNIX_FUNC(func, f_type) \
+      static f_type func = NULL; \
+      static unsigned int func##_is_loaded = 0; \
+      if (!func##_is_loaded) { \
+          func = (f_type) MyNSGLGetProcAddress(#func); \
+          if (func == NULL) caml_failwith("Unable to load " #func); \
+          else func##_is_loaded = 1; \
+      }
+  #else
+    #include <GL/glx.h>
+    #define CHECK_FUNC(func, f_type)
+    #define UNIX_FUNC(func, f_type) \
+      static f_type func = NULL; \
+      static unsigned int func##_is_loaded = 0; \
+      if (!func##_is_loaded) { \
+          func = (f_type) glXGetProcAddress((GLubyte *)#func); \
+          if (func == NULL) caml_failwith("Unable to load " #func); \
+          else func##_is_loaded = 1; \
+      }
+  #endif
 #endif
-
 
 
 /* Vertex Arrays Bindings */
@@ -1411,14 +1441,14 @@ ml_glvertexattribpointer_ofs32_bytecode( value * argv, int argn )
 CAMLprim value ml_glgenvertexarray( value unit ) {
     GLuint vao_id;
     CHECK_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
-    LINUX_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
+    UNIX_FUNC(glGenVertexArrays, PFNGLGENVERTEXARRAYSPROC)
     glGenVertexArrays(1, &vao_id);
     return Val_long(vao_id);
 }
 
 CAMLprim value ml_glbindvertexarray( GLuint id ) {
     CHECK_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
-    LINUX_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
+    UNIX_FUNC(glBindVertexArray, PFNGLBINDVERTEXARRAYPROC)
     glBindVertexArray( Long_val(id) );
     return Val_unit;
 }
@@ -1428,14 +1458,14 @@ CAMLprim value ml_glbindvertexarray( GLuint id ) {
 CAMLprim value ml_gldeletevertexarray( value ml_vao ) {
     GLuint vao_id = Long_val(ml_vao);
     CHECK_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
-    LINUX_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
+    UNIX_FUNC(glDeleteVertexArrays, PFNGLDELETEVERTEXARRAYSPROC)
     glDeleteVertexArrays( 1, &vao_id );
     return Val_unit;
 }
 
 CAMLprim value ml_glisvertexarray( value ml_vao ) {
     CHECK_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
-    LINUX_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
+    UNIX_FUNC(glIsVertexArray, PFNGLISVERTEXARRAYPROC)
     return Val_long( glIsVertexArray( Long_val(ml_vao) ));
 }
 

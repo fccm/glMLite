@@ -90,28 +90,41 @@ let special app ~key ~x ~y =
   | GLUT_KEY_F1 | GLUT_KEY_F2 | GLUT_KEY_F3 | GLUT_KEY_F4
   | GLUT_KEY_F5 | GLUT_KEY_F6 | GLUT_KEY_F7 | GLUT_KEY_F8
   | GLUT_KEY_F9 | GLUT_KEY_F10 | GLUT_KEY_F11 | GLUT_KEY_F12 -> app
-  | GLUT_KEY_HOME | GLUT_KEY_PAGE_UP
-  | GLUT_KEY_END  | GLUT_KEY_PAGE_DOWN -> app
+  | GLUT_KEY_HOME | GLUT_KEY_END -> app
   | GLUT_KEY_UP    -> post_redisplay push_cube (app_sub_y app 0.1)
   | GLUT_KEY_DOWN  -> post_redisplay push_cube (app_add_y app 0.1)
   | GLUT_KEY_LEFT  -> post_redisplay push_cube (app_add_x app 0.1)
   | GLUT_KEY_RIGHT -> post_redisplay push_cube (app_sub_x app 0.1)
+  | GLUT_KEY_PAGE_DOWN -> post_redisplay (app_sub_z app) 0.1
+  | GLUT_KEY_PAGE_UP   -> post_redisplay (app_add_z app) 0.1
   | GLUT_KEY_INSERT -> app
 
 let keyboard app ~key ~x ~y =
   match key with
   | 'q' | '\027' -> exit 0;
-  | '-' -> post_redisplay (app_sub_z app) 0.1
-  | '+' -> post_redisplay (app_add_z app) 0.1
   | ' ' -> post_redisplay empty_content app
   | 'f' -> post_redisplay (   (* 'f' like further *)
              List.fold_left (fun app _ -> _timer app) app)
                             (Array.to_list(Array.make 400 0))
   | _ -> app
 
+let reshape app ~width:w ~height:h =
+  glViewport 0 0 w h;
+  glMatrixMode GL_PROJECTION;
+  glLoadIdentity();
+  Glu.gluPerspective 60. ((float w)/.(float (max 1 h))) 0.1 1000.0;
+  glMatrixMode GL_MODELVIEW;
+  glutPostRedisplay();
+  app
+
+let special, timer =
+  match Sys.argv with
+  | [| _; "-user" |] -> Some special, None
+  | _ -> None, Some [((_timer), 200)]
+
 let () =
   FunGlut.fun_glut
       ~display_mode:[GLUT_RGB; GLUT_DOUBLE]
-      ~timer:[((_timer), 200)]
-      ~display ~keyboard (*~special*) ~init:(init_app()) ()
+      ?timer ?special
+      ~display ~reshape ~keyboard ~init:init_app ()
 

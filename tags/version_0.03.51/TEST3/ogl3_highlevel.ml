@@ -41,9 +41,9 @@ let reshape ~width ~height =
 
   (* creation of the matrices *)
   let projectionMatrix = perspective_projection 60.0 ratio 1.0 50.0 in
-  let worldMatrix = get_identity_matrix() in
+  let worldMatrix = Ogl_matrix.get_identity() in
   matrix_translate worldMatrix (0.0, 0.0, -6.0);
-  worldViewProjectionMatrix := mult_matrix4 projectionMatrix worldMatrix;
+  worldViewProjectionMatrix := mult_matrix projectionMatrix worldMatrix;
 ;;
 
 
@@ -58,7 +58,7 @@ let display mesh_with_shaders = function () ->
 
   let rotation = Quaternions.quaternion_of_axis (0.0, x, y) (now *. 0.8) in
   let m = Quaternions.matrix_of_quaternion rotation in
-  let my_mat = mult_matrix4 !worldViewProjectionMatrix m in
+  let my_mat = mult_matrix !worldViewProjectionMatrix m in
 
   draw_mesh my_mat mesh_with_shaders;
 

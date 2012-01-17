@@ -1,6 +1,6 @@
 
-  glMLite is released under the terms of the LGPL license.
-  A copy of the LGPL license is in the file 'LICENSE_LGPL.txt'
+  glMLite is released under the terms of the MIT license.
+  A copy of the MIT license is in the file 'LICENSE_MIT.txt'
 
 
   To compile the OCaml OpenGL wrapper, as usual:
