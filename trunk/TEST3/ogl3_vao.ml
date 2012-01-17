@@ -26,15 +26,17 @@ let cubeArray =
 
 (* indices of the vertices *)
 let indiceArray =
-  Bigarray.Array1.of_array Bigarray.int Bigarray.c_layout [|
-  (* two triangles for each face of the cube *)
-    0; 1; 2;  2; 1; 3;
-    4; 5; 6;  6; 5; 7;
-    3; 1; 5;  5; 1; 7;
-    0; 2; 6;  6; 2; 4;
-    6; 7; 0;  0; 7; 1;
-    2; 3; 4;  4; 3; 5;
-  |]
+  Bigarray.Array1.of_array Bigarray.int32 Bigarray.c_layout (
+    Array.map Int32.of_int [|
+    (* two triangles for each face of the cube *)
+      0; 1; 2;  2; 1; 3;
+      4; 5; 6;  6; 5; 7;
+      3; 1; 5;  5; 1; 7;
+      0; 2; 6;  6; 2; 4;
+      6; 7; 0;  0; 7; 1;
+      2; 3; 4;  4; 3; 5;
+    |]
+  )
 
 
 let reshape ~width ~height =
@@ -193,9 +195,12 @@ let display vertexArrayObject
   (* use:
    *  GL_UNSIGNED_BYTE  if indiceArray is of type  Bigarray.int8_unsigned
    *  GL_UNSIGNED_SHORT if indiceArray is of type  Bigarray.int16_unsigned
-   *  GL_UNSIGNED_INT   if indiceArray is of type  Bigarray.int or Bigarray.int32
+   *  GL_UNSIGNED_INT   if indiceArray is of type  Bigarray.int32
    *)
   glDrawElements0 GL_TRIANGLES 36 Elem.GL_UNSIGNED_INT;
+  (*
+   * Warning: Do not use Bigarray.int because it is not portable!
+   *)
 
   glBindVertexArray 0;
   glUnuseProgram();

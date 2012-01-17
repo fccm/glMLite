@@ -283,13 +283,13 @@ let make_vertices_ba ba1_set = function
 
 let make_indices_ba ~indices =
   let ndx_len = 3 * (Array.length indices) in
-  let indices_ba = Bigarray.Array1.create Bigarray.int Bigarray.c_layout ndx_len in
+  let indices_ba = Bigarray.Array1.create Bigarray.int32 Bigarray.c_layout ndx_len in
   let ndx_set = Bigarray.Array1.unsafe_set indices_ba in
   Array.iteri (fun i (a,b,c) ->
     let j = i * 3 in
-    ndx_set (j  ) a;
-    ndx_set (j+1) b;
-    ndx_set (j+2) c;
+    ndx_set (j  ) (Int32.of_int a);
+    ndx_set (j+1) (Int32.of_int b);
+    ndx_set (j+2) (Int32.of_int c);
   ) indices;
   (indices_ba, ndx_len)
 
