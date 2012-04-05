@@ -326,17 +326,19 @@ t_val ml_ba_elem_size( value _ba )
 
         case BIGARRAY_INT32:
         case BIGARRAY_FLOAT32:
-        case BIGARRAY_COMPLEX32:
             size = 4; break;
 
         case BIGARRAY_INT64:
         case BIGARRAY_FLOAT64:
-        case BIGARRAY_COMPLEX64:
+        case BIGARRAY_COMPLEX32:
             size = 8; break;
+
+        case BIGARRAY_COMPLEX64:
+            size = 16; break;
 
         case BIGARRAY_CAML_INT:
         case BIGARRAY_NATIVE_INT:
-            size = 1 * sizeof(value); break;
+            size = sizeof(value); break;
     }
     return Val_int(size);
 }
