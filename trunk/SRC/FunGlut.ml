@@ -28,7 +28,6 @@
 (** An {i experimental} attempt at a functional interface to Glut. *)
 
 open Glut
-open Glu
 open GL
 
 (** This function works like a [List.fold_left] which means that the application
@@ -70,7 +69,7 @@ let fun_glut ~display
 
   let app = ref (init ()) in
 
-  glutDisplayFunc (fun () -> display !app);
+  glutDisplayFunc (fun () -> app := display !app);
 
   begin match reshape with None -> ()
   | Some cb -> glutReshapeFunc (fun ~width ~height -> app := cb !app ~width ~height)
