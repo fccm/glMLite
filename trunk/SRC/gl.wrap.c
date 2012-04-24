@@ -1952,7 +1952,7 @@ t_val ml_glteximage2d_bytecode( value * argv, int argn )
 t_val ml_glteximage2d_str_native(
                    value _target_2d,
                    value level,
-                   value internal_format,
+                   value _internal_format,
                    value width,
                    value height,
                    value _pixel_data_format,
@@ -1962,13 +1962,15 @@ t_val ml_glteximage2d_str_native(
     GLenum pixel_data_format;
     GLenum pixel_data_type;
     GLenum target_2d;
+    GLint internal_format;
 #include "enums/pixel_data_format.inc.c"
 #include "enums/pixel_data_type.inc.c"
 #include "enums/target_2d.inc.c"
+#include "enums/internal_format.inc.c"
     glTexImage2D(
             target_2d,
             Int_val(level),
-            Internal_format_val(internal_format),
+            internal_format,
             Int_val(width),
             Int_val(height),
             0,
