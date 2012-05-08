@@ -86,8 +86,8 @@ external osMesaCreateContext:
 type buffer_type = OSM_UNSIGNED_BYTE
 
 external osMesaMakeCurrent:
-    ctx:osmesa_context -> buffer:
-    (nativeint, Bigarray.nativeint_elt, Bigarray.c_layout) Bigarray.Array1.t ->
+    ctx:osmesa_context ->
+    buffer:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t ->
     type_:buffer_type -> width:int -> height:int -> unit
     = "ml_osmesamakecurrent"
 (**
