@@ -36,8 +36,8 @@ osmesa.wrap.o: osmesa.wrap.c
 #	$(OCAMLC) -c -cc "gcc -o $@" $<
 	$(OCAMLC) -c  $<
 
-dll_osmesa.wrap_stubs.so: osmesa.wrap.o
-	$(OCAMLMKLIB)  -o  _osmesa.wrap_stubs  $< -L$(OSM_PATH) -lGLU -lOSMesa
+dll_osmesa_stubs.so: osmesa.wrap.o
+	$(OCAMLMKLIB)  -o  _osmesa_stubs  $< -L$(OSM_PATH) -lGLU -lOSMesa
 
 OSMesa.mli: OSMesa.ml
 	$(OCAMLC) -i $< > $@
@@ -48,15 +48,15 @@ OSMesa.cmi: OSMesa.mli
 OSMesa.cmo: OSMesa.ml OSMesa.cmi
 	$(OCAMLC) -c $<
 
-OSMesa.cma:  OSMesa.cmo  dll_osmesa.wrap_stubs.so
-	$(OCAMLC) -a  -o $@  $<  -dllib dll_osmesa.wrap_stubs.so \
+OSMesa.cma:  OSMesa.cmo  dll_osmesa_stubs.so
+	$(OCAMLC) -a  -o $@  $<  -dllib dll_osmesa_stubs.so \
 	    -cclib -lGLU  -cclib -lOSMesa
 
 OSMesa.cmx: OSMesa.ml OSMesa.cmi
 	$(OCAMLOPT) -c $<
 
-OSMesa.cmxa:  OSMesa.cmx  dll_osmesa.wrap_stubs.so
-	$(OCAMLOPT) -a  -o $@  $<  -cclib -l_osmesa.wrap_stubs \
+OSMesa.cmxa:  OSMesa.cmx  dll_osmesa_stubs.so
+	$(OCAMLOPT) -a  -o $@  $<  -cclib -l_osmesa_stubs \
 	    -cclib -lGLU  -cclib -lOSMesa
 
 clean:
