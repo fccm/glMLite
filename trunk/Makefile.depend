@@ -26,12 +26,12 @@
 #
 # }}}
 
-#OCAMLOPT=ocamlopt
-#OCAMLC=ocamlc
-#OCAMLDOC=ocamldoc
-OCAMLOPT=ocamlopt.opt -g
-OCAMLC=ocamlc.opt
-OCAMLDOC=ocamldoc.opt
+OCAMLOPT=ocamlopt
+OCAMLC=ocamlc
+OCAMLDOC=ocamldoc
+#OCAMLOPT=ocamlopt.opt -g
+#OCAMLC=ocamlc.opt
+#OCAMLDOC=ocamldoc.opt
 
 OCAML=ocaml
 OCAMLMKLIB=ocamlmklib
