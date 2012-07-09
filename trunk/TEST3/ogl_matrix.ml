@@ -136,25 +136,22 @@ let mult_matrix ~m1 ~m2 =
   || Array.length m2 <> 16
   then invalid_arg "mult_matrix";
 
-  let mat1_get = Array.unsafe_get m1
-  and mat2_get = Array.unsafe_get m2 in
-
-  let m1_0  = mat1_get 0     and m2_0  = mat2_get 0
-  and m1_1  = mat1_get 1     and m2_1  = mat2_get 1
-  and m1_2  = mat1_get 2     and m2_2  = mat2_get 2
-  and m1_3  = mat1_get 3     and m2_3  = mat2_get 3
-  and m1_4  = mat1_get 4     and m2_4  = mat2_get 4
-  and m1_5  = mat1_get 5     and m2_5  = mat2_get 5
-  and m1_6  = mat1_get 6     and m2_6  = mat2_get 6
-  and m1_7  = mat1_get 7     and m2_7  = mat2_get 7
-  and m1_8  = mat1_get 8     and m2_8  = mat2_get 8
-  and m1_9  = mat1_get 9     and m2_9  = mat2_get 9
-  and m1_10 = mat1_get 10    and m2_10 = mat2_get 10
-  and m1_11 = mat1_get 11    and m2_11 = mat2_get 11
-  and m1_12 = mat1_get 12    and m2_12 = mat2_get 12
-  and m1_13 = mat1_get 13    and m2_13 = mat2_get 13
-  and m1_14 = mat1_get 14    and m2_14 = mat2_get 14
-  and m1_15 = mat1_get 15    and m2_15 = mat2_get 15
+  let m1_0  = Array.unsafe_get m1 0     and m2_0  = Array.unsafe_get m2 0
+  and m1_1  = Array.unsafe_get m1 1     and m2_1  = Array.unsafe_get m2 1
+  and m1_2  = Array.unsafe_get m1 2     and m2_2  = Array.unsafe_get m2 2
+  and m1_3  = Array.unsafe_get m1 3     and m2_3  = Array.unsafe_get m2 3
+  and m1_4  = Array.unsafe_get m1 4     and m2_4  = Array.unsafe_get m2 4
+  and m1_5  = Array.unsafe_get m1 5     and m2_5  = Array.unsafe_get m2 5
+  and m1_6  = Array.unsafe_get m1 6     and m2_6  = Array.unsafe_get m2 6
+  and m1_7  = Array.unsafe_get m1 7     and m2_7  = Array.unsafe_get m2 7
+  and m1_8  = Array.unsafe_get m1 8     and m2_8  = Array.unsafe_get m2 8
+  and m1_9  = Array.unsafe_get m1 9     and m2_9  = Array.unsafe_get m2 9
+  and m1_10 = Array.unsafe_get m1 10    and m2_10 = Array.unsafe_get m2 10
+  and m1_11 = Array.unsafe_get m1 11    and m2_11 = Array.unsafe_get m2 11
+  and m1_12 = Array.unsafe_get m1 12    and m2_12 = Array.unsafe_get m2 12
+  and m1_13 = Array.unsafe_get m1 13    and m2_13 = Array.unsafe_get m2 13
+  and m1_14 = Array.unsafe_get m1 14    and m2_14 = Array.unsafe_get m2 14
+  and m1_15 = Array.unsafe_get m1 15    and m2_15 = Array.unsafe_get m2 15
   in
   [|
     m1_0 *. m2_0  +. m1_4 *. m2_1  +. m1_8  *. m2_2  +. m1_12 *. m2_3;
