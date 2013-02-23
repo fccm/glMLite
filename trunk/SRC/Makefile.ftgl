@@ -33,8 +33,8 @@ all: ftgl_byte ftgl_opt
 ftgl_byte: ftgl.cma
 ftgl_opt: ftgl.cmxa
 
-FTGL_LIBS := -lfreetype -lz -lftgl
-FTGL_INCS := -I/usr/include/freetype2
+FTGL_LIBS := $(shell pkg-config --libs freetype2) -lz -lftgl
+FTGL_INCS := $(patsubst -I%,-ccopt -I%,$(shell pkg-config --cflags freetype2))
 
 ftgl.cmx: ftgl.ml
 	$(OCAMLOPT) -c $<
@@ -43,7 +43,7 @@ ftgl.cmo: ftgl.ml
 	$(OCAMLC) -c $<
 
 ftgl.wrap.o: ftgl.wrap.c
-	$(OCAMLC) -c  -ccopt $(FTGL_INCS)  $<
+	$(OCAMLC) -c  $(FTGL_INCS)  $<
 
 dllftgl.so  libftgl.a: ftgl.wrap.o
 	$(OCAMLMKLIB)  -o  ftgl  $<  $(FTGL_LIBS)
