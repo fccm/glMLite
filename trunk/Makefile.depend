@@ -46,6 +46,8 @@ SO_PREFIX=$(PREFIX)
 USE_GL3_CORE_PROFILE=
 #USE_GL3_CORE_PROFILE = OK
 
+UNAME := $(shell uname)
+
 SRC=SRC
 TEST=TEST
 TEST3=TEST3
@@ -87,9 +89,9 @@ GLUT_LINK = glut
 #GLUT_LIBS = -lglut32
 
 # Portable Linking
-GL_LIBS := $(shell if [ `uname` = "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGL"; fi)
-GLU_LIBS := $(shell if [ `uname` = "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGLU"; fi)
-GLUT_LIBS := $(shell if [ `uname` = "Darwin" ]; then echo "-framework GLUT"; else echo "-l$(GLUT_LINK)"; fi)
+GL_LIBS := $(shell if [ $(UNAME) = "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGL"; fi)
+GLU_LIBS := $(shell if [ $(UNAME) = "Darwin" ]; then echo "-framework OpenGL"; else echo "-lGLU"; fi)
+GLUT_LIBS := $(shell if [ $(UNAME) = "Darwin" ]; then echo "-framework GLUT"; else echo "-l$(GLUT_LINK)"; fi)
 
 
 # {{{ usual rules 
