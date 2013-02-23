@@ -27,7 +27,7 @@
 # }}}
 
 PNG_CFLAGS := $(shell libpng-config --cflags)
-PNG_LIBS   := $(shell libpng-config --libs)
+PNG_LIBS   := $(shell libpng-config --ldflags)
 
 .PHONY: png png_byte png_opt
 png all: png_byte png_opt

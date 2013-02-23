@@ -21,21 +21,27 @@
 #  fitness for a particular purpose and noninfringement. In no event shall
 #  the authors or copyright holders be liable for any claim, damages or other
 #  liability, whether in an action of contract, tort or otherwise, arising
-#  from, out of or in connection with the software or the use or other dealings
+#  from, out of or in connection with the Software or the use or other dealings
 #  in the Software.
 #
 # }}}
 
+include ../Makefile.depend
+include ./Makefile.mlpp
+
 GLE_PATH := /usr/X11R6/lib
+
+ifeq ($(UNAME), Darwin)
+GLE_LIBS :=
+else
 GLE_LIBS := -lgle
+endif
 
 .PHONY: all gle_byte gle_opt
 all: gle_byte gle_opt
 gle_byte: GLE.cma
 gle_opt: GLE.cmxa
 
-include ../Makefile.depend
-include ./Makefile.mlpp
 
 GLE.ml: GLE.ml.pp  $(MLPP)
 	$(MLPP) -C $<  > $@

@@ -20,12 +20,18 @@
   fitness for a particular purpose and noninfringement. In no event shall
   the authors or copyright holders be liable for any claim, damages or other
   liability, whether in an action of contract, tort or otherwise, arising
-  from, out of or in connection with the software or the use or other dealings
+  from, out of or in connection with the Software or the use or other dealings
   in the Software.
 
 \* }}} */
 
+#ifndef __APPLE__
 #include <GL/gle.h>
+#else
+#include <GLUT/tube.h>
+#include <GLUT/tube_gc.h>
+#include <GLUT/port.h>
+#endif
 
 #include <caml/mlvalues.h>
 #include <caml/memory.h>
@@ -37,7 +43,7 @@
 #define Some_val(v) Field(v,0)
 
 
-#if __GLE_DOUBLE
+#ifdef __GLE_DOUBLE
 #define check_kind(func,ba) \
     if ((Bigarray_val(ba)->flags & BIGARRAY_KIND_MASK) != BIGARRAY_FLOAT64) \
         caml_invalid_argument(#func ": wrong Bigarray.kind")
@@ -184,6 +190,7 @@ CAMLprim value ml_glepolycone_c4f(
         value color4_array,
         value radius_array )
 {
+#ifndef __APPLE__
     check_kind(glePolyCone_c4f, point_array);
     check_kind(glePolyCone_c4f, radius_array);
 
@@ -192,6 +199,9 @@ CAMLprim value ml_glepolycone_c4f(
             (void *) /* gleDouble[][3] */ Data_bigarray_val(point_array),
             (gleColor4f *) Data_bigarray_val(color4_array),
             (gleDouble *) Data_bigarray_val(radius_array) );
+#else
+    caml_failwith("glePolyCone_c4f: function not available");
+#endif /* __APPLE__ */
 
     return Val_unit;
 }
