@@ -1,2 +1,0 @@
-# with findlib:
-ocamlfind opt -linkpkg -package glMLite,glMLite.glut,glMLite.jpeg_loader billboard.ml -o billboard.opt

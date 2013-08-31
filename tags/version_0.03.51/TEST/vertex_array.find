@@ -1,2 +1,0 @@
-# compiling using the findlib:
-ocamlfind opt -linkpkg -package glMLite,glMLite.glut,glMLite.vertex_arrays vertex_array.ml -o vertex_array.opt

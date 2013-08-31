@@ -1,2 +1,0 @@
-# compiling using the findLib:
-ocamlfind opt -linkpkg -package glMLite.vbo,glMLite.glut vbo_example.ml -o vbo_example.opt
