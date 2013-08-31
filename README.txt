@@ -1,4 +1,3 @@
-
   glMLite is released under the terms of the MIT license.
   A copy of the MIT license is in the file 'LICENSE_MIT.txt'
 
@@ -83,6 +82,5 @@
   https://forge.ocamlcore.org/scm/?group_id=142
 
 
-  Send any questions, comments, bug reports or any other kind of problems, to:
-    <fmonnier@linux-nantes.org>
+  Don't hesitate to send any comments, questions, bug reports or anything else.
 
