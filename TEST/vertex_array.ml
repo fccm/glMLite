@@ -9,7 +9,7 @@
    CREATED: 2005-10-04
    UPDATED: 2005-10-28
 
-   OCaml version by Florent Monnier (fmonnier@linux-nantes.org)
+   OCaml version by Florent Monnier
 *)
 
 open GL

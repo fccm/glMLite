@@ -2,8 +2,7 @@
 
   This file belongs to glMLite, an OCaml binding to the OpenGL API.
 
-  Copyright (C) 2006 - 2008  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2006 - 2008  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),

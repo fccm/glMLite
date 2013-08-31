@@ -1,7 +1,6 @@
 (** This module is a very simple parsing library for S-expressions. *)
 (*
-  Copyright (C) 2009  Florent Monnier, Some rights reserved
-  Contact:  <fmonnier@linux-nantes.org>
+  Copyright (C) 2009  Florent Monnier
 
   Permission is hereby granted, free of charge, to any person obtaining a
   copy of this software and associated documentation files (the "Software"),
