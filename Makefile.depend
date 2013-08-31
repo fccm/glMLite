@@ -49,8 +49,8 @@ USE_GL3_CORE_PROFILE=
 UNAME := $(shell uname)
 
 SRC=SRC
-TEST=TEST
-TEST3=TEST3
+TEST=examples
+TEST3=Incubating
 LABLGL=LablGL
 
 DOC_INSTALL_PATH=/usr/local/share/doc/$(DIST_NAME)
