@@ -195,7 +195,7 @@ static const GLenum access_policy_table[] = {
 
 t_val ml_glmapbuffer( value _buffer_object_target_arb, value ap )
 {
-    CAMLlocal1(bo_ba);
+    value bo_ba;
     GLenum buffer_object_target_arb;
 #include "enums/buffer_object_target_arb.inc.c"
     float *ptr = (float*) glMapBufferARB( buffer_object_target_arb,
