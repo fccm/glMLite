@@ -6,7 +6,7 @@ let clip_slice ?(first=0) ?(last=Sys.max_string_length) s =
   and j = clip 0 len (if (last<0) then len + last else last)
   in
   if i>=j || i=len
-  then String.create 0
+  then ""
   else String.sub s i (j-i)
 ;;
 
