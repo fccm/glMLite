@@ -24,7 +24,7 @@
 
 )* }}} *)
 
-#define NOALLOC "noalloc"
+#define NOALLOC [@@noalloc]
 (* http://camltastic.blogspot.com/2008/08/tip-calling-c-functions-directly-with.html
  *)
 
