@@ -1,0 +1,7 @@
+*.[oa]
+*.cm[ioxa]
+*.cmx[as]
+*.so
+*.exe
+.*.swp
+*~
