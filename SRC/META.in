@@ -1,5 +1,5 @@
 name = "glMLite"
-version = "VERSION"
+version = "0.03.52"
 #directory = "+glMLite"
 description = "OpenGL bindings"
 archive(byte) = "GL.cma"
