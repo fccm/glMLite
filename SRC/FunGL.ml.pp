@@ -71,12 +71,12 @@ val draw_with_matrix: matrix4x4 -> (unit -> unit) -> unit
 #else
 (* ML *)
 
-external push_and_translate: vector -> unit = "c_push_and_translate" "noalloc"
-external push_and_scale: vector -> unit = "c_push_and_scale" "noalloc"
-external push_and_rotate: float -> vector -> unit = "c_push_and_rotate" "noalloc"
-external push_and_loadIdentity: unit -> unit = "c_push_and_loadIdentity" "noalloc"
-external push_and_multMatrix: matrix4x4 -> unit = "c_push_and_multMatrix" "noalloc"
-external pop_matrix: unit -> unit = "c_pop_matrix" "noalloc"
+external push_and_translate: vector -> unit = "c_push_and_translate" [@@noalloc]
+external push_and_scale: vector -> unit = "c_push_and_scale" [@@noalloc]
+external push_and_rotate: float -> vector -> unit = "c_push_and_rotate" [@@noalloc]
+external push_and_loadIdentity: unit -> unit = "c_push_and_loadIdentity" [@@noalloc]
+external push_and_multMatrix: matrix4x4 -> unit = "c_push_and_multMatrix" [@@noalloc]
+external pop_matrix: unit -> unit = "c_pop_matrix" [@@noalloc]
 
 (*
   The cost of an OCaml function call from C is more expensive than
@@ -134,9 +134,9 @@ val draw_with_rgba: rgba -> (unit -> unit) -> unit
 
 type color_state
 
-external set_get_color3: rgb -> color_state = "c_set_get_color3" "noalloc"
-external set_get_color4: rgba -> color_state = "c_set_get_color4" "noalloc"
-external restore_color: color_state -> unit = "c_restore_color" "noalloc"
+external set_get_color3: rgb -> color_state = "c_set_get_color3" [@@noalloc]
+external set_get_color4: rgba -> color_state = "c_set_get_color4" [@@noalloc]
+external restore_color: color_state -> unit = "c_restore_color" [@@noalloc]
 
 let draw_with_rgb rgb f =
   let cs = set_get_color3 rgb in
@@ -161,8 +161,8 @@ val draw_with_material : face:GL.face_mode -> mode:GL.Material.material_mode -> 
 #else
 (* ML *)
 type material_state
-external set_get_material: face:GL.face_mode -> mode:GL.Material.material_mode -> material_state = "c_set_get_material" "noalloc"
-external restore_material: face:GL.face_mode -> mode:GL.Material.material_mode -> material_state -> unit = "c_restore_material" "noalloc"
+external set_get_material: face:GL.face_mode -> mode:GL.Material.material_mode -> material_state = "c_set_get_material" [@@noalloc]
+external restore_material: face:GL.face_mode -> mode:GL.Material.material_mode -> material_state -> unit = "c_restore_material" [@@noalloc]
 let draw_with_material ~face ~mode f =
   let ms = set_get_material ~face ~mode in
   f ();
@@ -179,8 +179,8 @@ val draw_with_lightModel : light_model:GL.light_model -> (unit -> unit) -> unit
 #else
 (* ML *)
 type lightModel_state
-external set_get_lightModel : light_model:GL.light_model -> lightModel_state = "c_set_get_lightModel" "noalloc"
-external restore_lightModel : light_model:GL.light_model -> lightModel_state -> unit = "c_restore_lightModel" "noalloc"
+external set_get_lightModel : light_model:GL.light_model -> lightModel_state = "c_set_get_lightModel" [@@noalloc]
+external restore_lightModel : light_model:GL.light_model -> lightModel_state -> unit = "c_restore_lightModel" [@@noalloc]
 let draw_with_lightModel ~light_model f =
   let lms = set_get_lightModel ~light_model in
   f ();
@@ -197,8 +197,8 @@ val draw_with_shadeModel : shade_mode:GL.shade_mode -> (unit -> unit) -> unit
 #else
 (* ML *)
 type shade_state
-external set_get_shadeModel : GL.shade_mode -> shade_state = "c_set_get_shadeModel" "noalloc"
-external restore_shadeModel : shade_state -> unit = "c_restore_shadeModel" "noalloc"
+external set_get_shadeModel : GL.shade_mode -> shade_state = "c_set_get_shadeModel" [@@noalloc]
+external restore_shadeModel : shade_state -> unit = "c_restore_shadeModel" [@@noalloc]
 let draw_with_shadeModel ~shade_mode f =
   let sms = set_get_shadeModel shade_mode in
   f ();
@@ -228,8 +228,8 @@ val draw_with_frontFace : orientation:GL.orientation -> (unit -> unit) -> unit
 #else
 (* ML *)
 type orientation_state
-external set_get_frontFace : orientation:GL.orientation -> orientation_state = "c_set_get_frontFace" "noalloc"
-external restore_frontFace : orientation_state -> unit = "c_restore_frontFace" "noalloc"
+external set_get_frontFace : orientation:GL.orientation -> orientation_state = "c_set_get_frontFace" [@@noalloc]
+external restore_frontFace : orientation_state -> unit = "c_restore_frontFace" [@@noalloc]
 let draw_with_frontFace ~orientation f =
   let ffos = set_get_frontFace ~orientation in
   f ();
@@ -246,8 +246,8 @@ val draw_with_cullFace : mode:GL.face_mode -> (unit -> unit) -> unit
 #else
 (* ML *)
 type face_mode_state
-external set_get_cullFace : mode:GL.face_mode -> face_mode_state = "c_set_get_cullFace" "noalloc"
-external restore_cullFace : face_mode_state -> unit = "c_restore_cullFace" "noalloc"
+external set_get_cullFace : mode:GL.face_mode -> face_mode_state = "c_set_get_cullFace" [@@noalloc]
+external restore_cullFace : face_mode_state -> unit = "c_restore_cullFace" [@@noalloc]
 let draw_with_cullFace ~mode f =
   let fms = set_get_cullFace ~mode in
   f ();
@@ -301,8 +301,8 @@ val with_enablements: caps:GL.gl_capability list -> (unit -> unit) -> unit
 #else
 (* ML *)
 type enabled_state = bool
-external set_get_enabled : GL.gl_capability -> enabled_state = "c_set_get_enabled" "noalloc"
-external restore_enabled : GL.gl_capability -> unit = "c_restore_enabled" "noalloc"
+external set_get_enabled : GL.gl_capability -> enabled_state = "c_set_get_enabled" [@@noalloc]
+external restore_enabled : GL.gl_capability -> unit = "c_restore_enabled" [@@noalloc]
 let draw_enabled ~cap f =
   let es = set_get_enabled cap in
   f ();
@@ -323,8 +323,8 @@ val draw_disabled: cap:GL.gl_capability -> (unit -> unit) -> unit
 #else
 (* ML *)
 type disabled_state = bool
-external set_get_disabled : GL.gl_capability -> disabled_state = "c_set_get_disabled" "noalloc"
-external restore_disabled : GL.gl_capability -> unit = "c_restore_disabled" "noalloc"
+external set_get_disabled : GL.gl_capability -> disabled_state = "c_set_get_disabled" [@@noalloc]
+external restore_disabled : GL.gl_capability -> unit = "c_restore_disabled" [@@noalloc]
 let draw_disabled ~cap f =
   let ds = set_get_disabled cap in
   f ();
@@ -340,8 +340,8 @@ val draw_with_viewport : viewport:int * int * int * int -> (unit -> unit) -> uni
 #else
 (* ML *)
 type viewport_state
-external set_get_viewport : viewport:int * int * int * int -> viewport_state = "c_set_get_viewport" "noalloc"
-external restore_viewport : viewport_state -> unit = "c_restore_viewport" "noalloc"
+external set_get_viewport : viewport:int * int * int * int -> viewport_state = "c_set_get_viewport" [@@noalloc]
+external restore_viewport : viewport_state -> unit = "c_restore_viewport" [@@noalloc]
 let draw_with_viewport ~viewport f =
   let vps = set_get_viewport ~viewport in
   f ();
@@ -357,8 +357,8 @@ val draw_with_polygonMode : face:GL.face_mode -> mode:GL.polygon_mode -> (unit -
 #else
 (* ML *)
 type polygonMode_state
-external set_get_polygonMode : face:GL.face_mode -> mode:GL.polygon_mode -> polygonMode_state = "c_set_get_polygonMode" "noalloc"
-external restore_polygonMode : polygonMode_state -> unit = "c_restore_polygonMode" "noalloc"
+external set_get_polygonMode : face:GL.face_mode -> mode:GL.polygon_mode -> polygonMode_state = "c_set_get_polygonMode" [@@noalloc]
+external restore_polygonMode : polygonMode_state -> unit = "c_restore_polygonMode" [@@noalloc]
 let draw_with_polygonMode ~face ~mode f =
   let pms = set_get_polygonMode ~face ~mode in
   f ();
@@ -374,8 +374,8 @@ val draw_with_polygonMode2 : front:GL.polygon_mode -> back:GL.polygon_mode -> (u
 #else
 (* ML *)
 type polygonMode2_state
-external set_get_polygonMode2 : front:GL.polygon_mode -> back:GL.polygon_mode -> polygonMode2_state = "c_set_get_polygonMode2" "noalloc"
-external restore_polygonMode2 : polygonMode2_state -> unit = "c_restore_polygonMode2" "noalloc"
+external set_get_polygonMode2 : front:GL.polygon_mode -> back:GL.polygon_mode -> polygonMode2_state = "c_set_get_polygonMode2" [@@noalloc]
+external restore_polygonMode2 : polygonMode2_state -> unit = "c_restore_polygonMode2" [@@noalloc]
 let draw_with_polygonMode2 ~front ~back f =
   let pms = set_get_polygonMode2 ~front ~back in
   f ();
@@ -392,8 +392,8 @@ val do_with_matrixMode : mode:GL.matrix_mode -> (unit -> unit) -> unit
 #else
 (* ML *)
 type matrixMode_state
-external set_get_matrixMode : mode:GL.matrix_mode -> matrixMode_state = "c_set_get_matrixMode" "noalloc"
-external restore_matrixMode : matrixMode_state -> unit = "c_restore_matrixMode" "noalloc"
+external set_get_matrixMode : mode:GL.matrix_mode -> matrixMode_state = "c_set_get_matrixMode" [@@noalloc]
+external restore_matrixMode : matrixMode_state -> unit = "c_restore_matrixMode" [@@noalloc]
 let do_with_matrixMode ~mode f =
   let mms = set_get_matrixMode ~mode in
   f ();
@@ -418,11 +418,11 @@ val draw_with_pointSize: size:float -> (unit -> unit) -> unit
 type lineWidth_state
 type pointSize_state
 
-external set_get_lineWidth: float -> lineWidth_state = "c_set_get_lineWidth" "noalloc"
-external set_get_pointSize: float -> pointSize_state = "c_set_get_pointSize" "noalloc"
+external set_get_lineWidth: float -> lineWidth_state = "c_set_get_lineWidth" [@@noalloc]
+external set_get_pointSize: float -> pointSize_state = "c_set_get_pointSize" [@@noalloc]
 
-external restore_lineWidth: lineWidth_state -> unit = "c_restore_lineWidth" "noalloc"
-external restore_pointSize: pointSize_state -> unit = "c_restore_pointSize" "noalloc"
+external restore_lineWidth: lineWidth_state -> unit = "c_restore_lineWidth" [@@noalloc]
+external restore_pointSize: pointSize_state -> unit = "c_restore_pointSize" [@@noalloc]
 
 let draw_with_lineWidth ~width f =
   let lws = set_get_lineWidth width in
@@ -536,8 +536,8 @@ val draw_using_program: program:GL.shader_program -> (unit -> unit) -> unit
 #else
 (* ML *)
 type usedProgram_state
-external set_get_programUse : program:GL.shader_program -> usedProgram_state = "c_set_get_programUse" "noalloc"
-external restore_programUse : usedProgram_state -> unit = "c_restore_programUse" "noalloc"
+external set_get_programUse : program:GL.shader_program -> usedProgram_state = "c_set_get_programUse" [@@noalloc]
+external restore_programUse : usedProgram_state -> unit = "c_restore_programUse" [@@noalloc]
 let draw_using_program ~program f =
   let pus = set_get_programUse ~program in
   f ();
