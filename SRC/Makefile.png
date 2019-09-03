@@ -51,13 +51,13 @@ loader-libpng.o: loader-libpng.c  loader-texure.h  $(ENUMS_DIR)/pixel_data_forma
 	$(OCAMLC)  -c -ccopt "$(PNG_CFLAGS)" $<
 
 dllpng_loader.so libpng_loader.a: loader-libpng.o
-	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" $(PNG_LIBS) $(GL_LIBS)
 
 png_loader.cmxa png_loader.a:  png_loader.cmx  dllpng_loader.so
-	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" $(PNG_LIBS) $(GL_LIBS)
 
 png_loader.cma:  png_loader.cmo  dllpng_loader.so
-	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" -lbigarray $(PNG_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o png_loader $< -L"$(OCAML_PATH)" $(PNG_LIBS) $(GL_LIBS)
 
 DIST_FILES_PNG=\
     png_loader.cma   \

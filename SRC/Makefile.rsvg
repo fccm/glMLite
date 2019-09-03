@@ -48,13 +48,13 @@ loader-librsvg.o: loader-librsvg.c  loader-texure.h
 	$(OCAMLC) -c -ccopt "$(RSVG_CFLAGS)" $<
 
 dllsvg_loader.so libsvg_loader.a: loader-librsvg.o
-	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" -lbigarray $(RSVG_LIBS)
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" $(RSVG_LIBS)
 
 svg_loader.cmxa svg_loader.a:  svg_loader.cmx  dllsvg_loader.so
-	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" -lbigarray $(RSVG_LIBS)
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" $(RSVG_LIBS)
 
 svg_loader.cma:  svg_loader.cmo  dllsvg_loader.so
-	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" -lbigarray $(RSVG_LIBS)
+	$(OCAMLMKLIB) -o svg_loader $< -L"$(OCAML_PATH)" $(RSVG_LIBS)
 
 DIST_FILES_RSVG=\
     svg_loader.cma   \

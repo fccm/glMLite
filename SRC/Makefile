@@ -434,13 +434,13 @@ loader-libjpeg.o: loader-libjpeg.c  loader-libjpeg-mem.c  loader-texure.h
 	$(OCAMLC)  -c  $<
 
 dlljpeg_loader.so libjpeg_loader.a: loader-libjpeg.o
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 jpeg_loader.cmxa jpeg_loader.a:  jpeg_loader.cmx  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 jpeg_loader.cma:  jpeg_loader.cmo  dlljpeg_loader.so
-	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -lbigarray -ljpeg
+	$(OCAMLMKLIB) -o jpeg_loader $< $(GL_LIBS) -L"$(OCAML_PATH)" -ljpeg
 
 # }}}
 

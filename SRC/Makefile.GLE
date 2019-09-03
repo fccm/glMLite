@@ -63,13 +63,13 @@ gle.wrap.o: gle.wrap.c
 	$(OCAMLC)  -c  $<
 
 dllGLE.so libGLE.a: gle.wrap.o
-	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
 
 GLE.cmxa GLE.a:  GLE.cmx  dllGLE.so
-	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
 
 GLE.cma:  GLE.cmo  dllGLE.so
-	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -lbigarray -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
+	$(OCAMLMKLIB) -o GLE $< -L"$(OCAML_PATH)" -L$(GLE_PATH) $(GLE_LIBS) $(GL_LIBS)
 
 DIST_FILES_GLE=\
     GLE.cma   \

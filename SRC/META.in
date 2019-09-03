@@ -50,7 +50,7 @@ package "gle" (
   requires = "glMLite"
   archive(byte) = "GLE.cma"
   archive(native) = "GLE.cmxa"
-# linkopts = "-cclib GL_LIBS -ccopt -L/usr/X11R6/lib -cclib -lgle -cclib -lbigarray"
+# linkopts = "-cclib GL_LIBS -ccopt -L/usr/X11R6/lib -cclib -lgle"
 )
 
 package "ftgl" (

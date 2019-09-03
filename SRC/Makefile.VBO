@@ -76,18 +76,18 @@ gl3_deprecations.o: gl3_deprecations.c gl3_deprecations.h
 	$(OCAMLC)  -c  $<
 
 dllVBO.so libVBO.a: vbo.wrap.o gl3_deprecations.o
-	$(OCAMLMKLIB)  -o  VBO  $^ -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $^ -L"$(OCAML_PATH)" $(GL_LIBS)
 else
 dllVBO.so libVBO.a: vbo.wrap.o
-	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" $(GL_LIBS)
 endif
 
 
 VBO.cmxa VBO.a:  VBO.cmx  dllVBO.so
-	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" $(GL_LIBS)
 
 VBO.cma:  VBO.cmo  dllVBO.so
-	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" -lbigarray $(GL_LIBS)
+	$(OCAMLMKLIB)  -o  VBO  $< -L"$(OCAML_PATH)" $(GL_LIBS)
 
 vbo_clean:
 	rm -f VBO.{ml,mli} VBO.cm[ioxa] VBO.{o,a,cmxa} dllVBO.so vbo.wrap.o
