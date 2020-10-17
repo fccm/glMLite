@@ -1,7 +1,7 @@
 (* vertex_array.ml
    ========
    tutorial about this program:
-   http://www.linux-nantes.org/~fmonnier/OCaml/GL/vertex_array.php
+   http://decapode314.free.fr/ocaml/GL/vertex_array.html
    ========
    testing vertex array (glDrawElements, glDrawArray)
   

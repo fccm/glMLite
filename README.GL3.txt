@@ -11,8 +11,8 @@
  encouraged to use vertex-arrays, VAO's or VBO's.
  There are examples of use of the two modules vertArray and VBO in
  the directories TEST/ and TEST3 and there are also two tutorials online:
- http://www.linux-nantes.org/~fmonnier/ocaml/GL/vertex_array.php
- http://www.linux-nantes.org/~fmonnier/ocaml/GL/gl_vbo.php
+ http://decapode314.free.fr/ocaml/GL/vertex_array.html
+ http://decapode314.free.fr/ocaml/GL/gl_vbo.html
  
  Until I have an OpenGL 3 implementation that I can really test 
  I can not be 100% sure that it is handled correctly in glMLite.
@@ -45,5 +45,5 @@
  and released.)
 
  If you have better ideas, comments, suggestions or anything,
- just email me: <fmonnier(at)linux-nantes.org>
+ just email me: <monnier.florent(at)gmail.com>
 

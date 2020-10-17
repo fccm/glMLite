@@ -76,13 +76,13 @@
 
 
   The GL module is also known to work with the GLX module provided by this
-  OCaml-Xlib bindings: http://www.linux-nantes.org/~fmonnier/OCaml/Xlib/
+  OCaml-Xlib bindings:
+    https://github.com/fccm/ocaml-xlib
 
-  You can get the last development version from the svn which is hosted
-  at OCamlForge:
-  https://forge.ocamlcore.org/scm/?group_id=142
+  You can get the last development version with git from GitHub:
+    https://github.com/fccm/glMLite
 
 
   Send any questions, comments, bug reports or any other kind of problems, to:
-    <fmonnier@linux-nantes.org>
+    <monnier.florent@gmail.com>
 

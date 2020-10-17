@@ -3,7 +3,8 @@ then
 	:
 else
 	echo "This demo requires Xlib/GLX available from:"
-	echo "http://www.linux-nantes.org/~fmonnier/OCaml/Xlib/"
+	echo "http://decapode314.free.fr/ocaml/Xlib/"
+	echo "https://github.com/fccm/ocaml-xlib"
 	exit 1
 fi
 
