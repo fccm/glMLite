@@ -3248,7 +3248,7 @@ t_val ml_glgetshaderinfolog(value shader)
     if (infologLength > 0)
     {
         value infoLog = caml_alloc_string(infologLength);
-        glGetShaderInfoLog(Shader_object_val(shader), infologLength, &charsWritten, String_val(infoLog));
+        glGetShaderInfoLog(Shader_object_val(shader), infologLength, &charsWritten, Bytes_val(infoLog));
         return infoLog;
     } else {
         return caml_copy_string("");
@@ -3269,7 +3269,7 @@ t_val ml_glgetprograminfolog(value program)
     if (infologLength > 0)
     {
         value infoLog = caml_alloc_string(infologLength);
-        glGetProgramInfoLog(Shader_program_val(program), infologLength, &charsWritten, String_val(infoLog));
+        glGetProgramInfoLog(Shader_program_val(program), infologLength, &charsWritten, Bytes_val(infoLog));
         return infoLog;
     } else {
         return caml_copy_string("");
