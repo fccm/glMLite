@@ -27,31 +27,31 @@
 (** Glu interface *)
 
 external gluPerspective: fovy:float -> aspect:float -> zNear:float -> zFar:float -> unit = "ml_gluperspective"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluPerspective.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml}
+    manual page} *)
 
 external gluLookAt: eyeX:float -> eyeY:float -> eyeZ:float ->
                     centerX:float -> centerY:float -> centerZ:float ->
                     upX:float -> upY:float -> upZ:float -> unit
                     = "ml_glulookat_bytecode"
                       "ml_glulookat_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluLookAt.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluLookAt.xml}
+    manual page} *)
 
 external gluOrtho2D: left:float -> right:float -> bottom:float -> top:float -> unit = "ml_gluortho2d"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluOrtho2D.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluOrtho2D.xml}
+    manual page} *)
 
 
 external gluErrorString: error:GL.gl_error -> string = "ml_gluerrorstring"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluErrorString.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluErrorString.xml}
+    manual page} *)
 
 
 external gluPickMatrix: x:float -> y:float -> width:float -> height:float ->
                         viewport:int * int * int * int -> unit = "ml_glupickmatrix"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluPickMatrix.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPickMatrix.xml}
+    manual page} *)
 
 
 external gluUnProject: win_x:float -> win_y:float -> win_z:float ->
@@ -59,8 +59,8 @@ external gluUnProject: win_x:float -> win_y:float -> win_z:float ->
             float * float * float
             = "ml_gluunproject_bytecode"
               "ml_gluunproject_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluUnProject.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluUnProject.xml}
+    manual page} *)
 
 external gluUnProjectFlat: win_x:float -> win_y:float -> win_z:float ->
             model:float array -> proj:float array -> viewport:int array ->
@@ -81,8 +81,8 @@ external gluProject: win_x:float -> win_y:float -> win_z:float ->
             float * float * float
             = "ml_gluproject_bytecode"
               "ml_gluproject_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluProject.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluProject.xml}
+    manual page} *)
 
 external gluProjectFlat: win_x:float -> win_y:float -> win_z:float ->
             model:float array -> proj:float array -> viewport:int array ->
@@ -101,8 +101,8 @@ type glu_desc =
   | GLU_EXTENSIONS
 
 external gluGetString: name:glu_desc -> string = "ml_glugetstring"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluGetString.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluGetString.xml}
+    manual page} *)
 
 
 
@@ -116,8 +116,8 @@ external gluBuild2DMipmaps:
             type_:GL.pixel_data_type -> pixels:GL.image_data -> unit
             = "ml_glubuild2dmipmaps_bytecode"
               "ml_glubuild2dmipmaps_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBuild2DMipmaps.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBuild2DMipmaps.xml}
+    manual page} *)
 
 
 external gluBuild1DMipmaps:
@@ -127,8 +127,8 @@ external gluBuild1DMipmaps:
             format_:GL.pixel_data_format ->
             type_:GL.pixel_data_type -> pixels:GL.image_data -> unit
             = "ml_glubuild1dmipmaps"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBuild1DMipmaps.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBuild1DMipmaps.xml}
+    manual page} *)
 
 
 external gluBuild3DMipmaps:
@@ -139,8 +139,8 @@ external gluBuild3DMipmaps:
             type_:GL.pixel_data_type -> pixels:GL.image_data -> unit
             = "ml_glubuild3dmipmaps_bytecode"
               "ml_glubuild3dmipmaps_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBuild3DMipmaps.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBuild3DMipmaps.xml}
+    manual page} *)
 
 
 
@@ -149,12 +149,12 @@ external gluBuild3DMipmaps:
 
 type glu_quadric
 external gluNewQuadric: unit -> glu_quadric = "ml_glunewquadric"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNewQuadric.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNewQuadric.xml}
+    manual page} *)
 
 external gluDeleteQuadric: quad:glu_quadric -> unit = "ml_gludeletequadric"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluDeleteQuadric.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluDeleteQuadric.xml}
+    manual page} *)
 
 type draw_style =
   | GLU_POINT
@@ -163,42 +163,42 @@ type draw_style =
   | GLU_SILHOUETTE
 
 external gluQuadricDrawStyle: quad:glu_quadric -> draw_style:draw_style -> unit = "ml_gluquadricdrawstyle"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluQuadricDrawStyle.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluQuadricDrawStyle.xml}
+    manual page} *)
 
 external gluQuadricTexture: quad:glu_quadric -> texture:bool -> unit = "ml_gluquadrictexture"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluQuadricTexture.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluQuadricTexture.xml}
+    manual page} *)
 
 external gluSphere: quad:glu_quadric -> radius:float -> slices:int -> stacks:int -> unit = "ml_glusphere"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluSphere.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluSphere.xml}
+    manual page} *)
 
 external gluCylinder: quad:glu_quadric -> base:float -> top:float -> height:float ->
                       slices:int -> stacks:int -> unit
                       = "ml_glucylinder_bytecode"
                         "ml_glucylinder_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluCylinder.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluCylinder.xml}
+    manual page} *)
 
 external gluDisk: quad:glu_quadric -> inner:float -> outer:float -> slices:int -> loops:int -> unit = "ml_gludisk"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluDisk.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluDisk.xml}
+    manual page} *)
 
 external gluPartialDisk: quad:glu_quadric -> inner:float -> outer:float -> slices:int ->
                          loops:int -> start:float -> sweep:float -> unit
                          = "ml_glupartialdisk_bytecode"
                            "ml_glupartialdisk_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluPartialDisk.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPartialDisk.xml}
+    manual page} *)
 
 type orientation =
   | GLU_OUTSIDE
   | GLU_INSIDE
 
 external gluQuadricOrientation: quad:glu_quadric -> orientation:orientation -> unit = "ml_gluquadricorientation"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluQuadricOrientation.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluQuadricOrientation.xml}
+    manual page} *)
 
 type normal =
   | GLU_NONE
@@ -206,8 +206,8 @@ type normal =
   | GLU_SMOOTH
 
 external gluQuadricNormals: quad:glu_quadric -> normal:normal -> unit = "ml_gluquadricnormals"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluQuadricNormals.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluQuadricNormals.xml}
+    manual page} *)
 
 (* TODO
 gluQuadricCallback
@@ -219,35 +219,35 @@ gluQuadricCallback
 
 type glu_tesselator
 external gluNewTess: unit -> glu_tesselator = "ml_glunewtess"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNewTess.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNewTess.xml}
+    manual page} *)
 
 external gluDeleteTess: tess:glu_tesselator -> unit = "ml_gludeletetess"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluDeleteTess.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluDeleteTess.xml}
+    manual page} *)
 
 external gluBeginPolygon: tess:glu_tesselator -> unit = "ml_glubeginpolygon"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBeginPolygon.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBeginPolygon.xml}
+    manual page} *)
 external gluEndPolygon: tess:glu_tesselator -> unit = "ml_gluendpolygon"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluEndPolygon.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluEndPolygon.xml}
+    manual page} *)
 
 external gluTessBeginPolygon: tess:glu_tesselator -> unit = "ml_glutessbeginpolygon"
 external gluTessBeginPolygonData: tess:glu_tesselator -> data:'a -> unit = "ml_glutessbeginpolygon_data"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessBeginPolygon.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessBeginPolygon.xml}
+    manual page} *)
 
 external gluTessEndPolygon: tess:glu_tesselator -> unit = "ml_glutessendpolygon"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessEndPolygon.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessEndPolygon.xml}
+    manual page} *)
 
 external gluTessBeginContour: tess:glu_tesselator -> unit = "ml_glutessbegincontour"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessBeginContour.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessBeginContour.xml}
+    manual page} *)
 external gluTessEndContour: tess:glu_tesselator -> unit = "ml_glutessendcontour"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessEndContour.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessEndContour.xml}
+    manual page} *)
 
 type tess_contour =
   | GLU_CW
@@ -257,16 +257,16 @@ type tess_contour =
   | GLU_UNKNOWN
 
 external gluNextContour: tess:glu_tesselator -> contour:tess_contour -> unit = "ml_glunextcontour"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNextContour.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNextContour.xml}
+    manual page} *)
 
 external gluTessVertex: tess:glu_tesselator -> x:float -> y:float -> z:float -> unit = "ml_glutessvertex"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessVertex.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessVertex.xml}
+    manual page} *)
 
 external gluTessNormal: tess:glu_tesselator -> x:float -> y:float -> z:float -> unit = "ml_glutessnormal"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessNormal.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessNormal.xml}
+    manual page} *)
 
 external gluTesselate: glu_tesselator -> (float * float * float) array -> unit = "tesselate_points"
 (** Is equivalent to:{[
@@ -320,8 +320,8 @@ void gluGetTessProperty (GLUtesselator* tess, GLenum which, GLdouble* data);
 
 #ifdef MLI
 val gluTessProperty: tess:glu_tesselator -> prop:tess_property -> unit
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessProperty.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessProperty.xml}
+    manual page} *)
 
 #else // ML
 let gluTessProperty ~tess ~prop =
@@ -353,8 +353,8 @@ type tess_callback =
   | GLU_EDGE_FLAG
   *)
 
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluTessCallback.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluTessCallback.xml}
+    manual page} *)
 
 external gluTessDefaultCallback: tess:glu_tesselator -> cb:tess_callback -> unit = "ml_glutesscallback_default"
 (** Sets default callbacks for a classic use.
@@ -433,16 +433,16 @@ external gluTessErrorString: error:tess_error -> string = "ml_glutesserrorstring
 type glu_nurbs
 
 external gluNewNurbsRenderer: unit -> glu_nurbs = "ml_glunewnurbsrenderer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNewNurbsRenderer.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNewNurbsRenderer.xml}
+    manual page} *)
 
 external gluBeginSurface: nurb:glu_nurbs -> unit = "ml_glubeginsurface"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBeginSurface.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBeginSurface.xml}
+    manual page} *)
 
 external gluEndSurface: nurb:glu_nurbs -> unit = "ml_gluendsurface"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluEndSurface.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluEndSurface.xml}
+    manual page} *)
 
 type nurbs_mode =
   | GLU_NURBS_RENDERER
@@ -475,8 +475,8 @@ type nurbs_property =
 
 #ifdef MLI
 val gluNurbsProperty: nurb:glu_nurbs -> property:nurbs_property -> unit
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNurbsProperty.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNurbsProperty.xml}
+    manual page} *)
 #else // ML
 external _gluNurbsProperty1: glu_nurbs -> int -> unit = "ml_glunurbsproperty1"
 external _gluNurbsProperty2: glu_nurbs -> int -> float -> unit = "ml_glunurbsproperty2"
@@ -524,26 +524,26 @@ external gluNurbsSurface: nurb:glu_nurbs ->
     surface_type:surface_type -> unit
     = "ml_glunurbssurface_bytecode"
       "ml_glunurbssurface_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNurbsSurface.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNurbsSurface.xml}
+    manual page} *)
 
 (* TODO - there is a bug somewhere below:
 
 (** {3 Trimming} *)
 
 external gluBeginTrim: nurb:glu_nurbs -> unit = "ml_glubegintrim"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluBeginTrim.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluBeginTrim.xml}
+    manual page} *)
 
 external gluEndTrim: nurb:glu_nurbs -> unit = "ml_gluendtrim"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluEndTrim.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluEndTrim.xml}
+    manual page} *)
 
 type pwl_curve_type = GLU_MAP1_TRIM_2 | GLU_MAP1_TRIM_3
 
 external gluPwlCurve: nurb:glu_nurbs -> count:int -> data:float array -> stride:int -> curve_type:pwl_curve_type -> unit = "ml_glupwlcurve"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluPwlCurve.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluPwlCurve.xml}
+    manual page} *)
 
 module N = struct
 type nurbs_curve_type =
@@ -556,8 +556,8 @@ external gluNurbsCurve: nurb:glu_nurbs -> knots:float array -> stride:int ->
     control:float array -> order:int -> curve_type:N.nurbs_curve_type -> unit
     = "ml_glunurbscurve_bytecode"
       "ml_glunurbscurve_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/gluNurbsCurve.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/gluNurbsCurve.xml}
+    manual page} *)
 *)
 
 (* vim: sw=2 sts=2 ts=2 et nowrap fdm=marker filetype=ocaml
