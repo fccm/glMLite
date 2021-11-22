@@ -20,6 +20,8 @@
   in the Software.
 *)
 
+(** Higher level interface *)
+
 type vertex3 = float * float * float
 type rgb = float * float * float
 type uv = float * float
