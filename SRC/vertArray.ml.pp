@@ -41,34 +41,34 @@ type client_state =
   | GL_VERTEX_ARRAY
 
 external glEnableClientState: client_state:client_state -> unit = "ml_glenableclientstate"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glEnableClientState.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glEnableClientState.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 external glDisableClientState: client_state:client_state -> unit = "ml_gldisableclientstate"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDisableClientState.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDisableClientState.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
 
 external glDrawArrays: mode:GL.primitive -> first:int -> count:int -> unit = "ml_gldrawarrays"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDrawArrays.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDrawArrays.xml}
+    manual page} *)
 
 external glMultiDrawArrays: mode:int -> arr:(int * int) array -> unit = "ml_glmultidrawarrays"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glMultiDrawArrays.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glMultiDrawArrays.xml}
+    manual page} *)
 
 (* TODO
    glMultiDrawElements
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glMultiDrawElements.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glMultiDrawElements.xml}
+    manual page} *)
 *)
 
 external glArrayElement: i:int -> unit = "ml_glarrayelement"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glArrayElement.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glArrayElement.xml}
+    manual page} *)
 
 
 module Elem = struct
@@ -84,8 +84,8 @@ external glDrawElements: mode:GL.primitive -> count:int -> data_type:Elem.elem_d
     data:(int, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_gldrawelements"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDrawElements.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDrawElements.xml}
+    manual page} *)
 
 
 external glDrawRangeElements: mode:GL.primitive ->
@@ -97,16 +97,16 @@ external glDrawRangeElements: mode:GL.primitive ->
     *)
     -> unit = "ml_gldrawrangeelements_bytecode"
               "ml_gldrawrangeelements_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDrawRangeElements.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDrawRangeElements.xml}
+    manual page} *)
 
 
 #include "enums/interleaved_format.inc.ml"
 external glInterleavedArrays: fmt:interleaved_format -> stride:int -> pointer:
     ('a, 'b, Bigarray.c_layout) Bigarray.Array1.t
     -> unit = "ml_glinterleavedarrays"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glInterleavedArrays.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glInterleavedArrays.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -124,8 +124,8 @@ external glVertexPointer: size:int -> data_type:Coord.coord_data_type -> stride:
     data:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_glvertexpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glVertexPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glVertexPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -135,8 +135,8 @@ external glTexCoordPointer: size:int -> data_type:Coord.coord_data_type -> strid
     data:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_gltexcoordpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glTexCoordPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glTexCoordPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -155,8 +155,8 @@ external glNormalPointer: data_type:Norm.norm_data_type -> stride:int ->
     data:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_glnormalpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glNormalPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glNormalPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -175,8 +175,8 @@ external glIndexPointer: data_type:Index.index_data_type -> stride:int ->
     data:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_glindexpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glIndexPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glIndexPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -198,8 +198,8 @@ external glColorPointer: size:int -> data_type:Color.color_data_type -> stride:i
     data:(float, Bigarray.float32_elt, Bigarray.c_layout) Bigarray.Array1.t
     *)
     -> unit = "ml_glcolorpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glColorPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glColorPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -207,8 +207,8 @@ external glColorPointer: size:int -> data_type:Color.color_data_type -> stride:i
 external glEdgeFlagPointer: stride:int -> 
     data:('a, Bigarray.int8_unsigned_elt, Bigarray.c_layout) Bigarray.Array1.t
     -> unit = "ml_gledgeflagpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glEdgeFlagPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glEdgeFlagPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 
@@ -218,8 +218,8 @@ external glSecondaryColorPointer:
     stride:int ->
     data:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t -> unit
     = "ml_glsecondarycolorpointer"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glSecondaryColorPointer.xml}
-    manual page on opengl.org}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glSecondaryColorPointer.xml}
+    manual page}
     @deprecated in core OpenGL 3. *)
 
 (* TODO
@@ -247,14 +247,14 @@ external glVertexAttribPointer:
     data:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t -> unit
     = "ml_glvertexattribpointer_bytecode"
       "ml_glvertexattribpointer_native"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glVertexAttribPointer.xml}
-    manual page on opengl.org} *)
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glVertexAttribPointer.xml}
+    manual page} *)
 
 
 
 (* TODO
 
-http://www.opengl.org/sdk/docs/man/xhtml/glBindAttribLocation.xml
+https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBindAttribLocation.xml
 *)
 
 

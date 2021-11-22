@@ -37,11 +37,11 @@ type vbo_id
 
 external glGenBuffer: unit -> vbo_id = "ml_glgenbuffer" NOALLOC
 external glGenBuffers: n:int -> vbo_id array = "ml_glgenbuffers" (* DOES ALLOC *)
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glGenBuffers.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glGenBuffers.xml}
     manual page} *)
 
 external glDeleteBuffer: vbo:vbo_id -> unit = "ml_gldeletebuffer" NOALLOC
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glDeleteBuffers.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDeleteBuffers.xml}
     manual page} *)
 
 #ifdef MLI
@@ -54,12 +54,12 @@ let glDeleteBuffers ~vbos = Array.iter (fun vbo -> glDeleteBuffer ~vbo) vbos ;;
 #include "enums/buffer_object_target.inc.ml"
 
 external glBindBuffer: target:buffer_object_target -> vbo:vbo_id -> unit = "ml_glbindbuffer" NOALLOC
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glBindBuffer.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBindBuffer.xml}
     manual page} *)
 
 external glUnbindBuffer: target:buffer_object_target -> unit = "ml_glunbindbuffer" NOALLOC
 (** Equivalent to the function [glBindBuffer] with 0 as vbo_id, as tells
-    {{:http://www.opengl.org/sdk/docs/man/xhtml/glBindBuffer.xml}
+    {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBindBuffer.xml}
     the manual} to unbind buffer objects. *)
 
 
@@ -72,7 +72,7 @@ external glBufferData:
     usage:vbo_usage_pattern ->
     unit
     = "ml_glbufferdata"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glBufferData.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBufferData.xml}
     manual page} *)
 
 external glBufferDataNull:
@@ -90,7 +90,7 @@ external glBufferSubData:
     data:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t ->
     unit
     = "ml_glbuffersubdata"
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glBufferSubData.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBufferSubData.xml}
     manual page} *)
 
 external elem_size: ba:('a, 'b, Bigarray.c_layout) Bigarray.Array1.t -> int = "ml_ba_elem_size"
@@ -119,7 +119,7 @@ external glMapBuffer: target:buffer_object_target -> access:access_policy ->
 *)
 external glMapBufferAbs: target:buffer_object_target -> access:access_policy -> mapped_buffer = "ml_glmapbuffer_abs"
 
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glMapBuffer.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glMapBuffer.xml}
     manual page} *)
 
 external glUnmapBuffer: target:buffer_object_target -> unit = "ml_glunmapbuffer"
@@ -159,7 +159,7 @@ external glGetBufferMapped: target:buffer_object_target -> bool              = "
 external glGetBufferSize  : target:buffer_object_target -> int               = "ml_glGetBufferParameter_SIZE"
 external glGetBufferUsage : target:buffer_object_target -> vbo_usage_pattern = "ml_glGetBufferParameter_USAGE"
 
-(** {{:http://www.opengl.org/sdk/docs/man/xhtml/glGetBufferParameteriv.xml}
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glGetBufferParameteriv.xml}
     manual page} *)
 
 (* vim: sw=2 sts=2 ts=2 et fdm=marker filetype=ocaml
