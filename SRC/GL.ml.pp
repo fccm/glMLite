@@ -930,7 +930,8 @@ type texenv_scale = SCALE_1 | SCALE_2 | SCALE_4
 *)
 external glTexEnv: TexEnv.texenv_target -> TexEnv.texenv_pname -> TexEnv.texenv_param -> unit = "ml_gltexenv" NOALLOC
 (** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glTexEnv.xml}
-    manual page} *)
+    manual page}
+    @deprecated in core OpenGL 3. *)
 
 #include "enums/tex_coord.inc.ml"
 #include "enums/tex_coord_gen_func.inc.ml"
