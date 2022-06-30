@@ -852,12 +852,13 @@ external glIsTexture: texture:texture_id -> bool = "ml_glistexture" NOALLOC
 (** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glIsTexture.xml}
     manual page} *)
 
-external glPrioritizeTextures: textures:texture_id array -> priority:float array -> unit = "ml_glprioritizetextures" NOALLOC
 external glPrioritizeTexture: texture:texture_id -> priority:float -> unit = "ml_glprioritizetexture" NOALLOC
-(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPrioritizeTextures.xml}
-    manual page} *)
-
+external glPrioritizeTextures: textures:texture_id array -> priority:float array -> unit = "ml_glprioritizetextures" NOALLOC
 external glPrioritizeTexturesp: prioritized_textures:(texture_id * float) array -> unit = "ml_glprioritizetexturesp" NOALLOC
+(** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPrioritizeTextures.xml}
+    manual page}
+    @deprecated in core OpenGL 3. *)
+
 
 (* TODO
 type target = GL_TEXTURE_ENV | GL_TEXTURE_FILTER_CONTROL | GL_POINT_SPRITE
