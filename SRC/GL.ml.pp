@@ -1247,7 +1247,8 @@ external glPixelTransferf: pname:pixel_transfer_f -> param:float -> unit = "ml_g
 external glPixelTransferb: pname:pixel_transfer_b -> param:bool -> unit = "ml_glpixeltransferb"
 external glPixelTransferfARB: pname:pixel_transfer_f_ARB -> param:float -> unit = "ml_glpixeltransferfARB"
 (** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPixelTransfer.xml}
-    manual page} *)
+    manual page}
+    @deprecated in core OpenGL 3. *)
 
 
 
