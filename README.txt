@@ -84,5 +84,5 @@
 
 
   Send any questions, comments, bug reports or any other kind of problems, to:
-    <monnier.florent@gmail.com>
+    <monnier.florent(at)gmail.com>
 
