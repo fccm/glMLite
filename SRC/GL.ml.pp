@@ -1196,7 +1196,8 @@ external glPixelZoom: xfactor:float -> yfactor:float -> unit = "ml_glpixelzoom" 
 #include "enums/pixel_map.inc.ml"
 external glPixelMapfv: map:pixel_map -> v:float array -> unit = "ml_glpixelmapfv"
 (** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glPixelMap.xml}
-    manual page} *)
+    manual page}
+    @deprecated in core OpenGL 3. *)
 
 
 (*
