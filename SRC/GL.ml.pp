@@ -1214,7 +1214,8 @@ external glBitmap: width:int -> height:int -> xorig:float -> yorig:float ->
     = "ml_glbitmap_bytecode"
       "ml_glbitmap_native"
 (** {{:https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glBitmap.xml}
-    manual page} *)
+    manual page}
+    @deprecated in core OpenGL 3. *)
 
 
 #include "enums/pixel_type.inc.ml"
